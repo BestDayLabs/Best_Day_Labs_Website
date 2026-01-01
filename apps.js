@@ -1,4 +1,5 @@
 // apps.js
+// apps.js
 const apps = [
     {
         name: "Days at the Office",
@@ -11,5 +12,11 @@ const apps = [
         description: "Make sure you are state tax compliant by tracking your days in each state.",
         iconUrl: "days-in-state/icon.png", // Placeholder
         folderName: "days-in-state"
+    },
+    {
+        name: "AxeLog",
+        description: "The ultimate guitar practice tracker.",
+        iconUrl: "axelog/images/axelog-icon.png", // Placeholder
+        folderName: "axelog"
     }
 ];
