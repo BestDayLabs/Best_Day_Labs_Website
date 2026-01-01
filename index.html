@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BestDayLabs | Digital Craftsmanship</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+
+    <div class="header-fx-container">
+        <div class="grid-base"></div>
+        <div class="grid-highlight"></div>
+        <div class="ambient-glow"></div>
+    </div>
+
+    <header class="glass-header">
+        <div class="container header-content">
+            <a href="#" class="brand-logo">BestDayLabs</a>
+
+            <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                <span class="icon-open"><i data-lucide="menu"></i></span>
+                <span class="icon-closed"><i data-lucide="x"></i></span>
+            </button>
+
+            <nav class="nav-menu">
+                <a href="#work" class="nav-link" onclick="closeMenu()">Work</a>
+                <a href="#philosophy" class="nav-link" onclick="closeMenu()">Studio</a>
+                <a href="#mission" class="nav-link" onclick="closeMenu()">Mission</a>
+                <a href="mailto:support@bestdaylabs.com" class="nav-cta" onclick="closeMenu()">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="badge-wrapper">
+                    <span class="badge">EST. 2025</span>
+                </div>
+
+                <h1 class="hero-title">
+                    Apps that you<br>
+                    <span class="highlight-text">want to use.</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    We believe software shouldn't just be functional. It should be delightful.
+                    We build intuitive, polished, and dope apps for the world.
+                </p>
+            </div>
+        </section>
+
+        <section id="philosophy" class="philosophy-section">
+            <div class="container">
+                <div class="philosophy-grid">
+                    <div class="feature-item">
+                        <i data-lucide="sparkles" class="feature-icon"></i>
+                        <h3>Polished to Perfection</h3>
+                        <p>We obsess over every pixel, animation, and interaction. Good enough isn't good enough.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="zap" class="feature-icon"></i>
+                        <h3>Blazing Fast</h3>
+                        <p>Performance is a feature. Our apps are built to respect your time and your battery life.</p>
+                    </div>
+                    <div class="feature-item">
+                        <i data-lucide="shield" class="feature-icon"></i>
+                        <h3>Privacy First</h3>
+                        <p>Your data is yours. We build software that works for you, not against you.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="work-section">
+            <div class="container">
+                <div class="section-label">
+                    <span class="line"></span>
+                    <h3>Selected Works</h3>
+                    <span class="line"></span>
+                </div>
+
+                <div id="apps-grid" class="grid-container">
+                </div>
+            </div>
+        </section>
+
+        <section id="mission" class="mission-section">
+            <div class="container">
+                <div class="mission-layout">
+                    <div class="mission-label">OUR MISSION</div>
+                    <div class="mission-text">
+                        <h2>The BestDayLabs Standard</h2>
+                        <p>
+                            Technology should enhance life, not complicate it.
+                            We build the tools we wish existed. No bloat, no dark patterns, just utility.
+                        </p>
+                        <p class="sub-text">
+                            Whether it's a productivity tool or a guitar practice tracker, every app we ship is
+                            something we
+                            use ourselves every single day.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-left">
+                <span class="brand-logo small">BestDayLabs</span>
+                <p>Crafted with care in the digital void.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="apps.js"></script>
+
+    <script>
+        // 1. Initialize Icons
+        lucide.createIcons();
+
+        // 2. Mobile Menu Logic (Fixed)
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.querySelector('.nav-menu');
+
+        function toggleMenu() {
+            // Toggle the 'active' class on the menu AND the button
+            navMenu.classList.toggle('active');
+            menuBtn.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            // Remove 'active' class to reset state
+            navMenu.classList.remove('active');
+            menuBtn.classList.remove('active');
+        }
+
+        menuBtn.addEventListener('click', toggleMenu);
+
+        // 3. Header Grid FX
+        const headerContainer = document.querySelector('.header-fx-container');
+        document.addEventListener('mousemove', (e) => {
+            if (e.clientY < 800) {
+                const x = e.clientX;
+                const y = e.clientY;
+                document.body.style.setProperty('--mouse-x', `${x}px`);
+                document.body.style.setProperty('--mouse-y', `${y}px`);
+            }
+        });
+
+        // 4. Render App Cards
+        const gridContainer = document.getElementById('apps-grid');
+
+        function createAppCard(app) {
+            return `
+                <a href="./${app.folderName}/index.html" class="card">
+                    <div class="card-glow-border"></div>
+                    <div class="card-inner">
+                        <div class="icon-wrapper">
+                            <img src="${app.iconUrl}" alt="${app.name}" class="app-icon">
+                        </div>
+                        <div class="text-wrapper">
+                            <h3 class="app-name">${app.name}</h3>
+                            <p class="app-desc">${app.description}</p>
+                        </div>
+                        <div class="card-footer">
+                            <span class="view-btn">Explore App <span class="arrow">&rarr;</span></span>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        if (typeof apps !== 'undefined' && apps.length > 0) {
+            apps.forEach(app => {
+                gridContainer.innerHTML += createAppCard(app);
+            });
+        } else {
+            gridContainer.innerHTML = '<p class="empty-state">Loading interface...</p>';
+        }
+    </script>
+</body>
+
+</html>
