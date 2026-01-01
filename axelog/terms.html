@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AxeLog Terms of Service - Guitar Practice Tracker for iOS">
+    <meta name="theme-color" content="#0A0A0A">
+    <title>Terms of Service - AxeLog</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg-void: #0A0A0A;
+            --surface: #161616;
+            --surface-light: #222222;
+            --surface-border: #2A2A2A;
+            --accent-gold: #D4AF37;
+            --accent-gold-dim: rgba(212, 175, 55, 0.15);
+            --text-primary: #F5F5F5;
+            --text-secondary: #A0A0A0;
+            --text-tertiary: #666666;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-void);
+            color: var(--text-primary);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-mark {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #B8962E 100%);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-mark svg {
+            width: 22px;
+            height: 22px;
+            color: var(--bg-void);
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            transition: color 0.2s ease, background 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--text-primary);
+            background: var(--surface);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Legal Content */
+        .legal-header {
+            padding: 140px 0 48px;
+            text-align: center;
+        }
+
+        .legal-header h1 {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .legal-meta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        .legal-content {
+            padding: 0 0 120px;
+        }
+
+        .legal-section {
+            margin-bottom: 40px;
+        }
+
+        .legal-section h2 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .legal-section h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin: 24px 0 12px;
+        }
+
+        .legal-section p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .legal-section ul {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            padding-left: 20px;
+        }
+
+        .legal-section li {
+            margin-bottom: 8px;
+        }
+
+        .legal-section a {
+            color: var(--accent-gold);
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .legal-section a:hover {
+            opacity: 0.8;
+        }
+
+        .highlight-box {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-left: 3px solid var(--accent-gold);
+            border-radius: var(--radius-sm);
+            padding: 20px 24px;
+            margin: 24px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--surface);
+            border-top: 1px solid var(--surface-border);
+            padding: 32px 0;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        footer p {
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        @media (max-width: 768px) {
+            .footer-inner {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-inner">
+            <a href="index.html" class="logo">
+                <div class="logo-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M9 18V5l12-2v13" />
+                        <circle cx="6" cy="18" r="3" />
+                        <circle cx="18" cy="16" r="3" />
+                    </svg>
+                </div>
+                <span class="logo-text">AxeLog</span>
+            </a>
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="legal-header">
+        <div class="container">
+            <h1>Terms of Service</h1>
+            <p class="legal-meta">Last Updated: January 1, 2026</p>
+        </div>
+    </header>
+
+    <!-- Content -->
+    <main class="legal-content">
+        <div class="container">
+            <section class="legal-section">
+                <h2>1. Acceptance of Terms</h2>
+                <p>Welcome to AxeLog. By downloading, installing, or using the AxeLog mobile application ("App"), you
+                    agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, please do
+                    not use the App.</p>
+                <p>These Terms constitute a legally binding agreement between you ("User," "you," or "your") and
+                    BestDayLabs ("we," "us," or "our") governing your use of the AxeLog application.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>2. Description of Service</h2>
+                <p>AxeLog is a guitar practice tracking application designed for iOS devices. The App provides the
+                    following features:</p>
+                <ul>
+                    <li>Practice session logging and timing</li>
+                    <li>Practice streak tracking and habit building</li>
+                    <li>Long-term goal setting and progress tracking</li>
+                    <li>Song library management</li>
+                    <li>Audio and video recording capabilities</li>
+                    <li>Practice analytics and statistics</li>
+                    <li>Customizable reminders and notifications</li>
+                    <li>Theme and app icon customization</li>
+                </ul>
+                <p>The App is designed to operate locally on your device. All data is stored on your device and is not
+                    transmitted to external servers.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>3. Eligibility</h2>
+                <p>You must be at least 13 years of age to use the App. If you are under 18 years of age, you represent
+                    that your parent or legal guardian has reviewed and agreed to these Terms on your behalf.</p>
+                <p>By using the App, you represent and warrant that you have the legal capacity to enter into these
+                    Terms.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>4. User Accounts</h2>
+                <p>AxeLog does not require you to create an account to use the App. The App operates entirely on your
+                    local device without the need for user registration, login credentials, or cloud-based accounts.</p>
+                <p>You are responsible for maintaining the security of your device and any data stored within the App.
+                </p>
+            </section>
+
+            <section class="legal-section">
+                <h2>5. User Responsibilities</h2>
+                <p>By using the App, you agree to:</p>
+                <ul>
+                    <li>Use the App only for its intended purpose of tracking guitar practice</li>
+                    <li>Not attempt to reverse engineer, decompile, or disassemble the App</li>
+                    <li>Not use the App for any unlawful purpose</li>
+                    <li>Not attempt to circumvent any security features of the App</li>
+                    <li>Maintain backups of any important data stored in the App</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>6. Intellectual Property Rights</h2>
+                <p>The App, including its original content, features, functionality, design, and code, is owned by
+                    BestDayLabs and is protected by international copyright, trademark, and other intellectual property
+                    laws.</p>
+                <p>You are granted a limited, non-exclusive, non-transferable, revocable license to use the App for
+                    personal, non-commercial purposes in accordance with these Terms.</p>
+                <p>The AxeLog name, logo, and all related names, logos, product and service names, designs, and slogans
+                    are trademarks of BestDayLabs. You may not use such marks without our prior written permission.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>7. In-App Purchases and Payments</h2>
+                <p>The App is free to download and use. Optional premium features are available through the "Supporter
+                    Pack" in-app purchase.</p>
+
+                <h3>7.1 Supporter Pack</h3>
+                <p>The Supporter Pack is a one-time, non-consumable in-app purchase that unlocks:</p>
+                <ul>
+                    <li>Additional premium themes</li>
+                    <li>Practice session templates</li>
+                    <li>Custom app icon variants</li>
+                    <li>All widget sizes</li>
+                </ul>
+
+                <h3>7.2 Payment Processing</h3>
+                <p>All payments are processed through Apple's App Store. By making a purchase, you agree to Apple's
+                    Terms and Conditions for in-app purchases.</p>
+
+                <h3>7.3 Refunds</h3>
+                <p>Refund requests are handled by Apple in accordance with their refund policies. To request a refund,
+                    please contact Apple Support or visit <a href="https://reportaproblem.apple.com" target="_blank"
+                        rel="noopener">reportaproblem.apple.com</a>.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>8. User-Generated Content</h2>
+                <p>The App allows you to create and store certain content, including:</p>
+                <ul>
+                    <li>Practice session notes and ratings</li>
+                    <li>Song library entries and metadata</li>
+                    <li>Audio and video recordings</li>
+                    <li>Goal descriptions and notes</li>
+                </ul>
+                <p>You retain all rights to the content you create within the App. This content is stored locally on
+                    your device and is not uploaded to or accessible by us.</p>
+                <p>You are solely responsible for any content you create and store within the App. We do not have access
+                    to, nor do we review, your user-generated content.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>9. Privacy</h2>
+                <p>Your privacy is important to us. Please review our <a href="privacy.html">Privacy Policy</a>, which
+                    explains how we handle information in connection with your use of the App.</p>
+                <div class="highlight-box">
+                    <p>AxeLog is designed with privacy in mind. All your data stays on your device. We do not collect,
+                        store, or transmit your personal data to external servers.</p>
+                </div>
+            </section>
+
+            <section class="legal-section">
+                <h2>10. Disclaimer of Warranties</h2>
+                <p>THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR
+                    IMPLIED, INCLUDING BUT NOT LIMITED TO IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+                    PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+                <p>We do not warrant that:</p>
+                <ul>
+                    <li>The App will be uninterrupted, timely, secure, or error-free</li>
+                    <li>The results obtained from using the App will be accurate or reliable</li>
+                    <li>Any errors in the App will be corrected</li>
+                    <li>The App will meet your specific requirements</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>11. Limitation of Liability</h2>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, BestDayLabs SHALL NOT BE LIABLE FOR ANY INDIRECT,
+                    INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER
+                    INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES
+                    RESULTING FROM:</p>
+                <ul>
+                    <li>Your use or inability to use the App</li>
+                    <li>Any unauthorized access to or use of your device or data</li>
+                    <li>Any bugs, viruses, or other harmful code that may be transmitted through the App</li>
+                    <li>Any errors or omissions in any content</li>
+                    <li>Loss of data stored within the App</li>
+                </ul>
+            </section>
+
+            <section class="legal-section">
+                <h2>12. Indemnification</h2>
+                <p>You agree to defend, indemnify, and hold harmless BestDayLabs and its officers, directors, employees,
+                    and agents from and against any claims, liabilities, damages, judgments, awards, losses, costs,
+                    expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your
+                    violation of these Terms or your use of the App.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>13. Termination</h2>
+                <p>You may terminate your use of the App at any time by deleting the App from your device.</p>
+                <p>We reserve the right to terminate or suspend access to the App immediately, without prior notice, for
+                    any reason whatsoever, including without limitation if you breach these Terms.</p>
+                <p>Upon termination, all provisions of these Terms which by their nature should survive termination
+                    shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of
+                    liability.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>14. Changes to Terms</h2>
+                <p>We reserve the right to modify or replace these Terms at any time at our sole discretion. If we make
+                    material changes to these Terms, we will provide notice through the App or by other means.</p>
+                <p>Your continued use of the App after any changes to the Terms constitutes your acceptance of the new
+                    Terms. If you do not agree to the new Terms, you must stop using the App.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>15. Governing Law</h2>
+                <p>These Terms shall be governed by and construed in accordance with the laws of The State of Alabama,
+                    without regard to its conflict of law provisions.</p>
+                <p>Any disputes arising from or relating to these Terms or your use of the App shall be resolved in the
+                    courts of The State of Alabama.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>16. Severability</h2>
+                <p>If any provision of these Terms is held to be invalid or unenforceable, such provision shall be
+                    struck and the remaining provisions shall be enforced to the fullest extent under law.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>17. Entire Agreement</h2>
+                <p>These Terms, together with our Privacy Policy, constitute the entire agreement between you and
+                    BestDayLabs regarding your use of the App and supersede all prior agreements and understandings.</p>
+            </section>
+
+            <section class="legal-section">
+                <h2>18. Contact Information</h2>
+                <p>If you have any questions about these Terms, please contact us at:</p>
+                <div class="highlight-box">
+                    <p><strong>BestDayLabs</strong><br>
+                        Email: <a href="mailto:support@bestdaylabs.com">support@bestdaylabs.com</a></p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-inner">
+            <p>© 2025 BestDayLabs. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
