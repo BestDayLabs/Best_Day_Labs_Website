@@ -1,314 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Privacy Policy - Days in State</title>
-  <meta name="description" content="Privacy Policy for Days in State iOS app. Learn how we protect your location data and maintain your privacy.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="styles.css">
-  
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23004334' rx='20' width='100' height='100'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='system-ui'>📍</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Days in State</title>
+    <meta name="description" content="Days in State privacy policy. Your data stays on your device. We never see it.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+        }
+        .legal-content h1 {
+            margin-bottom: 8px;
+        }
+        .legal-content .updated {
+            color: var(--color-text-secondary);
+            margin-bottom: 48px;
+        }
+        .legal-content h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin: 48px 0 16px;
+        }
+        .legal-content p, .legal-content li {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+        }
+        .legal-content ul {
+            margin-left: 24px;
+            margin-bottom: 24px;
+        }
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+        .highlight-box {
+            background: var(--color-bg-secondary);
+            border-left: 4px solid var(--color-success);
+            padding: 24px;
+            margin: 32px 0;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        .highlight-box p {
+            color: var(--color-text);
+            margin: 0;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header__inner">
-        <a href="index.html" class="header__logo">
-          <img src="icon.png" alt="" class="header__logo-icon">
-          Days in State
-        </a>
-        
-        <button class="header__menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-          </svg>
-        </button>
-        
-        <nav class="header__nav" id="nav">
-          <a href="index.html" class="header__nav-link">Home</a>
-          <a href="index.html#features" class="header__nav-link">Features</a>
-          <a href="index.html#pricing" class="header__nav-link">Pricing</a>
-          <a href="support.html" class="header__nav-link">Support</a>
-          <a href="index.html#download" class="btn btn--primary btn--sm">Download</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links">
+                <a href="/#features">Features</a>
+                <a href="/#privacy">Privacy</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="/#download" class="nav-cta">Download</a>
+            </div>
+        </div>
+    </nav>
 
-  <main class="legal-page">
-    <div class="container container--text">
-      <div class="legal-page__header">
+    <div class="legal-content">
         <h1>Privacy Policy</h1>
-        <p class="legal-page__meta">Last updated: December 28, 2025</p>
-      </div>
-      
-      <div class="legal-page__content">
-        <p>
-          Days in State ("we," "our," or "the App") is committed to protecting your privacy. 
-          This Privacy Policy explains how we collect, use, and safeguard your information when 
-          you use our iOS application.
-        </p>
-        
-        <p>
-          <strong>Our Core Privacy Principle:</strong> Your location data never leaves your device. 
-          Days in State is designed from the ground up to keep all sensitive data entirely on your 
-          iPhone. We do not operate servers that collect or store your personal information.
-        </p>
+        <p class="updated">Last updated: January 24, 2026</p>
 
-        <h2>1. Information We Collect</h2>
-        
-        <h3>1.1 Location Data</h3>
-        <p>
-          Days in State collects location data to determine which US state you are currently in. 
-          This includes:
-        </p>
+        <div class="highlight-box">
+            <p>🔒 TL;DR: Your location data stays on your device and in your private iCloud. We never see it, store it, or have access to it.</p>
+        </div>
+
+        <h2>Overview</h2>
+        <p>Days in State ("the App") is designed with privacy as a core principle. We believe your location data is sensitive and personal, and we've architected the App so that we never have access to it.</p>
+
+        <h2>Data We Collect</h2>
+        <p><strong>We do not collect any personal data.</strong></p>
+        <p>The App processes location data entirely on your device. This data is:</p>
         <ul>
-          <li><strong>GPS Coordinates:</strong> Precise latitude and longitude from your device's GPS receiver</li>
-          <li><strong>Reverse Geocoding Results:</strong> State and city names derived from coordinates using Apple's CLGeocoder service</li>
-          <li><strong>Location Accuracy:</strong> The GPS accuracy measurement associated with each location update</li>
-          <li><strong>Timestamps:</strong> The date and time of each location detection</li>
-        </ul>
-        <p>
-          <strong>How Location Data is Used:</strong> GPS coordinates are processed on your device 
-          to determine which state you are in. This information is used to count your presence days 
-          per state for tax compliance purposes. All location processing occurs locally on your iPhone.
-        </p>
-        
-        <h3>1.2 Data Stored on Your Device</h3>
-        <p>The following data is stored locally on your device:</p>
-        <ul>
-          <li><strong>State Presence Records:</strong> The states you have visited, dates of presence, and associated metadata (day type, confidence score, optional notes)</li>
-          <li><strong>App Settings:</strong> Your preferences, home state selection, notification settings, and display options</li>
-          <li><strong>Subscription Status:</strong> Information about your subscription tier (managed by Apple)</li>
-          <li><strong>Cryptographic Keys:</strong> Keys used for report verification, stored securely in iOS Keychain</li>
+            <li>Stored locally on your iPhone</li>
+            <li>Optionally backed up to your private iCloud account (if you enable iCloud backup)</li>
+            <li>Never transmitted to our servers</li>
+            <li>Never shared with third parties</li>
         </ul>
 
-        <h3>1.3 Information We Do Not Collect</h3>
-        <p>We do not collect, store, or have access to:</p>
+        <h2>Location Data</h2>
+        <p>The App uses your device's GPS to determine which state or country you are in. This location data:</p>
         <ul>
-          <li>Your name, email address, or contact information</li>
-          <li>Your location data on any external server</li>
-          <li>Your movement patterns or travel history</li>
-          <li>Any data that could identify you personally</li>
-          <li>Analytics or usage data</li>
+            <li>Is processed entirely on your device</li>
+            <li>Is stored only on your device and/or your iCloud account</li>
+            <li>Is never sent to us or any third party</li>
+            <li>Can be deleted at any time from within the App</li>
+        </ul>
+        <p>We use Apple's reverse geocoding service (which runs on your device) to convert GPS coordinates into state/country names. This is a standard iOS feature and does not transmit your precise location to us.</p>
+
+        <h2>iCloud Backup</h2>
+        <p>If you enable iCloud backup, your presence data is stored in your private iCloud database. This means:</p>
+        <ul>
+            <li>The data is encrypted and stored in YOUR iCloud account</li>
+            <li>Only you can access it</li>
+            <li>We have no ability to read, access, or decrypt this data</li>
+            <li>Apple's iCloud security protections apply</li>
+            <li>You can restore your data if you get a new iPhone or reinstall the app</li>
         </ul>
 
-        <h2>2. How Your Data is Stored</h2>
-        
-        <h3>2.1 On-Device Storage</h3>
-        <p>
-          All state presence data is stored locally on your iPhone using:
-        </p>
+        <h2>Analytics</h2>
+        <p>We do not use any analytics services. We do not track:</p>
         <ul>
-          <li><strong>UserDefaults:</strong> For app settings and state presence records. This data is stored in your app's sandboxed container and is not accessible to other apps.</li>
-          <li><strong>iOS Keychain:</strong> For cryptographic signing keys used in accountant report verification. Keychain provides hardware-level security and encryption.</li>
-        </ul>
-        <p>
-          Your data is protected by iOS security features including device encryption, app sandboxing, 
-          and biometric authentication (if enabled on your device).
-        </p>
-
-        <h3>2.2 No Cloud Storage</h3>
-        <p>
-          Days in State does not use iCloud sync, cloud databases, or any external servers to store 
-          your data. Your state presence records exist solely on the device where they were created.
-        </p>
-        <p>
-          <strong>Important:</strong> Because data is stored only on your device, uninstalling the app 
-          or switching devices will result in data loss unless you export your records first.
-        </p>
-
-        <h2>3. Third-Party Services</h2>
-        
-        <h3>3.1 Apple Services</h3>
-        <p>Days in State uses the following Apple services:</p>
-        <ul>
-          <li><strong>Core Location:</strong> For GPS location detection (processed on-device)</li>
-          <li><strong>CLGeocoder:</strong> Apple's reverse geocoding service converts coordinates to state names. Coordinates are sent to Apple for this purpose and are subject to <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple's Privacy Policy</a></li>
-          <li><strong>StoreKit:</strong> For subscription management (handled entirely by Apple)</li>
-          <li><strong>Push Notifications:</strong> For daily check-in reminders (no personal data transmitted)</li>
+            <li>How you use the App</li>
+            <li>What features you access</li>
+            <li>How often you open the App</li>
+            <li>Any other usage patterns</li>
         </ul>
 
-        <h3>3.2 No Third-Party Analytics or Advertising</h3>
-        <p>
-          Days in State does not include any third-party analytics SDKs, advertising networks, 
-          or tracking tools. We do not share any data with third parties for marketing or 
-          advertising purposes.
-        </p>
-
-        <h2>4. Data Sharing</h2>
-        
-        <h3>4.1 Accountant Sharing Feature</h3>
-        <p>
-          The Pro subscription includes a feature to share state presence reports with your 
-          tax professional. When you use this feature:
-        </p>
+        <h2>Third-Party Services</h2>
+        <p>The App uses the following Apple services:</p>
         <ul>
-          <li>You generate a report file on your device</li>
-          <li>Reports include cryptographic signatures for verification</li>
-          <li>You control how the report is shared (email, AirDrop, etc.)</li>
-          <li>We do not transmit or have access to shared reports</li>
+            <li><strong>Core Location</strong> - For GPS-based state detection (on-device)</li>
+            <li><strong>CloudKit</strong> - For optional iCloud backup (your private database)</li>
+            <li><strong>StoreKit</strong> - For in-app purchases (Apple handles payment)</li>
+        </ul>
+        <p>We do not use any third-party analytics, advertising, or tracking services.</p>
+
+        <h2>In-App Purchases</h2>
+        <p>Purchases are processed by Apple. We do not receive or store any payment information. Apple may share limited transaction data with us (such as whether a purchase was successful), but no personal financial information.</p>
+
+        <h2>Data Retention</h2>
+        <p>Since we don't collect your data, there's nothing to retain. Your data remains on your device and in your iCloud account until you choose to delete it.</p>
+        <p>You can delete all your data at any time:</p>
+        <ul>
+            <li>Within the App via Settings → Delete All Data</li>
+            <li>By deleting the App from your device</li>
+            <li>By disabling iCloud backup and deleting iCloud data</li>
         </ul>
 
-        <h3>4.2 Export Features</h3>
-        <p>
-          You can export your state presence data for personal use or tax preparation. Exported 
-          files are created locally on your device, and you control their distribution.
-        </p>
+        <h2>Children's Privacy</h2>
+        <p>The App is not directed at children under 13. We do not knowingly collect any information from children since we don't collect information from anyone.</p>
 
-        <h2>5. Your Rights and Choices</h2>
-        
-        <h3>5.1 Location Permission</h3>
-        <p>
-          You can control location access at any time through iOS Settings. Options include:
-        </p>
-        <ul>
-          <li><strong>Always:</strong> Allows background state detection (recommended)</li>
-          <li><strong>While Using:</strong> Only detects states when app is open</li>
-          <li><strong>Never:</strong> Disables location detection (app functionality limited)</li>
-        </ul>
+        <h2>Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
 
-        <h3>5.2 Data Deletion</h3>
-        <p>
-          You have complete control over your data and can delete it at any time:
-        </p>
-        <ul>
-          <li><strong>Delete Individual Records:</strong> Remove specific state presence entries from Settings</li>
-          <li><strong>Clear All Data:</strong> Use the "Reset All Data" option in Settings to delete all state presence records</li>
-          <li><strong>Uninstall the App:</strong> Removing the app deletes all associated data from your device</li>
-        </ul>
-        <p>
-          Because we do not store your data on any servers, there is no external data to request 
-          or delete. All your data exists solely on your device under your control.
-        </p>
+        <h2>Contact Us</h2>
+        <p>If you have questions about this Privacy Policy, please contact us at:</p>
+        <p><a href="mailto:privacy@daysinstate.app">privacy@daysinstate.app</a></p>
 
-        <h3>5.3 Data Export</h3>
-        <p>
-          You can export all your state presence data at any time using the Export feature. 
-          Available formats include CSV, PDF, and formats compatible with popular tax software.
-        </p>
-
-        <h2>6. Children's Privacy</h2>
-        <p>
-          Days in State is not directed at children under the age of 13. We do not knowingly 
-          collect personal information from children. The App is intended for adults managing 
-          their tax obligations.
-        </p>
-
-        <h2>7. Security</h2>
-        <p>
-          We take the security of your data seriously:
-        </p>
-        <ul>
-          <li>All data is stored in iOS's sandboxed app container</li>
-          <li>Cryptographic keys are stored in the iOS Keychain with hardware-level protection</li>
-          <li>No data is transmitted to external servers</li>
-          <li>Report signatures use cryptographic verification</li>
-        </ul>
-        <p>
-          Your data inherits the security protections of your iOS device, including device 
-          encryption and biometric authentication.
-        </p>
-
-        <h2>8. Changes to This Policy</h2>
-        <p>
-          We may update this Privacy Policy from time to time. We will notify you of any 
-          material changes by updating the "Last updated" date at the top of this policy 
-          and, where appropriate, through in-app notification.
-        </p>
-        <p>
-          We encourage you to review this Privacy Policy periodically to stay informed 
-          about how we are protecting your information.
-        </p>
-
-        <h2>9. Contact Us</h2>
-        <p>
-          If you have any questions about this Privacy Policy or our privacy practices, 
-          please contact us at:
-        </p>
-        <p>
-          <strong>Email:</strong> <a href="mailto:bestdaylabs@gmail.com">bestdaylabs@gmail.com</a>
-        </p>
-
-        <h2>10. California Privacy Rights</h2>
-        <p>
-          California residents may have additional rights under the California Consumer Privacy 
-          Act (CCPA). However, because Days in State does not collect personal information on 
-          external servers and all data remains on your device, there is no personal information 
-          for us to disclose, sell, or delete. You maintain complete control over all your data.
-        </p>
-
-        <h2>11. International Users</h2>
-        <p>
-          Days in State is designed for tracking presence in US states for US tax compliance. 
-          Because all data is stored on your device and we do not operate servers, there is 
-          no cross-border data transfer to consider. The app functions the same regardless 
-          of your location.
-        </p>
-      </div>
+        <div class="highlight-box">
+            <p>📱 Your data. Your device. Your control. We built Days in State this way because we believe location data is too sensitive to trust to anyone—including us.</p>
+        </div>
     </div>
-  </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
-            <img src="icon.png" class="footer__logo-icon" alt="">
-            Days in State
-          </a>
-          <p class="footer__desc">
-            Automatic state presence tracking for multi-state tax compliance. 
-            Your location data stays on your device, always.
-          </p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+            </div>
         </div>
-        
-        <div class="footer__column">
-          <h4>Product</h4>
-          <ul class="footer__links">
-            <li><a href="index.html#features">Features</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#download">Download</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Support</h4>
-          <ul class="footer__links">
-            <li><a href="support.html">Help Center</a></li>
-            <li><a href="support.html#faq">FAQ</a></li>
-            <li><a href="support.html#contact">Contact</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Legal</h4>
-          <ul class="footer__links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer__bottom">
-        <p>&copy; 2025 Days in State. All rights reserved.</p>
-        <div class="footer__legal">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav').classList.toggle('is-open');
-    }
-  </script>
+    </footer>
 </body>
 </html>
