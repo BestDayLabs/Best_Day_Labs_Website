@@ -1,451 +1,231 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Support - Days in State</title>
-  <meta name="description" content="Get help with Days in State. Find answers to frequently asked questions, troubleshooting guides, and contact support.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="styles.css">
-  
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23004334' rx='20' width='100' height='100'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='system-ui'>📍</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Days in State</title>
+    <meta name="description" content="Get help with Days in State. FAQs, troubleshooting, and contact information.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        .support-hero {
+            padding: 140px 24px 60px;
+            text-align: center;
+            background: var(--color-bg-secondary);
+        }
+        .support-hero h1 {
+            margin-bottom: 16px;
+        }
+        .support-hero p {
+            color: var(--color-text-secondary);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 24px;
+        }
+        .faq-section h2 {
+            text-align: left;
+            margin-bottom: 32px;
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--color-border);
+            padding: 24px 0;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-question {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+            color: var(--color-text);
+        }
+        .faq-answer {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+        .faq-answer ul {
+            margin: 12px 0 12px 24px;
+        }
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        .contact-section {
+            background: var(--color-bg-secondary);
+            padding: 60px 24px;
+            text-align: center;
+        }
+        .contact-section h2 {
+            margin-bottom: 16px;
+        }
+        .contact-section p {
+            color: var(--color-text-secondary);
+            margin-bottom: 24px;
+        }
+        .contact-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header__inner">
-        <a href="index.html" class="header__logo">
-          <img src="icon.png" alt="" class="header__logo-icon">
-          Days in State
-        </a>
-        
-        <button class="header__menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-          </svg>
-        </button>
-        
-        <nav class="header__nav" id="nav">
-          <a href="index.html" class="header__nav-link">Home</a>
-          <a href="index.html#features" class="header__nav-link">Features</a>
-          <a href="index.html#pricing" class="header__nav-link">Pricing</a>
-          <a href="support.html" class="header__nav-link header__nav-link--active">Support</a>
-          <a href="index.html#download" class="btn btn--primary btn--sm">Download</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links">
+                <a href="/#features">Features</a>
+                <a href="/#privacy">Privacy</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="/#download" class="nav-cta">Download</a>
+            </div>
+        </div>
+    </nav>
 
-  <section class="section section--gray">
-    <div class="container">
-      <div class="text-center">
-        <h1>How can we help?</h1>
-        <p class="text-lg text-muted" style="max-width: 500px; margin: var(--space-md) auto 0;">
-          Find answers to common questions or get in touch with our support team.
-        </p>
-      </div>
+    <div class="support-hero">
+        <h1>How Can We Help?</h1>
+        <p>Find answers to common questions or reach out to our support team.</p>
     </div>
-  </section>
 
-  <section class="section" id="faq">
-    <div class="container">
-      <div class="text-center mb-4">
+    <div class="faq-section">
         <h2>Frequently Asked Questions</h2>
-      </div>
-      
-      <div class="faq">
-        <h3 style="margin-bottom: var(--space-lg); color: var(--color-accent);">Getting Started</h3>
-        
+
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            How do I set up Days in State?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Setup is simple:</p>
-            <ol>
-              <li>Download Days in State from the App Store</li>
-              <li>Open the app and complete the brief onboarding</li>
-              <li>When prompted, allow location access (select "Always" for best results)</li>
-              <li>That's it! The app will automatically start tracking your state presence</li>
-            </ol>
-            <p>No locations to configure, no accounts to create. The app works immediately.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            Why does the app need "Always" location permission?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>"Always" permission allows the app to detect state changes even when you're not actively using it. This is essential for accurate tracking because:</p>
-            <ul>
-              <li>You might cross state lines while the app is closed</li>
-              <li>Overnight stays need to be recorded</li>
-              <li>Background detection ensures you don't miss any days</li>
-            </ul>
-            <p>If you select "While Using," the app can only track states when you have it open, which may result in missed days and incomplete records.</p>
-            <p><strong>Privacy note:</strong> Your location data never leaves your device. We don't have servers that receive or store your location.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            Does the app drain my battery?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Days in State is designed for minimal battery impact. We use iOS's "Significant Location Changes" feature, which only wakes the app when you've moved approximately 500 meters or more. This is much more battery-efficient than continuous GPS tracking.</p>
-            <p>Most users report no noticeable impact on battery life. If you're concerned, you can check battery usage in iOS Settings → Battery.</p>
-          </div>
+            <div class="faq-question">How does automatic tracking work?</div>
+            <div class="faq-answer">
+                Days in State uses your iPhone's GPS to detect when you cross state lines. The app runs in the background using iOS's "significant location change" feature, which is battery-efficient and triggers when you move approximately 500 meters. When a state change is detected, a record is created automatically.
+            </div>
         </div>
 
-        <h3 style="margin: var(--space-2xl) 0 var(--space-lg); color: var(--color-accent);">Tracking & Data</h3>
-        
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            How accurate is the state detection?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>State detection is generally very accurate, but depends on several factors:</p>
-            <ul>
-              <li><strong>GPS signal quality:</strong> Better accuracy outdoors with clear sky view</li>
-              <li><strong>Distance from state borders:</strong> Detections very close to borders may occasionally be attributed to the wrong state</li>
-              <li><strong>Urban canyons:</strong> Tall buildings can affect GPS accuracy</li>
-            </ul>
-            <p>Each record includes a confidence score based on GPS accuracy. We recommend reviewing records near state borders and using the daily check-in feature for the most reliable documentation.</p>
-            <p>You can always manually add, edit, or delete records to correct any errors.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            What if the app missed a day or got the state wrong?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>You can manually correct any record:</p>
-            <ol>
-              <li>Go to the Calendar view (Pro feature)</li>
-              <li>Tap on the day you want to correct</li>
-              <li>Use "Add Manual Entry" to add a missing state</li>
-              <li>Or tap an existing record to edit or delete it</li>
-            </ol>
-            <p>Manual entries are marked differently in reports and receive the highest confidence score, as they represent user-verified data.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            What happens if I'm in multiple states in one day?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>The app records each state you visit on a given day as a separate presence record. For example, if you drive from California to Nevada, both states will show a record for that day.</p>
-            <p>Each record is classified by type:</p>
-            <ul>
-              <li><strong>Full Day:</strong> Standard presence</li>
-              <li><strong>Overnight Stay:</strong> You slept in this state</li>
-              <li><strong>Partial Day:</strong> Brief visit, typically arrival or departure</li>
-              <li><strong>Travel Through:</strong> Transit only (e.g., airport layover)</li>
-            </ul>
-            <p>The app automatically classifies days based on patterns, but you can manually override the classification.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            Is my location data private?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p><strong>Yes, completely.</strong> Days in State is designed with privacy as a core principle:</p>
-            <ul>
-              <li>All data is stored locally on your iPhone</li>
-              <li>We do not operate servers that receive your location data</li>
-              <li>We do not use any third-party analytics or tracking</li>
-              <li>Your state presence records never leave your device unless you explicitly export them</li>
-            </ul>
-            <p>The only external service used is Apple's reverse geocoding (to convert GPS coordinates to state names), which is covered by Apple's privacy policy.</p>
-            <p>See our <a href="privacy.html">Privacy Policy</a> for complete details.</p>
-          </div>
+            <div class="faq-question">Does this drain my battery?</div>
+            <div class="faq-answer">
+                No. Days in State uses iOS's most battery-efficient location monitoring. We don't continuously track your location—we only wake up when iOS detects a significant location change. Most users see no noticeable impact on battery life.
+            </div>
         </div>
 
-        <h3 style="margin: var(--space-2xl) 0 var(--space-lg); color: var(--color-accent);">Tax & Thresholds</h3>
-        
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            What is the 183-day threshold?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Many states use a 183-day rule as one factor in determining tax residency. If you spend 183 days or more in a state during a tax year, you may be considered a resident for tax purposes and could owe state income tax.</p>
-            <p><strong>Important:</strong> The 183-day rule is just one of many factors states consider. Other factors include:</p>
-            <ul>
-              <li>Where your permanent home (domicile) is located</li>
-              <li>Where your family lives</li>
-              <li>Where you're registered to vote</li>
-              <li>Where your driver's license is issued</li>
-              <li>Where your bank accounts are located</li>
-            </ul>
-            <p>Each state has different rules. Some states (like Texas, Florida, and Washington) have no state income tax at all.</p>
-            <p><strong>Always consult with a tax professional</strong> about your specific situation. Days in State is a tracking tool, not tax advice.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            Does Days in State provide tax advice?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p><strong>No.</strong> Days in State is a tracking and documentation tool only. We do not provide tax, legal, or financial advice.</p>
-            <p>The threshold alerts and tax rules displayed in the app are simplified representations to help you stay aware of potential obligations. They may not reflect:</p>
-            <ul>
-              <li>Recent changes in tax law</li>
-              <li>Special rules that apply to your situation</li>
-              <li>All factors that determine residency</li>
-            </ul>
-            <p>Please consult with a qualified tax professional or CPA regarding your specific tax obligations.</p>
-          </div>
+            <div class="faq-question">What if I forget to open the app?</div>
+            <div class="faq-answer">
+                That's fine! Background tracking works even when the app isn't open. As long as location permissions are enabled, the app will record state changes automatically. You can also manually add entries for any days you might have missed.
+            </div>
         </div>
 
-        <h3 style="margin: var(--space-2xl) 0 var(--space-lg); color: var(--color-accent);">Subscription & Billing</h3>
-        
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            How does the 90-day free trial work?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>When you start a Pro subscription, you get 90 days of full access at no charge:</p>
-            <ul>
-              <li>No payment is taken when you start the trial</li>
-              <li>You have full access to all Pro features during the trial</li>
-              <li>You can cancel anytime before the trial ends to avoid charges</li>
-              <li>If you don't cancel, your subscription begins at the end of the trial</li>
-            </ul>
-            <p>The 90-day trial is available once per Apple ID.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            How do I cancel my subscription?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Subscriptions are managed through Apple:</p>
-            <ol>
-              <li>Open the Settings app on your iPhone</li>
-              <li>Tap your name at the top</li>
-              <li>Tap "Subscriptions"</li>
-              <li>Find "Days in State" and tap it</li>
-              <li>Tap "Cancel Subscription"</li>
-            </ol>
-            <p>You'll keep Pro access until the end of your current billing period. After that, you'll revert to the free tier but your data will remain on your device.</p>
-          </div>
-        </div>
-        
-        <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            What happens to my data if I cancel?
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Your data is safe! Canceling your subscription does not delete your data. Here's what happens:</p>
-            <ul>
-              <li>All your state presence records remain on your device</li>
-              <li>The app continues to track states automatically</li>
-              <li>You'll only be able to view the last 30 days of history</li>
-              <li>Pro features (exports, alerts, calendar) become unavailable</li>
-            </ul>
-            <p>If you resubscribe later, you'll regain access to your full history.</p>
-          </div>
+            <div class="faq-question">How does iCloud backup work?</div>
+            <div class="faq-answer">
+                Days in State is an iPhone-only app, but Pro users can back up their data to iCloud for safety. To enable:
+                <ul>
+                    <li>Open Settings in the app</li>
+                    <li>Toggle on "iCloud Backup"</li>
+                </ul>
+                Your data is backed up automatically. If you lose your phone or get a new one, you can restore all your records with one tap.
+            </div>
         </div>
 
-        <h3 style="margin: var(--space-2xl) 0 var(--space-lg); color: var(--color-accent);">Troubleshooting</h3>
-        
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            The app isn't detecting my location
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>If the app isn't tracking properly, try these steps:</p>
-            <ol>
-              <li><strong>Check location permission:</strong> Go to iOS Settings → Privacy & Security → Location Services → Days in State. Ensure it's set to "Always."</li>
-              <li><strong>Enable Background App Refresh:</strong> iOS Settings → General → Background App Refresh → Days in State (On)</li>
-              <li><strong>Disable Low Power Mode:</strong> Low Power Mode can restrict background location access</li>
-              <li><strong>Restart the app:</strong> Close and reopen Days in State</li>
-              <li><strong>Restart your iPhone:</strong> A fresh restart can resolve many issues</li>
-            </ol>
-            <p>If problems persist, try uninstalling and reinstalling the app. Note: this will delete your existing data, so export first if needed.</p>
-          </div>
+            <div class="faq-question">Is my location data private?</div>
+            <div class="faq-answer">
+                Yes, completely. Your data is stored on your device and, if you enable iCloud backup, in your private iCloud account. We never see, store, or have access to your location data. There are no analytics, no tracking, no servers on our end. Read our <a href="privacy.html">Privacy Policy</a> for full details.
+            </div>
         </div>
-        
+
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            I lost my data after switching phones
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>Because all data is stored locally on your device for privacy, it does not automatically transfer to a new phone.</p>
-            <p><strong>Before switching phones:</strong></p>
-            <ul>
-              <li>Use the Export feature to save your data (CSV or PDF)</li>
-              <li>Store the export file somewhere safe (email, cloud storage, etc.)</li>
-            </ul>
-            <p><strong>On your new phone:</strong></p>
-            <ul>
-              <li>If you restored from an iCloud backup, your app data should transfer automatically</li>
-              <li>If data didn't transfer, you may need to manually re-enter important records or import from your export</li>
-            </ul>
-            <p>We're exploring secure backup options for future versions while maintaining our privacy-first approach.</p>
-          </div>
+            <div class="faq-question">Can I edit or delete records?</div>
+            <div class="faq-answer">
+                Yes. Tap any day in the calendar view to see details and make edits. You can:
+                <ul>
+                    <li>Change the state/country</li>
+                    <li>Adjust the day type (full day, partial, travel through)</li>
+                    <li>Add context labels (business, vacation, residence)</li>
+                    <li>Delete individual records</li>
+                </ul>
+                All changes are logged in the audit trail.
+            </div>
         </div>
-        
+
         <div class="faq-item">
-          <button class="faq-item__question" onclick="toggleFaq(this)">
-            The app shows the wrong state
-            <svg class="faq-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 5v14M5 12h14"/>
-            </svg>
-          </button>
-          <div class="faq-item__answer">
-            <p>This can happen near state borders or in areas with poor GPS signal. Here's what to do:</p>
-            <ul>
-              <li><strong>Near borders:</strong> GPS accuracy may briefly show the wrong state. Wait a few minutes for a better reading.</li>
-              <li><strong>Indoors:</strong> GPS signals can be weak inside buildings. Step outside for a more accurate reading.</li>
-              <li><strong>Manual correction:</strong> You can always edit or delete incorrect records and add the correct state manually.</li>
-            </ul>
-            <p>Daily check-in confirmations provide the most reliable evidence, as they're user-verified.</p>
-          </div>
+            <div class="faq-question">What's the difference between Free and Pro?</div>
+            <div class="faq-answer">
+                <strong>Free</strong> includes automatic state tracking and shows the last 30 days. <strong>Pro</strong> adds full tax year history, calendar view, CPA-ready exports, accountant sharing, and iCloud backup. Pro is available as a monthly subscription, annual subscription, or one-time lifetime purchase.
+            </div>
         </div>
-      </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I export my data for my CPA?</div>
+            <div class="faq-answer">
+                With Pro, go to Settings → Export Data. You can generate a CSV file with all your presence records, including dates, locations, day counts, and confidence scores. Share the file directly with your tax professional via email, AirDrop, or any other method.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">What does "confidence score" mean?</div>
+            <div class="faq-answer">
+                The confidence score indicates the evidentiary strength of each record:
+                <ul>
+                    <li><strong>1.0 (100%)</strong> - GPS detected + user confirmed</li>
+                    <li><strong>0.9 (90%)</strong> - GPS detected automatically</li>
+                    <li><strong>0.7 (70%)</strong> - Manual entry (user claim)</li>
+                </ul>
+                User-confirmed records carry the most weight for audit defense.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Does the app provide tax advice?</div>
+            <div class="faq-answer">
+                No. Days in State tracks WHERE you were and WHEN—that's it. We do not calculate tax thresholds, determine residency, or provide any tax advice. Always consult a qualified tax professional for tax-related decisions.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I restore my purchase on a new device?</div>
+            <div class="faq-answer">
+                Go to Settings in the app and tap "Restore Purchases." Make sure you're signed into the same Apple ID you used for the original purchase. Your Pro subscription or lifetime purchase will be restored automatically.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do I cancel my subscription?</div>
+            <div class="faq-answer">
+                Subscriptions are managed through Apple:
+                <ul>
+                    <li>Open the Settings app on your iPhone</li>
+                    <li>Tap your name at the top</li>
+                    <li>Tap Subscriptions</li>
+                    <li>Find Days in State and tap Cancel Subscription</li>
+                </ul>
+                You'll continue to have Pro access until the end of your billing period. Your data is never deleted when your subscription ends.
+            </div>
+        </div>
     </div>
-  </section>
 
-  <section class="section section--gray" id="contact">
-    <div class="container container--narrow">
-      <div class="contact-card">
-        <div class="contact-card__icon">✉️</div>
-        <h3 class="contact-card__title">Still need help?</h3>
-        <p class="contact-card__desc">
-          Our support team is here to help. Send us an email and we'll get back to you 
-          within 24-48 hours.
-        </p>
-        <a href="mailto:bestdaylabs@gmail.com" class="contact-card__email">
-          bestdaylabs@gmail.com
+    <div class="contact-section">
+        <h2>Still Need Help?</h2>
+        <p>Our support team is happy to assist you.</p>
+        <a href="mailto:support@daysinstate.app" class="contact-email">
+            <span>📧</span>
+            support@daysinstate.app
         </a>
-      </div>
     </div>
-  </section>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
-            <img src="icon.png" class="footer__logo-icon" alt="">
-            Days in State
-          </a>
-          <p class="footer__desc">
-            Automatic state presence tracking for multi-state tax compliance. 
-            Your location data stays on your device, always.
-          </p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+            </div>
         </div>
-        
-        <div class="footer__column">
-          <h4>Product</h4>
-          <ul class="footer__links">
-            <li><a href="index.html#features">Features</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#download">Download</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Support</h4>
-          <ul class="footer__links">
-            <li><a href="support.html">Help Center</a></li>
-            <li><a href="support.html#faq">FAQ</a></li>
-            <li><a href="support.html#contact">Contact</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Legal</h4>
-          <ul class="footer__links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer__bottom">
-        <p>&copy; 2025 Days in State. All rights reserved.</p>
-        <div class="footer__legal">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav').classList.toggle('is-open');
-    }
-    
-    function toggleFaq(button) {
-      const faqItem = button.parentElement;
-      const wasOpen = faqItem.classList.contains('is-open');
-      
-      // Close all FAQ items
-      document.querySelectorAll('.faq-item').forEach(item => {
-        item.classList.remove('is-open');
-      });
-      
-      // Open the clicked one (if it wasn't already open)
-      if (!wasOpen) {
-        faqItem.classList.add('is-open');
-      }
-    }
-  </script>
+    </footer>
 </body>
 </html>
