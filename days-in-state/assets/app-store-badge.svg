@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 40" width="120" height="40">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a"/>
+      <stop offset="100%" style="stop-color:#000000"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="40" rx="6" fill="url(#bg)" stroke="#a6a6a6" stroke-width="0.5"/>
+  <text x="60" y="14" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="7" letter-spacing="0.5">Download on the</text>
+  <text x="60" y="28" text-anchor="middle" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="14" font-weight="600">App Store</text>
+  <g transform="translate(14, 10)" fill="#ffffff">
+    <path d="M15.769 13.298c-.035-3.039 2.479-4.498 2.592-4.566-1.41-2.063-3.607-2.345-4.39-2.377-1.87-.189-3.65 1.102-4.599 1.102-.948 0-2.413-1.074-3.966-1.045-2.041.03-3.923 1.188-4.972 3.017-2.12 3.679-.543 9.127 1.523 12.112 1.01 1.459 2.212 3.098 3.793 3.04 1.521-.061 2.096-.984 3.935-.984 1.839 0 2.354.984 3.961.954 1.638-.027 2.678-1.487 3.68-2.953 1.16-1.694 1.638-3.334 1.666-3.419-.036-.016-3.196-1.227-3.223-4.871zm-3.019-8.95c.839-1.019 1.406-2.432 1.252-3.84-1.21.049-2.675.806-3.542 1.822-.779.9-1.459 2.34-1.277 3.72 1.349.105 2.727-.686 3.567-1.702z" transform="scale(0.7)"/>
+  </g>
+</svg>
