@@ -1,443 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terms of Service - Days in State</title>
-  <meta name="description" content="Terms of Service for Days in State iOS app. Review our subscription terms, usage guidelines, and important disclaimers.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="styles.css">
-  
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23004334' rx='20' width='100' height='100'/><text x='50' y='68' text-anchor='middle' fill='white' font-size='50' font-family='system-ui'>📍</text></svg>">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Days in State</title>
+    <meta name="description" content="Terms of Service for Days in State app.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <style>
+        .legal-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 120px 24px 80px;
+        }
+        .legal-content h1 {
+            margin-bottom: 8px;
+        }
+        .legal-content .updated {
+            color: var(--color-text-secondary);
+            margin-bottom: 48px;
+        }
+        .legal-content h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin: 48px 0 16px;
+        }
+        .legal-content p, .legal-content li {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+        }
+        .legal-content ul {
+            margin-left: 24px;
+            margin-bottom: 24px;
+        }
+        .legal-content li {
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header__inner">
-        <a href="index.html" class="header__logo">
-          <img src="icon.png" alt="" class="header__logo-icon">
-          Days in State
-        </a>
-        
-        <button class="header__menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-          </svg>
-        </button>
-        
-        <nav class="header__nav" id="nav">
-          <a href="index.html" class="header__nav-link">Home</a>
-          <a href="index.html#features" class="header__nav-link">Features</a>
-          <a href="index.html#pricing" class="header__nav-link">Pricing</a>
-          <a href="support.html" class="header__nav-link">Support</a>
-          <a href="index.html#download" class="btn btn--primary btn--sm">Download</a>
-        </nav>
-      </div>
-    </div>
-  </header>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links">
+                <a href="/#features">Features</a>
+                <a href="/#privacy">Privacy</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="/#download" class="nav-cta">Download</a>
+            </div>
+        </div>
+    </nav>
 
-  <main class="legal-page">
-    <div class="container container--text">
-      <div class="legal-page__header">
+    <div class="legal-content">
         <h1>Terms of Service</h1>
-        <p class="legal-page__meta">Last updated: December 28, 2025</p>
-      </div>
-      
-      <div class="legal-page__content">
-        <p>
-          Welcome to Days in State. These Terms of Service ("Terms") govern your use of the 
-          Days in State mobile application ("App," "Service," or "we"). By downloading, 
-          installing, or using the App, you agree to be bound by these Terms.
-        </p>
-        <p>
-          Please read these Terms carefully before using the App. If you do not agree to 
-          these Terms, do not use the App.
-        </p>
+        <p class="updated">Last updated: January 24, 2026</p>
 
-        <h2>1. Description of Service</h2>
-        <p>
-          Days in State is a mobile application that tracks your presence in US states using 
-          GPS location data. The App counts the number of days you spend in each state to 
-          help you monitor potential multi-state tax obligations.
-        </p>
-        <p>
-          The App provides tools for tracking, reporting, and exporting state presence data. 
-          All data is stored locally on your device.
-        </p>
+        <h2>1. Acceptance of Terms</h2>
+        <p>By downloading, installing, or using Days in State ("the App"), you agree to be bound by these Terms of Service. If you do not agree to these terms, do not use the App.</p>
 
-        <h2>2. Important Tax Disclaimer</h2>
-        <p>
-          <strong>DAYS IN STATE IS NOT A TAX ADVISOR, TAX PREPARATION SERVICE, OR LEGAL ADVISOR.</strong>
-        </p>
-        <p>
-          The App provides information and tracking tools only. The information provided by 
-          the App:
-        </p>
+        <h2>2. Description of Service</h2>
+        <p>Days in State is a location tracking application that helps users document which states and countries they visit. The App:</p>
         <ul>
-          <li><strong>Does not constitute tax advice</strong> and should not be relied upon as such</li>
-          <li><strong>Does not constitute legal advice</strong> regarding your tax obligations</li>
-          <li><strong>May not reflect current tax laws</strong> which are subject to change</li>
-          <li><strong>May not capture all relevant factors</strong> that determine your tax liability</li>
-        </ul>
-        <p>
-          State tax residency and filing requirements are complex and depend on many factors 
-          beyond physical presence, including but not limited to:
-        </p>
-        <ul>
-          <li>Your domicile and intent to remain</li>
-          <li>Where your driver's license is issued</li>
-          <li>Where you are registered to vote</li>
-          <li>Where your spouse and dependents live</li>
-          <li>Where your bank accounts and financial ties are located</li>
-          <li>The specific rules of each state</li>
-        </ul>
-        <p>
-          <strong>You should consult with a qualified tax professional or accountant</strong> 
-          regarding your specific tax situation before making any tax-related decisions. 
-          The 183-day thresholds and other rules displayed in the App are simplified 
-          representations and may not apply to your specific circumstances.
-        </p>
-        <p>
-          We expressly disclaim any liability for tax penalties, interest, or additional 
-          taxes that may result from your reliance on information provided by the App.
-        </p>
-
-        <h2>3. Accuracy of Data</h2>
-        <p>
-          While we strive for accuracy, the App's state detection depends on:
-        </p>
-        <ul>
-          <li>GPS signal quality and availability</li>
-          <li>Apple's reverse geocoding service</li>
-          <li>Your device's location settings</li>
-          <li>Environmental factors affecting GPS accuracy</li>
-        </ul>
-        <p>
-          <strong>You are responsible for reviewing and verifying</strong> all state presence 
-          records for accuracy. The App provides tools to manually add, edit, or delete 
-          records to correct any errors.
-        </p>
-        <p>
-          We do not guarantee that the App will detect every state transition or that 
-          recorded locations will be 100% accurate. Near state borders, GPS inaccuracies 
-          may result in incorrect state attribution.
-        </p>
-
-        <h2>4. Subscription Terms</h2>
-        
-        <h3>4.1 Free Tier</h3>
-        <p>
-          The App offers a free tier with limited functionality, including:
-        </p>
-        <ul>
-          <li>Automatic state detection and tracking</li>
-          <li>Access to the last 30 days of state presence history</li>
-          <li>Basic dashboard view</li>
-        </ul>
-        <p>
-          The free tier does not include access to full history, threshold alerts, exports, 
-          or accountant sharing features.
-        </p>
-
-        <h3>4.2 Pro Subscription</h3>
-        <p>
-          The Pro subscription unlocks all features, including:
-        </p>
-        <ul>
-          <li>Full tax year history access</li>
-          <li>Calendar view</li>
-          <li>183-day threshold alerts</li>
-          <li>Tax software exports (TurboTax, H&R Block, TaxAct)</li>
-          <li>CPA audit reports</li>
-          <li>Accountant sharing with cryptographic verification</li>
+            <li>Uses GPS to detect your location</li>
+            <li>Records which jurisdictions you visit each day</li>
+            <li>Stores data locally on your device</li>
+            <li>Optionally backs up data via your private iCloud account</li>
+            <li>Generates reports for documentation purposes</li>
         </ul>
 
-        <h3>4.3 Free Trial</h3>
-        <p>
-          New users are eligible for a <strong>90-day free trial</strong> of the Pro subscription. 
-          During the trial period:
-        </p>
+        <h2>3. Not Tax or Legal Advice</h2>
+        <p><strong>Important:</strong> Days in State is a documentation tool only. The App:</p>
         <ul>
-          <li>You have full access to all Pro features</li>
-          <li>No payment is charged during the trial period</li>
-          <li>You may cancel at any time before the trial ends to avoid charges</li>
+            <li>Does NOT provide tax advice</li>
+            <li>Does NOT determine tax residency</li>
+            <li>Does NOT calculate tax obligations</li>
+            <li>Does NOT guarantee accuracy for any legal purpose</li>
         </ul>
-        <p>
-          At the end of the 90-day trial, your subscription will automatically convert to a 
-          paid subscription at the then-current rate unless you cancel before the trial ends. 
-          You will be charged through your Apple ID account.
-        </p>
+        <p>You should always consult qualified tax and legal professionals for advice regarding your specific situation. The App tracks WHERE you were and WHEN—interpretation of that data for tax purposes is your responsibility.</p>
 
-        <h3>4.4 Subscription Pricing</h3>
-        <p>Current subscription options (prices may vary by region):</p>
+        <h2>4. User Responsibilities</h2>
+        <p>You are responsible for:</p>
         <ul>
-          <li><strong>Monthly:</strong> $4.99 USD per month</li>
-          <li><strong>Annual:</strong> $39.99 USD per year (equivalent to ~$3.33/month)</li>
-        </ul>
-        <p>
-          Prices are subject to change. Any price changes will not affect active subscription 
-          periods and will be communicated before your next renewal.
-        </p>
-
-        <h3>4.5 Billing and Renewal</h3>
-        <p>
-          Subscriptions are billed and managed through Apple's App Store:
-        </p>
-        <ul>
-          <li>Payment is charged to your Apple ID account at confirmation of purchase</li>
-          <li>Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period</li>
-          <li>Your account will be charged for renewal within 24 hours prior to the end of the current period</li>
-          <li>You can manage and cancel subscriptions in your Apple ID Account Settings</li>
+            <li>Ensuring the accuracy of any manually entered data</li>
+            <li>Reviewing and confirming automatically detected locations</li>
+            <li>Maintaining backups of your data if desired</li>
+            <li>Consulting appropriate professionals before making tax decisions</li>
         </ul>
 
-        <h3>4.6 Cancellation</h3>
-        <p>
-          You may cancel your subscription at any time through your Apple ID Account Settings. 
-          Upon cancellation:
-        </p>
+        <h2>5. Privacy</h2>
+        <p>Your privacy is important to us. Please review our <a href="privacy.html">Privacy Policy</a>, which explains how we handle (or rather, don't handle) your data. In short: your location data stays on your device and in your private iCloud account. We never see it.</p>
+
+        <h2>6. Subscriptions and Payments</h2>
+        <p>The App offers both free and paid features:</p>
         <ul>
-          <li>You will retain Pro access until the end of your current billing period</li>
-          <li>Your subscription will not renew</li>
-          <li>You will revert to the free tier at the end of the period</li>
-          <li>Your data will remain on your device but some features will be restricted</li>
+            <li><strong>Free:</strong> Basic state tracking with 30-day history</li>
+            <li><strong>Pro:</strong> Full history, exports, calendar view, and iCloud backup</li>
+        </ul>
+        <p>Pro is available as a monthly subscription, annual subscription, or one-time lifetime purchase. All payments are processed by Apple through the App Store. Subscription terms, pricing, and cancellation are governed by Apple's policies.</p>
+
+        <h2>7. Refunds</h2>
+        <p>Refund requests are handled by Apple in accordance with App Store policies. We do not process refunds directly.</p>
+
+        <h2>8. Intellectual Property</h2>
+        <p>The App, including its design, features, and content, is owned by Best Day Labs. You are granted a limited, non-exclusive license to use the App for personal, non-commercial purposes.</p>
+
+        <h2>9. Disclaimer of Warranties</h2>
+        <p>The App is provided "as is" without warranties of any kind. We do not guarantee:</p>
+        <ul>
+            <li>Continuous, uninterrupted access to the App</li>
+            <li>That the App will be error-free</li>
+            <li>The accuracy of GPS-based location detection</li>
+            <li>That the App will meet your specific requirements</li>
         </ul>
 
-        <h3>4.7 Refunds</h3>
-        <p>
-          Refund requests are handled by Apple in accordance with Apple's refund policies. 
-          To request a refund, contact Apple Support or visit reportaproblem.apple.com.
-        </p>
+        <h2>10. Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, Best Day Labs shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the App. This includes, but is not limited to, any tax liability, penalties, or legal consequences that may result from reliance on data provided by the App.</p>
 
-        <h2>5. User Responsibilities</h2>
-        <p>By using the App, you agree to:</p>
-        <ul>
-          <li>Provide accurate information when manually entering state presence records</li>
-          <li>Review and verify the accuracy of automatically recorded data</li>
-          <li>Consult with qualified tax professionals for tax advice</li>
-          <li>Not rely solely on the App for tax compliance decisions</li>
-          <li>Maintain appropriate backups of your data through the export feature</li>
-          <li>Use the App in compliance with all applicable laws</li>
-        </ul>
+        <h2>11. Changes to Terms</h2>
+        <p>We may update these Terms of Service from time to time. We will notify you of any changes by posting the new Terms on this page and updating the "Last updated" date. Your continued use of the App after changes constitutes acceptance of the new Terms.</p>
 
-        <h2>6. Intellectual Property</h2>
-        <p>
-          The App, including its design, features, and content, is owned by Days in State 
-          and protected by copyright and other intellectual property laws. You may not:
-        </p>
-        <ul>
-          <li>Copy, modify, or distribute the App</li>
-          <li>Reverse engineer or attempt to extract the source code</li>
-          <li>Use the App's name, logo, or branding without permission</li>
-          <li>Remove any copyright or proprietary notices</li>
-        </ul>
+        <h2>12. Termination</h2>
+        <p>You may stop using the App at any time by deleting it from your device. We reserve the right to terminate or suspend access to the App for violations of these Terms.</p>
 
-        <h2>7. Data and Privacy</h2>
-        <p>
-          Your use of the App is also governed by our <a href="privacy.html">Privacy Policy</a>, 
-          which describes how we handle your data. Key points:
-        </p>
-        <ul>
-          <li>All state presence data is stored locally on your device</li>
-          <li>We do not have access to your location data or state presence records</li>
-          <li>You are responsible for backing up your data</li>
-          <li>Deleting the App will permanently delete all associated data</li>
-        </ul>
+        <h2>13. Governing Law</h2>
+        <p>These Terms shall be governed by and construed in accordance with the laws of the State of California, without regard to its conflict of law provisions.</p>
 
-        <h2>8. Disclaimer of Warranties</h2>
-        <p>
-          THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, 
-          EITHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:
-        </p>
-        <ul>
-          <li>WARRANTIES OF MERCHANTABILITY</li>
-          <li>FITNESS FOR A PARTICULAR PURPOSE</li>
-          <li>NON-INFRINGEMENT</li>
-          <li>ACCURACY OR RELIABILITY OF DATA</li>
-          <li>UNINTERRUPTED OR ERROR-FREE OPERATION</li>
-        </ul>
-        <p>
-          We do not warrant that the App will meet your requirements, that state detection 
-          will be accurate, or that the App will be compatible with your device or 
-          operating system version.
-        </p>
-
-        <h2>9. Limitation of Liability</h2>
-        <p>
-          TO THE MAXIMUM EXTENT PERMITTED BY LAW, DAYS IN STATE AND ITS AFFILIATES, OFFICERS, 
-          EMPLOYEES, AND AGENTS SHALL NOT BE LIABLE FOR:
-        </p>
-        <ul>
-          <li>Any indirect, incidental, special, consequential, or punitive damages</li>
-          <li>Loss of profits, data, use, or goodwill</li>
-          <li>Tax penalties, interest, or additional taxes</li>
-          <li>Costs of substitute services</li>
-          <li>Any damages arising from your use or inability to use the App</li>
-        </ul>
-        <p>
-          IN NO EVENT SHALL OUR TOTAL LIABILITY EXCEED THE AMOUNT YOU PAID FOR THE APP 
-          IN THE TWELVE (12) MONTHS PRIOR TO THE CLAIM.
-        </p>
-        <p>
-          Some jurisdictions do not allow the exclusion of certain warranties or limitations 
-          on liability, so some of the above limitations may not apply to you.
-        </p>
-
-        <h2>10. Indemnification</h2>
-        <p>
-          You agree to indemnify, defend, and hold harmless Days in State and its affiliates 
-          from any claims, damages, losses, or expenses (including reasonable attorneys' fees) 
-          arising from:
-        </p>
-        <ul>
-          <li>Your use of the App</li>
-          <li>Your violation of these Terms</li>
-          <li>Your tax filings or tax-related decisions</li>
-          <li>Any third-party claims related to your use of the App</li>
-        </ul>
-
-        <h2>11. Changes to the App</h2>
-        <p>
-          We reserve the right to modify, suspend, or discontinue the App or any feature 
-          at any time without notice. We may also update the App to add new features, 
-          improve performance, or address issues.
-        </p>
-
-        <h2>12. Changes to These Terms</h2>
-        <p>
-          We may update these Terms from time to time. We will notify you of material changes 
-          by updating the "Last updated" date and, where appropriate, through in-app notification.
-        </p>
-        <p>
-          Your continued use of the App after changes become effective constitutes acceptance 
-          of the revised Terms. If you do not agree to the revised Terms, you should stop 
-          using the App.
-        </p>
-
-        <h2>13. Termination</h2>
-        <p>
-          We may terminate or suspend your access to the App at any time, without prior 
-          notice, for conduct that we believe violates these Terms or is harmful to other 
-          users, us, or third parties, or for any other reason in our sole discretion.
-        </p>
-        <p>
-          Upon termination, your right to use the App will immediately cease. Data stored 
-          on your device will remain until you delete the App.
-        </p>
-
-        <h2>14. Governing Law</h2>
-        <p>
-          These Terms shall be governed by and construed in accordance with the laws of 
-          the State of California, United States, without regard to its conflict of law 
-          provisions.
-        </p>
-
-        <h2>15. Dispute Resolution</h2>
-        <p>
-          Any dispute arising from these Terms or your use of the App shall be resolved 
-          through binding arbitration in accordance with the American Arbitration Association's 
-          rules. The arbitration shall take place in San Francisco, California.
-        </p>
-        <p>
-          You agree to waive any right to participate in a class action lawsuit or class-wide 
-          arbitration against Days in State.
-        </p>
-
-        <h2>16. Severability</h2>
-        <p>
-          If any provision of these Terms is found to be unenforceable, the remaining 
-          provisions will continue in full force and effect.
-        </p>
-
-        <h2>17. Entire Agreement</h2>
-        <p>
-          These Terms, together with our Privacy Policy, constitute the entire agreement 
-          between you and Days in State regarding your use of the App.
-        </p>
-
-        <h2>18. Contact Us</h2>
-        <p>
-          If you have any questions about these Terms, please contact us at:
-        </p>
-        <p>
-          <strong>Email:</strong> <a href="mailto:bestdaylabs@gmail.com">bestdaylabs@gmail.com</a>
-        </p>
-
-        <h2>19. Apple-Specific Terms</h2>
-        <p>
-          The following terms apply to your use of the App on Apple devices:
-        </p>
-        <ul>
-          <li>These Terms are between you and Days in State, not Apple</li>
-          <li>Apple has no obligation to provide maintenance or support for the App</li>
-          <li>Apple is not responsible for addressing any claims relating to the App</li>
-          <li>Apple is a third-party beneficiary of these Terms</li>
-        </ul>
-        <p>
-          Your use of the App must also comply with the Apple Media Services Terms and Conditions.
-        </p>
-      </div>
+        <h2>14. Contact</h2>
+        <p>If you have questions about these Terms, please contact us at:</p>
+        <p><a href="mailto:legal@daysinstate.app">legal@daysinstate.app</a></p>
     </div>
-  </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
-            <img src="icon.png" class="footer__logo-icon" alt="">
-            Days in State
-          </a>
-          <p class="footer__desc">
-            Automatic state presence tracking for multi-state tax compliance. 
-            Your location data stays on your device, always.
-          </p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+            </div>
         </div>
-        
-        <div class="footer__column">
-          <h4>Product</h4>
-          <ul class="footer__links">
-            <li><a href="index.html#features">Features</a></li>
-            <li><a href="index.html#pricing">Pricing</a></li>
-            <li><a href="index.html#download">Download</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Support</h4>
-          <ul class="footer__links">
-            <li><a href="support.html">Help Center</a></li>
-            <li><a href="support.html#faq">FAQ</a></li>
-            <li><a href="support.html#contact">Contact</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Legal</h4>
-          <ul class="footer__links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer__bottom">
-        <p>&copy; 2025 Days in State. All rights reserved.</p>
-        <div class="footer__legal">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav').classList.toggle('is-open');
-    }
-  </script>
+    </footer>
 </body>
 </html>
