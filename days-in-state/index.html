@@ -1,349 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Days in State - Automatic State Presence Tracking for Tax Compliance</title>
-  <meta name="description" content="Track your days in each US state automatically. Days in State uses GPS to count your presence days, helping you stay compliant with multi-state tax obligations.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="styles.css">
-  
-  <link rel="icon" type="image/x-icon" href="icon.png">
-
-  <meta property="og:title" content="Days in State - State Presence Tracking">
-  <meta property="og:description" content="Automatic state tracking for multi-state tax compliance. Know exactly how many days you've spent in each state.">
-  <meta property="og:type" content="website">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Days in State - Automatic State Presence Tracking for Tax Documentation</title>
+    <meta name="description" content="Track which states you visit each day for tax compliance. Automatic GPS detection, privacy-first design, CPA-ready exports.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/app-icon.png">
 </head>
 <body>
-  <header class="header">
-    <div class="container">
-      <div class="header__inner">
-        <a href="index.html" class="header__logo">
-          <img src="icon.png" alt="" class="header__logo-icon">
-          Days in State
-        </a>
-        
-        <button class="header__menu-toggle" aria-label="Toggle menu" onclick="toggleMenu()">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M3 12h18M3 6h18M3 18h18"/>
-          </svg>
-        </button>
-        
-        <nav class="header__nav" id="nav">
-          <a href="index.html" class="header__nav-link header__nav-link--active">Home</a>
-          <a href="#features" class="header__nav-link">Features</a>
-          <a href="#pricing" class="header__nav-link">Pricing</a>
-          <a href="support.html" class="header__nav-link">Support</a>
-          <a href="#download" class="btn btn--primary btn--sm">Download</a>
-        </nav>
-      </div>
-    </div>
-  </header>
-
-  <section class="hero">
-    <div class="container">
-      <div class="hero__inner">
-        <div class="hero__content fade-in">
-          <div class="hero__badge">
-            <span class="hero__badge-icon"></span>
-            Privacy-First Tracking
-          </div>
-          
-          <h1 class="hero__title">Know exactly how many days you've spent in each state</h1>
-          
-          <p class="hero__subtitle">
-            Days in State automatically tracks your presence across US states using GPS, 
-            helping you stay compliant with multi-state tax obligations. No setup required.
-          </p>
-          
-          <div class="hero__cta">
-            <a href="#download" class="btn btn--primary btn--lg">
-              <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-              </svg>
-              Download for iOS
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="nav-logo">
+                <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
             </a>
-            <a href="#how-it-works" class="btn btn--secondary btn--lg">How It Works</a>
-          </div>
-          
-          <div class="hero__stats">
-            <div class="hero__stat">
-              <div class="hero__stat-value">183</div>
-              <div class="hero__stat-label">Day threshold tracked</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#privacy">Privacy</a>
+                <a href="#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="#download" class="nav-cta">Download</a>
             </div>
-            <div class="hero__stat">
-              <div class="hero__stat-value">50</div>
-              <div class="hero__stat-label">States + DC covered</div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Know Where You've Been.<br><span class="gradient-text">Document It for Taxes.</span></h1>
+            <p class="hero-subtitle">
+                Automatic state presence tracking for multi-state tax compliance.
+                GPS detection, CPA-ready exports, and your data stays on YOUR device.
+            </p>
+            <div class="hero-cta">
+                <a href="#download" class="btn btn-primary">
+                    <svg class="apple-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download for iOS
+                </a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
             </div>
-            <div class="hero__stat">
-              <div class="hero__stat-value">100%</div>
-              <div class="hero__stat-label">On-device privacy</div>
+            <p class="hero-note">Requires iOS 17+ • iPhone only</p>
+        </div>
+        <div class="hero-visual">
+            <div class="phone-mockup">
+                <div class="phone-screen">
+                    <div class="app-preview">
+                        <div class="preview-header">
+                            <span>2026</span>
+                            <span class="current-state">📍 California</span>
+                        </div>
+                        <div class="preview-states">
+                            <div class="state-row">
+                                <span class="state-name">California</span>
+                                <div class="state-bar" style="--width: 45%"></div>
+                                <span class="state-days">164 days</span>
+                            </div>
+                            <div class="state-row">
+                                <span class="state-name">New York</span>
+                                <div class="state-bar" style="--width: 25%"></div>
+                                <span class="state-days">91 days</span>
+                            </div>
+                            <div class="state-row">
+                                <span class="state-name">Texas</span>
+                                <div class="state-bar" style="--width: 15%"></div>
+                                <span class="state-days">55 days</span>
+                            </div>
+                            <div class="state-row">
+                                <span class="state-name">Florida</span>
+                                <div class="state-bar" style="--width: 10%"></div>
+                                <span class="state-days">37 days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-        
-        <div class="hero__phone fade-in fade-in-delay-2">
-          <div class="hero__phone-frame">
-            <div class="hero__phone-screen">
-              <div class="hero__phone-notch"></div>
-              <img src="screenshot.png" alt="Days in State App Screenshot" class="hero__phone-image">
+    </section>
+
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="trust-container">
+            <div class="trust-item">
+                <span class="trust-icon">🔒</span>
+                <span>Privacy First</span>
             </div>
-          </div>
+            <div class="trust-item">
+                <span class="trust-icon">📱</span>
+                <span>Works Offline</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">✅</span>
+                <span>Audit Ready</span>
+            </div>
+            <div class="trust-item">
+                <span class="trust-icon">🔄</span>
+                <span>iCloud Backup</span>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="features">
-    <div class="container">
-      <div class="text-center mb-4">
-        <h2>Built for Multi-State Tax Compliance</h2>
-        <p class="text-lg text-muted" style="max-width: 600px; margin: var(--space-md) auto 0;">
-          Whether you travel for work, split time between states, or recently relocated, 
-          Days in State gives you the documentation you need.
-        </p>
-      </div>
-      
-      <div class="features">
-        <div class="feature">
-          <div class="feature__icon">📍</div>
-          <h3 class="feature__title">Automatic Detection</h3>
-          <p class="feature__desc">
-            GPS coordinates are reverse-geocoded to detect which state you're in. 
-            No manual check-ins or geofences to configure.
-          </p>
+    <!-- Problem Section -->
+    <section class="problem">
+        <div class="container">
+            <h2>Multi-State Taxes Are Complicated</h2>
+            <p class="section-subtitle">
+                If you travel for work, have multiple residences, or simply move around—you need to know exactly how many days you spent in each state.
+            </p>
+            <div class="problem-grid">
+                <div class="problem-card">
+                    <span class="problem-icon">📊</span>
+                    <h3>183-Day Rules</h3>
+                    <p>Many states consider you a tax resident if you spend more than 183 days there. Miss the count, owe the taxes.</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-icon">📋</span>
+                    <h3>Audit Defense</h3>
+                    <p>If audited, you need documentation. "I think I was in New York" doesn't hold up. GPS records do.</p>
+                </div>
+                <div class="problem-card">
+                    <span class="problem-icon">🤯</span>
+                    <h3>Manual Tracking Fails</h3>
+                    <p>Spreadsheets get abandoned. Calendars are incomplete. You need automatic, passive tracking.</p>
+                </div>
+            </div>
         </div>
-        
-        <div class="feature">
-          <div class="feature__icon">🔒</div>
-          <h3 class="feature__title">100% On-Device</h3>
-          <p class="feature__desc">
-            Your location data never leaves your phone. No cloud sync, no servers, 
-            no third-party tracking. Complete privacy.
-          </p>
-        </div>
-        
-        <div class="feature">
-          <div class="feature__icon">⚠️</div>
-          <h3 class="feature__title">Threshold Alerts</h3>
-          <p class="feature__desc">
-            Get notified as you approach the 183-day threshold that could trigger 
-            state tax obligations.
-          </p>
-        </div>
-        
-        <div class="feature">
-          <div class="feature__icon">📊</div>
-          <h3 class="feature__title">Tax-Ready Exports</h3>
-          <p class="feature__desc">
-            Export reports in formats compatible with TurboTax, H&R Block, and 
-            professional CPA software.
-          </p>
-        </div>
-        
-        <div class="feature">
-          <div class="feature__icon">👨‍💼</div>
-          <h3 class="feature__title">Accountant Sharing</h3>
-          <p class="feature__desc">
-            Share cryptographically verified reports with your tax professional 
-            for audit-ready documentation.
-          </p>
-        </div>
-        
-        <div class="feature">
-          <div class="feature__icon">📅</div>
-          <h3 class="feature__title">Calendar View</h3>
-          <p class="feature__desc">
-            See your state presence history in a visual calendar. Identify gaps 
-            and correct any missed days.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section section--gray" id="how-it-works">
-    <div class="container">
-      <div class="text-center mb-4">
-        <h2>How It Works</h2>
-        <p class="text-lg text-muted">Set up in seconds. Track automatically forever.</p>
-      </div>
-      
-      <div class="steps">
-        <div class="step">
-          <h4 class="step__title">Install & Allow Location</h4>
-          <p class="step__desc">
-            Download the app and grant location permission. That's the only setup required.
-          </p>
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2>Effortless Tracking.<br>Audit-Ready Documentation.</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Automatic Detection</h3>
+                    <p>GPS-based tracking runs in the background. Cross a state line? We know. No manual logging required.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✓</div>
+                    <h3>User Confirmation</h3>
+                    <p>Optional lock-screen prompts let you confirm your location. Confirmed records carry the highest evidentiary weight.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Calendar View</h3>
+                    <p>See your entire year at a glance. Tap any day to see details or make corrections.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>CPA-Ready Exports</h3>
+                    <p>Generate CSV reports formatted for your tax professional. Day counts, locations, confidence scores—everything they need.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Accountant Sharing</h3>
+                    <p>Share cryptographically-verified reports with your CPA. They can validate the data hasn't been tampered with.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>International Support</h3>
+                    <p>Track US states and international countries. ISO 3166 standard formatting ensures accuracy.</p>
+                </div>
+            </div>
         </div>
-        
-        <div class="step">
-          <h4 class="step__title">Live Your Life</h4>
-          <p class="step__desc">
-            The app works silently in the background, detecting state changes as you travel.
-          </p>
-        </div>
-        
-        <div class="step">
-          <h4 class="step__title">Confirm Daily</h4>
-          <p class="step__desc">
-            Optional daily check-ins create verified records for the strongest tax documentation.
-          </p>
-        </div>
-        
-        <div class="step">
-          <h4 class="step__title">Export at Tax Time</h4>
-          <p class="step__desc">
-            Generate professional reports for your accountant or import directly to tax software.
-          </p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section" id="pricing">
-    <div class="container">
-      <div class="text-center mb-4">
-        <h2>Simple, Transparent Pricing</h2>
-        <p class="text-lg text-muted">Start with a 90-day free trial. No payment required today.</p>
-      </div>
-      
-      <div class="pricing">
-        <div class="pricing-card">
-          <h3 class="pricing-card__name">Free</h3>
-          <div class="pricing-card__price">$0<span>/forever</span></div>
-          <div class="pricing-card__trial">Basic tracking</div>
-          
-          <ul class="pricing-card__features">
-            <li>Automatic state detection</li>
-            <li>Last 30 days of history</li>
-            <li>Basic dashboard</li>
-            <li class="disabled">Full history access</li>
-            <li class="disabled">Threshold alerts</li>
-            <li class="disabled">Tax exports</li>
-            <li class="disabled">Accountant sharing</li>
-          </ul>
-          
-          <a href="#download" class="btn btn--secondary" style="width: 100%;">Get Started</a>
+    <!-- Privacy Section -->
+    <section id="privacy" class="privacy">
+        <div class="container">
+            <div class="privacy-content">
+                <div class="privacy-text">
+                    <h2>Your Data. Your Device.<br>We Never See It.</h2>
+                    <p>
+                        Days in State is built privacy-first. Your location data is stored on your device and—if you choose—backed up to YOUR private iCloud account.
+                    </p>
+                    <ul class="privacy-list">
+                        <li>
+                            <span class="check">✓</span>
+                            <span>No servers. No accounts. No tracking.</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span>Data encrypted on device</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span>iCloud backup uses YOUR private database</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span>We literally cannot see your data</span>
+                        </li>
+                        <li>
+                            <span class="check">✓</span>
+                            <span>Delete everything with one tap</span>
+                        </li>
+                    </ul>
+                    <a href="privacy.html" class="privacy-link">Read our Privacy Policy →</a>
+                </div>
+                <div class="privacy-visual">
+                    <div class="privacy-diagram">
+                        <div class="device-box">
+                            <span>📱 Your iPhone</span>
+                            <div class="data-label">Your Data</div>
+                        </div>
+                        <div class="sync-arrow">↔</div>
+                        <div class="device-box">
+                            <span>☁️ Your iCloud</span>
+                            <div class="data-label">Your Data</div>
+                        </div>
+                        <div class="blocked-box">
+                            <span>🚫 Our Servers</span>
+                            <div class="data-label">Nothing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        
-        <div class="pricing-card pricing-card--featured">
-          <div class="pricing-card__badge">Most Popular</div>
-          <h3 class="pricing-card__name">Pro Monthly</h3>
-          <div class="pricing-card__price">$4.99<span>/month</span></div>
-          <div class="pricing-card__trial">90-day free trial</div>
-          
-          <ul class="pricing-card__features">
-            <li>Automatic state detection</li>
-            <li>Full tax year history</li>
-            <li>Calendar view</li>
-            <li>183-day threshold alerts</li>
-            <li>TurboTax & H&R Block export</li>
-            <li>CPA audit reports</li>
-            <li>Accountant sharing</li>
-          </ul>
-          
-          <a href="#download" class="btn btn--primary" style="width: 100%;">Start Free Trial</a>
-        </div>
-        
-        <div class="pricing-card">
-          <h3 class="pricing-card__name">Pro Annual</h3>
-          <div class="pricing-card__price">$39.99<span>/year</span></div>
-          <div class="pricing-card__trial">Save 33% • 90-day trial</div>
-          
-          <ul class="pricing-card__features">
-            <li>Automatic state detection</li>
-            <li>Full tax year history</li>
-            <li>Calendar view</li>
-            <li>183-day threshold alerts</li>
-            <li>TurboTax & H&R Block export</li>
-            <li>CPA audit reports</li>
-            <li>Accountant sharing</li>
-          </ul>
-          
-          <a href="#download" class="btn btn--dark" style="width: 100%;">Start Free Trial</a>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section section--dark" id="download">
-    <div class="container">
-      <div class="cta">
-        <h2 class="cta__title">Start Tracking Today</h2>
-        <p class="cta__desc">
-          Join thousands of travelers, remote workers, and multi-state residents 
-          who trust Days in State for tax compliance.
-        </p>
-        <a href="https://apps.apple.com/app/days-in-state" class="btn btn--primary btn--lg">
-          <svg class="btn__icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-          </svg>
-          Download on the App Store
-        </a>
-      </div>
-    </div>
-  </section>
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2>Simple Pricing</h2>
+            <p class="section-subtitle">Start with a 30-day free trial. Cancel anytime.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Free</h3>
+                        <div class="pricing-price">$0</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Automatic state tracking</li>
+                        <li>✓ Last 30 days visible</li>
+                        <li>✓ Basic dashboard</li>
+                        <li class="disabled">✗ Full history</li>
+                        <li class="disabled">✗ Calendar view</li>
+                        <li class="disabled">✗ Exports</li>
+                        <li class="disabled">✗ iCloud backup</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Best Value</div>
+                    <div class="pricing-header">
+                        <h3>Lifetime Pro</h3>
+                        <div class="pricing-price">$39.99</div>
+                        <div class="pricing-note">one-time purchase</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Free</li>
+                        <li>✓ Full tax year history</li>
+                        <li>✓ Calendar view</li>
+                        <li>✓ CPA-ready exports</li>
+                        <li>✓ Accountant sharing</li>
+                        <li>✓ iCloud backup</li>
+                        <li>✓ All future updates</li>
+                    </ul>
+                    <a href="#download" class="btn btn-primary">Get Lifetime Pro</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Pro Annual</h3>
+                        <div class="pricing-price">$19.99<span>/yr</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Free</li>
+                        <li>✓ Full tax year history</li>
+                        <li>✓ Calendar view</li>
+                        <li>✓ CPA-ready exports</li>
+                        <li>✓ Accountant sharing</li>
+                        <li>✓ iCloud backup</li>
+                        <li>✓ 30-day free trial</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Pro Monthly</h3>
+                        <div class="pricing-price">$4.99<span>/mo</span></div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Free</li>
+                        <li>✓ Full tax year history</li>
+                        <li>✓ Calendar view</li>
+                        <li>✓ CPA-ready exports</li>
+                        <li>✓ Accountant sharing</li>
+                        <li>✓ iCloud backup</li>
+                        <li>✓ 30-day free trial</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__inner">
-        <div class="footer__brand">
-          <a href="index.html" class="footer__logo">
-            <img src="icon.png" class="footer__logo-icon" alt="">
-            Days in State
-          </a>
-          <p class="footer__desc">
-            Automatic state presence tracking for multi-state tax compliance. 
-            Your location data stays on your device, always.
-          </p>
+    <!-- Download Section -->
+    <section id="download" class="download">
+        <div class="container">
+            <h2>Ready to Track Your State Presence?</h2>
+            <p class="section-subtitle">Download now and start your 30-day free trial.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="app-store-badge">
+                <img src="assets/app-store-badge.svg" alt="Download on the App Store">
+            </a>
+            <p class="download-note">Requires iOS 17.0 or later. iPhone only.</p>
         </div>
-        
-        <div class="footer__column">
-          <h4>Product</h4>
-          <ul class="footer__links">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#download">Download</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Support</h4>
-          <ul class="footer__links">
-            <li><a href="support.html">Help Center</a></li>
-            <li><a href="support.html#faq">FAQ</a></li>
-            <li><a href="support.html#contact">Contact</a></li>
-          </ul>
-        </div>
-        
-        <div class="footer__column">
-          <h4>Legal</h4>
-          <ul class="footer__links">
-            <li><a href="privacy.html">Privacy Policy</a></li>
-            <li><a href="terms.html">Terms of Service</a></li>
-          </ul>
-        </div>
-      </div>
-      
-      <div class="footer__bottom">
-        <p>&copy; 2025 Days in State. All rights reserved.</p>
-        <div class="footer__legal">
-          <a href="privacy.html">Privacy</a>
-          <a href="terms.html">Terms</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+    </section>
 
-  <script>
-    function toggleMenu() {
-      document.getElementById('nav').classList.toggle('is-open');
-    }
-  </script>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="#features">Features</a>
+                    <a href="#pricing">Pricing</a>
+                    <a href="#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Support</h4>
+                    <a href="support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
