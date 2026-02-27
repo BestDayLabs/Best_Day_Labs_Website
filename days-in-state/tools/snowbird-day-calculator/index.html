@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowbird Day Calculator (2026) - Count Days in Each State for Tax Purposes</title>
+    <meta name="description" content="Free snowbird day calculator. Enter your departure and return dates to see exact day counts for your home state and winter state. Flags threshold crossings and safe harbor windows.">
+    <meta name="keywords" content="snowbird day calculator, snowbird tax calculator, Florida snowbird days, split year tax calculator, two state day counter, winter state tax days">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://www.bestdaylabs.com/days-in-state/tools/snowbird-day-calculator/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Snowbird Day Calculator (2026) - Days in Each State">
+    <meta property="og:description" content="Enter your departure and return dates to see day counts for your home state and winter state. Flags threshold crossings.">
+    <meta property="og:url" content="https://www.bestdaylabs.com/days-in-state/tools/snowbird-day-calculator/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.bestdaylabs.com/days-in-state/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Snowbird Day Calculator (2026)">
+    <meta name="twitter:description" content="Count your days in each state. Built for snowbirds splitting the year between two states.">
+    <meta name="twitter:image" content="https://www.bestdaylabs.com/days-in-state/assets/og-image.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+    <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Snowbird Day Calculator",
+      "description": "Enter departure and return dates to see day counts for your home and winter states. Built for snowbirds splitting the year.",
+      "url": "https://www.bestdaylabs.com/days-in-state/tools/snowbird-day-calculator/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Best Day Labs",
+        "url": "https://daysinstate.app"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many days can a snowbird spend in Florida without becoming a resident?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Florida has no income tax, so there is no day-count threshold for Florida tax purposes. However, your HOME state may have a threshold. If you're a New York resident, spending more than 183 days outside New York doesn't automatically end your NY residency — you must also sever domicile ties. The real question is how many days you can spend in your home state without triggering its statutory residency test."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do travel days count for both states?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In most states, yes. If you drive from New York to Florida on November 1, that day counts in both states since most states use an 'any part of a day' rule. This calculator counts the departure day in the home state and the arrival day in the winter state, which means the travel day is counted once for each state."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the best departure date for snowbirds to avoid tax issues?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The optimal dates depend on your home state's threshold. For states with a 183-day rule, you need to spend fewer than 183 days there. A common strategy is to depart by late October or early November and return no earlier than late April or May. Use this calculator to find the exact dates that keep you safely below the threshold."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to change my domicile to Florida to save on taxes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Simply spending time in Florida isn't enough to escape your home state's taxes. You must formally change your domicile — update your driver's license, voter registration, bank accounts, and other ties. Your home state may conduct a departure audit to verify you genuinely moved. See our Snowbird Tax Guide for a complete domicile checklist."
+          }
+        }
+      ]
+    }
+    </script>
+    <style>
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 80px auto 0;
+            padding: 16px 24px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .breadcrumb a { color: var(--color-primary); }
+        .breadcrumb span { margin: 0 8px; }
+
+        .tool-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        .tool-page h1 {
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        }
+        .tool-meta {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 32px;
+        }
+        .editorial-content {
+            max-width: 800px;
+            margin-bottom: 48px;
+        }
+        .editorial-content h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin: 32px 0 12px;
+        }
+        .editorial-content p {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .editorial-content ul {
+            color: var(--color-text-secondary);
+            margin: 0 0 16px 24px;
+            line-height: 1.7;
+        }
+        .editorial-content li { margin-bottom: 8px; }
+
+        /* Calculator */
+        .calc-section {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .calc-section h2 {
+            text-align: left;
+            font-size: 1.25rem;
+            margin-bottom: 4px;
+        }
+        .calc-subtitle {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 20px;
+        }
+        .state-row-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .trip-block {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .trip-block h3 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .trip-block .trip-emoji {
+            font-size: 1.25rem;
+        }
+        .trip-dates {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .calc-field label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--color-text-secondary);
+            margin-bottom: 6px;
+        }
+        .calc-field input,
+        .calc-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+        }
+        .calc-field input:focus,
+        .calc-field select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+        }
+        .calc-field .field-hint {
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+        .extra-trips {
+            margin-bottom: 16px;
+        }
+        .btn-add-trip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--color-bg);
+            border: 1px dashed var(--color-border);
+            border-radius: var(--radius-sm);
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.875rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            margin-bottom: 20px;
+        }
+        .btn-add-trip:hover {
+            border-color: var(--color-primary);
+            background: rgba(10, 132, 255, 0.04);
+        }
+        .btn-remove-trip {
+            background: none;
+            border: none;
+            color: var(--color-text-tertiary);
+            cursor: pointer;
+            font-size: 1rem;
+            float: right;
+            padding: 0 4px;
+        }
+        .btn-remove-trip:hover { color: var(--color-error); }
+        .btn-calculate {
+            padding: 14px 32px;
+            background: var(--color-text);
+            color: var(--color-bg);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-calculate:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+        .error-msg {
+            color: var(--color-error);
+            font-size: 0.875rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .error-msg.visible { display: block; }
+
+        /* Results */
+        .results-section {
+            display: none;
+            margin-bottom: 48px;
+        }
+        .results-section.visible { display: block; }
+        .results-section > h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        /* Year timeline */
+        .year-bar-container {
+            margin-bottom: 24px;
+        }
+        .year-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-bottom: 6px;
+        }
+        .year-bar {
+            height: 32px;
+            background: var(--color-bg-tertiary);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+        .year-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6875rem;
+            font-weight: 600;
+            color: white;
+            overflow: hidden;
+            white-space: nowrap;
+            min-width: 2px;
+        }
+        .year-segment.home { background: #0A84FF; }
+        .year-segment.winter { background: #FF9500; }
+        .year-segment.travel { background: #86868B; }
+        .year-segment.other { background: #34C759; }
+        .year-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 8px;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+        .legend-dot.home { background: #0A84FF; }
+        .legend-dot.winter { background: #FF9500; }
+        .legend-dot.travel { background: #86868B; }
+
+        /* State cards */
+        .state-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .state-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 24px;
+        }
+        .state-card.warning { border-color: var(--color-warning); border-width: 2px; }
+        .state-card.danger { border-color: var(--color-error); border-width: 2px; }
+        .state-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .state-card .card-tag {
+            font-size: 0.6875rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        .card-tag.home-tag { background: rgba(10, 132, 255, 0.12); color: #0066CC; }
+        .card-tag.winter-tag { background: rgba(255, 149, 0, 0.15); color: #C93400; }
+        .state-card .day-count {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .state-card .day-label {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 12px;
+        }
+        .progress-bar {
+            height: 10px;
+            background: var(--color-bg-tertiary);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.6s ease;
+        }
+        .progress-fill.safe { background: linear-gradient(90deg, #34C759, #30D158); }
+        .progress-fill.caution { background: linear-gradient(90deg, #FF9500, #FFD60A); }
+        .progress-fill.over { background: linear-gradient(90deg, #FF3B30, #FF6961); }
+        .threshold-status {
+            font-size: 0.8125rem;
+            font-weight: 600;
+        }
+        .threshold-status.safe { color: #248A3D; }
+        .threshold-status.caution { color: #C93400; }
+        .threshold-status.over { color: #D70015; }
+        .threshold-note {
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* Tips box */
+        .tips-box {
+            background: rgba(10, 132, 255, 0.06);
+            border: 1px solid rgba(10, 132, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: 20px 24px;
+            margin-bottom: 32px;
+        }
+        .tips-box h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .tips-box p {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--color-primary), #5AC8FA);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        .cta-box h2 { color: white; margin-bottom: 12px; font-size: 1.5rem; }
+        .cta-box p { color: rgba(255,255,255,0.9); margin-bottom: 24px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .cta-box .btn-white {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: white; color: var(--color-primary);
+            padding: 14px 28px; border-radius: var(--radius-xl);
+            font-weight: 600; font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-box .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); color: var(--color-primary); }
+
+        /* Related Links */
+        .related-section h2 { text-align: left; font-size: 1.5rem; margin-bottom: 16px; }
+        .related-links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 32px; }
+        .related-link { background: var(--color-bg-secondary); padding: 20px; border-radius: var(--radius-md); transition: transform 0.2s; }
+        .related-link:hover { transform: translateY(-2px); }
+        .related-link h4 { margin-bottom: 4px; }
+        .related-link h4 a { color: var(--color-text); }
+        .related-link h4 a:hover { color: var(--color-primary); }
+        .related-link p { color: var(--color-text-secondary); font-size: 0.8125rem; margin: 0; }
+
+        @media (max-width: 768px) {
+            .state-row-inputs, .trip-dates, .state-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 600px) {
+            .related-links { grid-template-columns: 1fr; }
+            .calc-section { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/days-in-state/" class="nav-logo">
+                <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/tools/">Tools</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
+                <a href="/days-in-state/support.html">Support</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/days-in-state/">Home</a><span>&rsaquo;</span><a href="/days-in-state/tools/">Tools</a><span>&rsaquo;</span>Snowbird Day Calculator
+    </div>
+
+    <div class="tool-page">
+        <h1>Snowbird Day Calculator</h1>
+        <p class="tool-meta">Free tool &bull; Built for snowbirds &bull; No data stored or sent anywhere</p>
+
+        <!-- Editorial Content -->
+        <div class="editorial-content">
+            <p>Splitting the year between two states? The number of days you spend in each state directly affects your tax residency status. Many snowbirds accidentally trigger statutory residency in their home state by returning too early in spring or leaving too late in fall.</p>
+
+            <h2>How This Calculator Works</h2>
+            <p>Enter your home state and winter state, then add your travel dates for the year. The calculator shows how many days you spend in each state and flags any threshold crossings. It also shows a visual timeline of your year so you can see the pattern at a glance.</p>
+            <ul>
+                <li><strong>Home state</strong> &mdash; where you start and end the year (your primary residence)</li>
+                <li><strong>Winter state</strong> &mdash; where you spend your winter months (e.g., Florida, Arizona)</li>
+                <li><strong>Travel days</strong> &mdash; the days you depart and arrive are each counted in both states</li>
+            </ul>
+        </div>
+
+        <!-- Calculator -->
+        <div class="calc-section">
+            <h2>Enter Your Snowbird Schedule</h2>
+            <p class="calc-subtitle">Tell us your two states and when you travel between them.</p>
+
+            <div class="state-row-inputs">
+                <div class="calc-field">
+                    <label for="homeState">Home State (Primary Residence)</label>
+                    <select id="homeState"></select>
+                </div>
+                <div class="calc-field">
+                    <label for="winterState">Winter State</label>
+                    <select id="winterState"></select>
+                </div>
+            </div>
+
+            <div class="trip-block">
+                <h3><span class="trip-emoji">✈️</span> Fall Departure (Home &rarr; Winter)</h3>
+                <div class="trip-dates">
+                    <div class="calc-field">
+                        <label for="departDate">Departure Date</label>
+                        <input type="date" id="departDate">
+                        <span class="field-hint">The day you leave your home state</span>
+                    </div>
+                    <div class="calc-field">
+                        <label for="arriveWinter">Arrival at Winter State</label>
+                        <input type="date" id="arriveWinter">
+                        <span class="field-hint">The day you arrive (same day if flying)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="trip-block">
+                <h3><span class="trip-emoji">🏠</span> Spring Return (Winter &rarr; Home)</h3>
+                <div class="trip-dates">
+                    <div class="calc-field">
+                        <label for="departWinter">Departure from Winter State</label>
+                        <input type="date" id="departWinter">
+                        <span class="field-hint">The day you leave your winter state</span>
+                    </div>
+                    <div class="calc-field">
+                        <label for="returnDate">Return Home Date</label>
+                        <input type="date" id="returnDate">
+                        <span class="field-hint">The day you arrive back home</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="extra-trips" id="extraTrips"></div>
+            <button class="btn-add-trip" id="btnAddTrip">+ Add Another Trip (e.g., summer vacation)</button>
+
+            <div style="margin-top: 20px">
+                <button class="btn-calculate" id="btnCalculate">Calculate Days</button>
+            </div>
+            <div class="error-msg" id="calcError"></div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-section" id="resultsSection">
+            <h2>Your Snowbird Day Count</h2>
+
+            <div class="year-bar-container">
+                <div class="year-bar-label">
+                    <span>Jan 1</span>
+                    <span>Dec 31</span>
+                </div>
+                <div class="year-bar" id="yearBar"></div>
+                <div class="year-legend" id="yearLegend"></div>
+            </div>
+
+            <div class="state-cards" id="stateCards"></div>
+
+            <div class="tips-box" id="tipsBox"></div>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="cta-box">
+            <h2>Track Your Days Automatically</h2>
+            <p>Stop guessing. Days in State uses GPS to know exactly which state you're in each day. Perfect for snowbirds who need audit-proof documentation.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="btn-white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download for iOS
+            </a>
+        </div>
+
+        <!-- Below-Tool Editorial -->
+        <div class="editorial-content">
+            <h2>The Snowbird Day-Counting Trap</h2>
+            <p>Most snowbirds assume their schedule keeps them safely below their home state's threshold. But day counting is trickier than it appears:</p>
+            <ul>
+                <li><strong>Travel days count.</strong> Driving from New York to Florida over two days means those two days count in both states (one departure day in NY, one arrival day in FL, plus any overnight stops).</li>
+                <li><strong>Short trips back count.</strong> Flying home for a grandchild's birthday or a medical appointment? Those days count in your home state. They add up fast.</li>
+                <li><strong>Spring and fall add up.</strong> Leaving October 31 and returning April 30 still gives you 212 days in your home state (Jan 1-Oct 31 + Apr 30-Dec 31) — well over 183.</li>
+                <li><strong>Weekends matter.</strong> A weekend trip to visit friends in another state counts even if it's just Saturday and Sunday.</li>
+            </ul>
+
+            <h2>Safe Snowbird Strategies</h2>
+            <ul>
+                <li><strong>Depart early, return late.</strong> Leave your home state by mid-October and don't return until May. This creates a wider buffer.</li>
+                <li><strong>Minimize return trips.</strong> Every day back in your home state adds to your count. Consolidate visits when possible.</li>
+                <li><strong>Document everything.</strong> Keep records of travel dates, flights, and hotel stays. The <a href="/days-in-state/#download">Days in State app</a> does this automatically.</li>
+                <li><strong>Consider domicile change.</strong> If you spend more time in your winter state, formally changing your domicile may be the right move. See our <a href="/days-in-state/blog/snowbird-tax-guide/">Snowbird Tax Guide</a> for a full checklist.</li>
+            </ul>
+
+            <p><em>This tool provides estimates for educational purposes only. It is not tax advice. Travel days, partial days, and state-specific counting rules may affect your actual day count. Always consult a qualified tax professional.</em></p>
+        </div>
+
+        <!-- Related -->
+        <div class="related-section">
+            <h2>Related Tools &amp; Resources</h2>
+            <div class="related-links">
+                <div class="related-link">
+                    <h4><a href="/days-in-state/blog/snowbird-tax-guide/">Snowbird Tax Guide</a></h4>
+                    <p>Day counting traps, safe harbor strategies, and the Florida domicile checklist.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/tools/183-day-threshold-tracker/">183-Day Threshold Tracker</a></h4>
+                    <p>Visual gauge showing how close you are to the statutory residency threshold.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/tools/state-residency-rules-lookup/">Residency Rules Lookup</a></h4>
+                    <p>Check the specific threshold and abode requirements for your home state.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/blog/states-with-no-income-tax/">States With No Income Tax</a></h4>
+                    <p>The 9 no-tax states, what they charge instead, and how to relocate correctly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/days-in-state/#features">Features</a>
+                    <a href="/days-in-state/#pricing">Pricing</a>
+                    <a href="/days-in-state/#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/days-in-state/tools/">Free Tools</a>
+                    <a href="/days-in-state/blog/">Tax Guides</a>
+                    <a href="/days-in-state/support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/days-in-state/privacy.html">Privacy Policy</a>
+                    <a href="/days-in-state/terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    var stateThresholds = {
+        "Alabama": 213, "Alaska": null, "Arizona": 270, "Arkansas": null, "California": 270,
+        "Colorado": 183, "Connecticut": 183, "Delaware": 183, "Florida": null, "Georgia": 183,
+        "Hawaii": 200, "Idaho": 270, "Illinois": 183, "Indiana": 183, "Iowa": 183,
+        "Kansas": null, "Kentucky": 183, "Louisiana": 183, "Maine": 183, "Maryland": 183,
+        "Massachusetts": 183, "Michigan": 183, "Minnesota": 183, "Mississippi": null,
+        "Missouri": 183, "Montana": null, "Nebraska": 183, "Nevada": null, "New Hampshire": null,
+        "New Jersey": 183, "New Mexico": 185, "New York": 183, "North Carolina": 183,
+        "North Dakota": 210, "Ohio": 183, "Oklahoma": null, "Oregon": 200, "Pennsylvania": 183,
+        "Rhode Island": 183, "South Carolina": null, "South Dakota": null, "Tennessee": null,
+        "Texas": null, "Utah": 183, "Vermont": 183, "Virginia": 183, "Washington": null,
+        "West Virginia": 183, "Wisconsin": 183, "Wyoming": null
+    };
+    var noTaxStates = ["Alaska","Florida","Nevada","New Hampshire","South Dakota","Tennessee","Texas","Washington","Wyoming"];
+
+    var stateNames = Object.keys(stateThresholds).sort();
+    function buildOptions(defaultVal) {
+        var html = '<option value="">Select a state...</option>';
+        stateNames.forEach(function(s) { html += '<option value="' + s + '">' + s + '</option>'; });
+        return html;
+    }
+    document.getElementById('homeState').innerHTML = buildOptions();
+    document.getElementById('winterState').innerHTML = buildOptions();
+    // Default popular choices
+    document.getElementById('homeState').value = 'New York';
+    document.getElementById('winterState').value = 'Florida';
+
+    // Default dates for current year
+    var yr = new Date().getFullYear();
+    document.getElementById('departDate').value = yr + '-11-01';
+    document.getElementById('arriveWinter').value = yr + '-11-01';
+    document.getElementById('departWinter').value = yr + '-04-15';
+    document.getElementById('returnDate').value = yr + '-04-15';
+
+    var extraTripId = 0;
+    document.getElementById('btnAddTrip').addEventListener('click', function() {
+        extraTripId++;
+        var div = document.createElement('div');
+        div.className = 'trip-block';
+        div.id = 'extra-' + extraTripId;
+        div.innerHTML =
+            '<h3><span class="trip-emoji">🗓️</span> Additional Trip <button class="btn-remove-trip" data-id="' + extraTripId + '">&times;</button></h3>' +
+            '<div class="trip-dates">' +
+                '<div class="calc-field"><label>Leave Home</label><input type="date" class="ex-depart"></div>' +
+                '<div class="calc-field"><label>Return Home</label><input type="date" class="ex-return"></div>' +
+            '</div>' +
+            '<div class="calc-field" style="margin-top:12px"><label>Destination State</label>' +
+                '<select class="ex-state">' + buildOptions() + '</select>' +
+            '</div>';
+        document.getElementById('extraTrips').appendChild(div);
+    });
+    document.getElementById('extraTrips').addEventListener('click', function(e) {
+        if (e.target.classList.contains('btn-remove-trip')) {
+            var el = document.getElementById('extra-' + e.target.dataset.id);
+            if (el) el.remove();
+        }
+    });
+
+    function daysBetweenInclusive(a, b) {
+        return Math.round((b - a) / (1000*60*60*24)) + 1;
+    }
+
+    function daysInYear(y) {
+        return ((y % 4 === 0 && y % 100 !== 0) || y % 400 === 0) ? 366 : 365;
+    }
+
+    function dateToDayNum(d) {
+        var jan1 = new Date(d.getFullYear(), 0, 1);
+        return Math.round((d - jan1) / (1000*60*60*24)) + 1;
+    }
+
+    function calculate() {
+        var err = document.getElementById('calcError');
+        var home = document.getElementById('homeState').value;
+        var winter = document.getElementById('winterState').value;
+        if (!home || !winter) { err.textContent = 'Please select both states.'; err.classList.add('visible'); return; }
+        if (home === winter) { err.textContent = 'Home and winter states must be different.'; err.classList.add('visible'); return; }
+
+        var depart = document.getElementById('departDate').value;
+        var arriveW = document.getElementById('arriveWinter').value;
+        var departW = document.getElementById('departWinter').value;
+        var returnH = document.getElementById('returnDate').value;
+        if (!depart || !arriveW || !departW || !returnH) {
+            err.textContent = 'Please fill in all travel dates.'; err.classList.add('visible'); return;
+        }
+        err.classList.remove('visible');
+
+        var dDepart = new Date(depart + 'T00:00:00');
+        var dArriveW = new Date(arriveW + 'T00:00:00');
+        var dDepartW = new Date(departW + 'T00:00:00');
+        var dReturnH = new Date(returnH + 'T00:00:00');
+        var year = dDepart.getFullYear();
+        var totalDays = daysInYear(year);
+        var jan1 = new Date(year, 0, 1);
+        var dec31 = new Date(year, 11, 31);
+
+        // Calculate home and winter days
+        // Home: Jan 1 → day before departure + return date → Dec 31
+        var homeDays = daysBetweenInclusive(jan1, dDepart) + daysBetweenInclusive(dReturnH, dec31);
+
+        // Winter: arrival → day before departure from winter
+        var winterDays = daysBetweenInclusive(dArriveW, dDepartW);
+
+        // Travel days (between departure and arrival, if multi-day)
+        var travelOut = daysBetweenInclusive(dDepart, dArriveW) - 1; // minus the endpoints
+        var travelBack = daysBetweenInclusive(dDepartW, dReturnH) - 1;
+        if (travelOut < 0) travelOut = 0;
+        if (travelBack < 0) travelBack = 0;
+
+        // Extra trips: subtract from home, add to destination
+        var extraBlocks = document.querySelectorAll('.extra-trips .trip-block');
+        extraBlocks.forEach(function(block) {
+            var exDepart = block.querySelector('.ex-depart').value;
+            var exReturn = block.querySelector('.ex-return').value;
+            var exState = block.querySelector('.ex-state').value;
+            if (exDepart && exReturn && exState) {
+                var d1 = new Date(exDepart + 'T00:00:00');
+                var d2 = new Date(exReturn + 'T00:00:00');
+                if (d2 >= d1) {
+                    var tripDays = daysBetweenInclusive(d1, d2);
+                    homeDays -= tripDays;
+                    // If the extra trip is to the winter state, add to winter
+                    if (exState === winter) winterDays += tripDays;
+                }
+            }
+        });
+
+        if (homeDays < 0) homeDays = 0;
+
+        // Thresholds
+        var homeThreshold = stateThresholds[home];
+        var winterThreshold = stateThresholds[winter];
+        var homeNoTax = noTaxStates.indexOf(home) >= 0;
+        var winterNoTax = noTaxStates.indexOf(winter) >= 0;
+
+        // Year bar visualization
+        var segments = [];
+        var homeStart1 = 1;
+        var homeEnd1 = dateToDayNum(dDepart);
+        var travelOut1 = homeEnd1 + 1;
+        var travelOut2 = dateToDayNum(dArriveW) - 1;
+        var winterStart = dateToDayNum(dArriveW);
+        var winterEnd = dateToDayNum(dDepartW);
+        var travelBack1 = winterEnd + 1;
+        var travelBack2 = dateToDayNum(dReturnH) - 1;
+        var homeStart2 = dateToDayNum(dReturnH);
+        var homeEnd2 = totalDays;
+
+        segments.push({ start: homeStart1, end: homeEnd1, type: 'home', label: home });
+        if (travelOut2 >= travelOut1) segments.push({ start: travelOut1, end: travelOut2, type: 'travel', label: 'Travel' });
+        segments.push({ start: winterStart, end: winterEnd, type: 'winter', label: winter });
+        if (travelBack2 >= travelBack1) segments.push({ start: travelBack1, end: travelBack2, type: 'travel', label: 'Travel' });
+        segments.push({ start: homeStart2, end: homeEnd2, type: 'home', label: home });
+
+        var barHTML = '';
+        segments.forEach(function(seg) {
+            var width = ((seg.end - seg.start + 1) / totalDays) * 100;
+            if (width < 0.5) return;
+            var lbl = width > 8 ? seg.label : '';
+            barHTML += '<div class="year-segment ' + seg.type + '" style="width:' + width + '%">' + lbl + '</div>';
+        });
+        document.getElementById('yearBar').innerHTML = barHTML;
+        document.getElementById('yearLegend').innerHTML =
+            '<div class="legend-item"><div class="legend-dot home"></div>' + home + ' (' + homeDays + ' days)</div>' +
+            '<div class="legend-item"><div class="legend-dot winter"></div>' + winter + ' (' + winterDays + ' days)</div>' +
+            (travelOut + travelBack > 0 ? '<div class="legend-item"><div class="legend-dot travel"></div>Travel (' + (travelOut + travelBack) + ' days)</div>' : '');
+
+        // State cards
+        function renderCard(name, days, threshold, isNoTax, tagClass, tagLabel) {
+            var pct = 0, status = 'safe', statusText = '', note = '';
+            if (isNoTax) {
+                statusText = 'No income tax — no threshold to worry about';
+                note = name + ' has no state income tax.';
+            } else if (threshold === null) {
+                statusText = 'Domicile-based — no day threshold';
+                note = 'Residency determined by intent, not day count.';
+            } else {
+                pct = Math.min((days / threshold) * 100, 100);
+                var remaining = threshold - days;
+                if (days > threshold) {
+                    status = 'over';
+                    statusText = 'Over threshold by ' + (days - threshold) + ' days';
+                } else if (remaining <= 30) {
+                    status = 'caution';
+                    statusText = remaining + ' days remaining — approaching threshold';
+                } else {
+                    statusText = remaining + ' days remaining (threshold: ' + threshold + ')';
+                }
+                note = 'Threshold: ' + threshold + ' days';
+            }
+            var cardClass = 'state-card' + (status === 'over' ? ' danger' : status === 'caution' ? ' warning' : '');
+            var progressHTML = threshold !== null && !isNoTax ?
+                '<div class="progress-bar"><div class="progress-fill ' + status + '" style="width:' + pct + '%"></div></div>' : '';
+
+            return '<div class="' + cardClass + '">' +
+                '<h3>' + name + ' <span class="card-tag ' + tagClass + '">' + tagLabel + '</span></h3>' +
+                '<div class="day-count">' + days + '</div>' +
+                '<div class="day-label">days in ' + year + '</div>' +
+                progressHTML +
+                '<div class="threshold-status ' + status + '">' + statusText + '</div>' +
+                '<div class="threshold-note">' + note + '</div>' +
+                '</div>';
+        }
+
+        document.getElementById('stateCards').innerHTML =
+            renderCard(home, homeDays, homeThreshold, homeNoTax, 'home-tag', 'Home') +
+            renderCard(winter, winterDays, winterThreshold, winterNoTax, 'winter-tag', 'Winter');
+
+        // Tips
+        var tips = '';
+        if (homeThreshold !== null && !homeNoTax) {
+            var homeRemaining = homeThreshold - homeDays;
+            if (homeDays > homeThreshold) {
+                tips = '<h3>Warning: Home State Threshold Exceeded</h3><p>You are spending <strong>' + homeDays + ' days</strong> in ' + home + ', which exceeds the ' + homeThreshold + '-day threshold by ' + (homeDays - homeThreshold) + ' days. Consider departing earlier in the fall or returning later in the spring. Every day you shift saves a day on both sides.</p>';
+            } else if (homeRemaining <= 30) {
+                tips = '<h3>Caution: Close to Home State Threshold</h3><p>You have only <strong>' + homeRemaining + ' days</strong> of margin before hitting ' + home + '\'s ' + homeThreshold + '-day threshold. Factor in any short return trips (holidays, medical appointments) that would add days. Consider a 10-15 day safety buffer.</p>';
+            } else {
+                tips = '<h3>Your Schedule Looks Good</h3><p>You\'re <strong>' + homeRemaining + ' days</strong> below ' + home + '\'s statutory residency threshold. Remember to account for any additional return trips during the year. For maximum safety, aim to stay at least 15 days below the threshold.</p>';
+            }
+        } else if (homeNoTax) {
+            tips = '<h3>Your Home State Has No Income Tax</h3><p>' + home + ' has no state income tax, so there\'s no day-count threshold to worry about from your home state. However, make sure you\'re maintaining proper domicile documentation in ' + home + ' if you want to claim it as your tax home.</p>';
+        } else {
+            tips = '<h3>Domicile-Based Home State</h3><p>' + home + ' uses domicile-based residency with no specific day threshold. Your residency is determined by intent and connections. Consult a tax professional about your specific situation.</p>';
+        }
+        document.getElementById('tipsBox').innerHTML = tips;
+
+        document.getElementById('resultsSection').classList.add('visible');
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    document.getElementById('btnCalculate').addEventListener('click', calculate);
+    document.querySelectorAll('.calc-section input, .calc-section select').forEach(function(el) {
+        el.addEventListener('keydown', function(e) { if (e.key === 'Enter') { e.preventDefault(); calculate(); } });
+    });
+    </script>
+
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>
