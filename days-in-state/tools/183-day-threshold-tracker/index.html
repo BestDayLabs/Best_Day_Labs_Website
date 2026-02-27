@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>183-Day Threshold Tracker (2026) - How Close Are You to Statutory Residency?</title>
+    <meta name="description" content="Free 183-day threshold tracker. Enter your state and days spent so far to see how close you are to triggering statutory residency. Visual gauge, pace projections, and safe day budgets.">
+    <meta name="keywords" content="183 day rule tracker, statutory residency tracker, state tax day counter, 183 day threshold, days remaining calculator, residency threshold gauge">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://daysinstate.app/tools/183-day-threshold-tracker/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="183-Day Threshold Tracker (2026) - Are You Getting Close?">
+    <meta property="og:description" content="Track how close you are to the 183-day statutory residency threshold. Visual gauge and pace projections.">
+    <meta property="og:url" content="https://daysinstate.app/tools/183-day-threshold-tracker/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://daysinstate.app/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="183-Day Threshold Tracker (2026)">
+    <meta name="twitter:description" content="Track how close you are to the 183-day statutory residency threshold. Visual gauge and pace projections.">
+    <meta name="twitter:image" content="https://daysinstate.app/assets/og-image.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+    <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "183-Day Threshold Tracker",
+      "description": "Track how close you are to the 183-day statutory residency threshold in any state. Visual gauge with pace projections.",
+      "url": "https://daysinstate.app/tools/183-day-threshold-tracker/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "Best Day Labs",
+        "url": "https://daysinstate.app"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What happens when I hit 183 days in a state?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In most states with a 183-day rule, exceeding 183 days while maintaining a permanent place of abode triggers statutory residency. This means the state can tax you on your entire income for the year, even if your domicile is elsewhere. The exact threshold and requirements vary by state."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I calculate my safe number of days remaining?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Subtract your current day count from your state's threshold (typically 183). For safety, subtract an additional buffer of 10-15 days to account for travel days you may have forgotten or miscounted. If you've spent 120 days in a 183-day state, you have 63 days remaining — but a safe budget would be 48-53 days."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the 183-day count reset each year?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "In most states, yes — the 183-day count is based on the calendar year (January 1 through December 31). However, Georgia uses a rolling 365-day period, and some states may count differently. Always verify your specific state's counting period."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is 'pace' in the threshold tracker?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pace refers to the projected total days you'll spend in a state by year-end if you continue at the same rate. For example, if you've spent 60 days in a state through the first 90 days of the year, your pace is 243 days (60/90 × 365). If your pace exceeds the threshold, you need to slow down your visits."
+          }
+        }
+      ]
+    }
+    </script>
+    <style>
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 80px auto 0;
+            padding: 16px 24px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .breadcrumb a { color: var(--color-primary); }
+        .breadcrumb span { margin: 0 8px; }
+
+        .tool-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        .tool-page h1 {
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        }
+        .tool-meta {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 32px;
+        }
+        .editorial-content {
+            max-width: 800px;
+            margin-bottom: 48px;
+        }
+        .editorial-content h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin: 32px 0 12px;
+        }
+        .editorial-content p {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .editorial-content ul {
+            color: var(--color-text-secondary);
+            margin: 0 0 16px 24px;
+            line-height: 1.7;
+        }
+        .editorial-content li { margin-bottom: 8px; }
+
+        /* Calculator */
+        .calc-section {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin-bottom: 32px;
+        }
+        .calc-section h2 {
+            text-align: left;
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+        }
+        .calc-form {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+            align-items: end;
+        }
+        .calc-field label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--color-text-secondary);
+            margin-bottom: 6px;
+        }
+        .calc-field input,
+        .calc-field select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+        }
+        .calc-field input:focus,
+        .calc-field select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+        }
+        .calc-field .field-hint {
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+        .btn-calculate {
+            padding: 12px 28px;
+            background: var(--color-text);
+            color: var(--color-bg);
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            transition: background 0.2s, transform 0.2s;
+        }
+        .btn-calculate:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+        .error-msg {
+            color: var(--color-error);
+            font-size: 0.875rem;
+            margin-top: 12px;
+            display: none;
+        }
+        .error-msg.visible { display: block; }
+
+        /* Results */
+        .results-section {
+            display: none;
+            margin-bottom: 48px;
+        }
+        .results-section.visible { display: block; }
+        .results-section > h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+        }
+
+        /* Gauge */
+        .gauge-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .gauge-wrapper {
+            position: relative;
+            width: 280px;
+            height: 160px;
+        }
+        .gauge-svg {
+            width: 100%;
+            height: 100%;
+        }
+        .gauge-bg {
+            fill: none;
+            stroke: var(--color-bg-tertiary);
+            stroke-width: 20;
+            stroke-linecap: round;
+        }
+        .gauge-fill {
+            fill: none;
+            stroke-width: 20;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s ease, stroke 0.3s;
+        }
+        .gauge-center {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .gauge-days {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+        .gauge-of {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .gauge-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 12px;
+            font-size: 0.75rem;
+            color: var(--color-text-tertiary);
+            margin-top: -4px;
+        }
+
+        /* Status banner */
+        .status-banner {
+            text-align: center;
+            padding: 16px 24px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
+            font-weight: 600;
+            font-size: 1.0625rem;
+        }
+        .status-banner.safe {
+            background: rgba(52, 199, 89, 0.1);
+            color: #248A3D;
+            border: 1px solid rgba(52, 199, 89, 0.3);
+        }
+        .status-banner.caution {
+            background: rgba(255, 149, 0, 0.1);
+            color: #C93400;
+            border: 1px solid rgba(255, 149, 0, 0.3);
+        }
+        .status-banner.danger {
+            background: rgba(255, 59, 48, 0.1);
+            color: #D70015;
+            border: 1px solid rgba(255, 59, 48, 0.3);
+        }
+        .status-banner .status-sub {
+            font-weight: 400;
+            font-size: 0.875rem;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--color-text-secondary);
+            margin-top: 4px;
+        }
+        .stat-value.safe { color: #248A3D; }
+        .stat-value.caution { color: #C93400; }
+        .stat-value.danger { color: #D70015; }
+
+        /* Month budget */
+        .budget-section {
+            margin-bottom: 24px;
+        }
+        .budget-section h3 {
+            font-size: 1.125rem;
+            margin-bottom: 12px;
+        }
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        .month-cell {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-sm);
+            padding: 10px 8px;
+            text-align: center;
+            font-size: 0.8125rem;
+        }
+        .month-cell .month-name {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .month-cell .month-budget {
+            font-size: 1.125rem;
+            font-weight: 700;
+        }
+        .month-cell .month-label {
+            font-size: 0.625rem;
+            color: var(--color-text-tertiary);
+        }
+        .month-cell.past {
+            opacity: 0.5;
+        }
+        .month-cell.over .month-budget {
+            color: var(--color-error);
+        }
+
+        /* State info */
+        .state-info-bar {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        .state-info-bar strong { color: var(--color-text); }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--color-primary), #5AC8FA);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        .cta-box h2 {
+            color: white;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+        .cta-box p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-box .btn-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--color-primary);
+            padding: 14px 28px;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-box .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            color: var(--color-primary);
+        }
+
+        /* Related Links */
+        .related-section h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .related-link {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            transition: transform 0.2s;
+        }
+        .related-link:hover { transform: translateY(-2px); }
+        .related-link h4 { margin-bottom: 4px; }
+        .related-link h4 a { color: var(--color-text); }
+        .related-link h4 a:hover { color: var(--color-primary); }
+        .related-link p {
+            color: var(--color-text-secondary);
+            font-size: 0.8125rem;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .calc-form {
+                grid-template-columns: 1fr;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .month-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .related-links { grid-template-columns: 1fr; }
+            .calc-section { padding: 20px; }
+            .month-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .state-info-bar {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/days-in-state/" class="nav-logo">
+                <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/tools/">Tools</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
+                <a href="/days-in-state/support.html">Support</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/days-in-state/">Home</a><span>&rsaquo;</span><a href="/days-in-state/tools/">Tools</a><span>&rsaquo;</span>183-Day Threshold Tracker
+    </div>
+
+    <div class="tool-page">
+        <h1>183-Day Threshold Tracker</h1>
+        <p class="tool-meta">Free tool &bull; Updated February 2026 &bull; No data stored or sent anywhere</p>
+
+        <!-- Editorial Content -->
+        <div class="editorial-content">
+            <p>The 183-day rule is the most common statutory residency threshold in the US. Exceed it while maintaining a place of abode, and you may owe state income tax on your entire income &mdash; even if your domicile is elsewhere. This tracker helps you monitor your day count in real time.</p>
+
+            <h2>How This Tracker Works</h2>
+            <p>Select a state, enter how many days you've spent there so far this year, and optionally enter the date through which you've counted. The tracker shows:</p>
+            <ul>
+                <li><strong>Visual gauge</strong> &mdash; a semicircle showing your days against the state's threshold</li>
+                <li><strong>Pace projection</strong> &mdash; at your current rate, how many days will you accumulate by December 31?</li>
+                <li><strong>Safe day budget</strong> &mdash; how many more days you can safely spend in the state, with a 10-day safety buffer</li>
+                <li><strong>Monthly budget</strong> &mdash; how to spread your remaining safe days across the months left in the year</li>
+            </ul>
+        </div>
+
+        <!-- Calculator -->
+        <div class="calc-section">
+            <h2>Track Your Days</h2>
+            <div class="calc-form">
+                <div class="calc-field">
+                    <label for="stateSelect">State</label>
+                    <select id="stateSelect"></select>
+                </div>
+                <div class="calc-field">
+                    <label for="daysSpent">Days Spent So Far</label>
+                    <input type="number" id="daysSpent" min="0" max="366" placeholder="e.g., 85">
+                </div>
+                <div class="calc-field">
+                    <label for="asOfDate">As of Date</label>
+                    <input type="date" id="asOfDate">
+                </div>
+            </div>
+            <button class="btn-calculate" id="btnCalculate">Track Threshold</button>
+            <div class="error-msg" id="calcError"></div>
+        </div>
+
+        <!-- Results -->
+        <div class="results-section" id="resultsSection">
+            <h2 id="resultsTitle">Your Threshold Status</h2>
+
+            <div class="state-info-bar" id="stateInfo"></div>
+
+            <div class="gauge-container">
+                <div class="gauge-wrapper">
+                    <svg class="gauge-svg" viewBox="0 0 280 160">
+                        <path class="gauge-bg" d="M 30 150 A 120 120 0 0 1 250 150" />
+                        <path class="gauge-fill" id="gaugeFill" d="M 30 150 A 120 120 0 0 1 250 150" />
+                    </svg>
+                    <div class="gauge-center">
+                        <div class="gauge-days" id="gaugeDays">0</div>
+                        <div class="gauge-of" id="gaugeOf">of 183 days</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-banner" id="statusBanner"></div>
+
+            <div class="stats-grid" id="statsGrid"></div>
+
+            <div class="budget-section" id="budgetSection">
+                <h3>Monthly Day Budget (Remaining Months)</h3>
+                <div class="month-grid" id="monthGrid"></div>
+            </div>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="cta-box">
+            <h2>Don't Guess Your Day Count</h2>
+            <p>Days in State tracks your location automatically using GPS. Know your exact day count in every state, updated daily.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="btn-white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download for iOS
+            </a>
+        </div>
+
+        <!-- Below-Tool Editorial Content -->
+        <div class="editorial-content">
+            <h2>Understanding the 183-Day Rule</h2>
+            <p>The 183-day threshold is not a single, universal rule &mdash; it's a common number used by roughly 20 states, each with their own nuances. Key things to understand:</p>
+            <ul>
+                <li><strong>183 days is not a safe harbor.</strong> Staying under 183 days doesn't guarantee you won't be taxed. States can still claim you as a domiciliary resident based on your intent and connections, regardless of day count.</li>
+                <li><strong>Most states require an abode too.</strong> In states like New York, Connecticut, and New Jersey, statutory residency requires both 183+ days AND maintaining a permanent place of abode. Without the abode, the day count alone may not trigger residency.</li>
+                <li><strong>"Any part of a day" counts.</strong> In most states, being physically present for any amount of time &mdash; even a few hours &mdash; counts as a full day. A layover, a day trip, or stopping for dinner all count.</li>
+                <li><strong>Not all states use 183.</strong> Hawaii uses 200 days, North Dakota 210, Idaho 270. Some states like California use a factor-based test with a ~9 month guideline. Nine states have no income tax at all. Check your state's specific rules with our <a href="/days-in-state/tools/state-residency-rules-lookup/">State Residency Rules Lookup</a>.</li>
+            </ul>
+
+            <h2>Why a Safety Buffer Matters</h2>
+            <p>This tracker includes a 10-day safety buffer in its "safe remaining days" calculation. Here's why:</p>
+            <ul>
+                <li><strong>Travel days are easy to forget.</strong> A quick day trip, a layover, or a drive through the state all count. If you're not tracking automatically, you've likely undercounted.</li>
+                <li><strong>States count aggressively.</strong> New York counts any part of a day. If you arrive at 11:59 PM, that's one day. Leave at 12:01 AM the next day, that's two days.</li>
+                <li><strong>Auditors have access to data you don't.</strong> Cell phone tower records, credit card swipes, and toll records may show days you don't remember being in the state.</li>
+            </ul>
+
+            <p><em>This tool provides estimates for educational purposes only. It is not tax advice. State tax rules vary and change frequently. Always consult a qualified tax professional for advice about your specific situation.</em></p>
+        </div>
+
+        <!-- Related Tools & Resources -->
+        <div class="related-section">
+            <h2>Related Tools &amp; Resources</h2>
+            <div class="related-links">
+                <div class="related-link">
+                    <h4><a href="/days-in-state/blog/the-183-day-rule-explained/">The 183-Day Rule Explained</a></h4>
+                    <p>Deep dive into which states use the 183-day rule, how days are counted, and exceptions.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/tools/state-residency-day-calculator/">Day Calculator</a></h4>
+                    <p>Enter travel dates to see exact day counts per state compared against thresholds.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/tools/state-residency-rules-lookup/">Residency Rules Lookup</a></h4>
+                    <p>Search day-count thresholds and domicile tests for all 50 states.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/blog/snowbird-tax-guide/">Snowbird Tax Guide</a></h4>
+                    <p>Day counting traps and safe harbor strategies for snowbirds splitting the year.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/days-in-state/#features">Features</a>
+                    <a href="/days-in-state/#pricing">Pricing</a>
+                    <a href="/days-in-state/#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/days-in-state/tools/">Free Tools</a>
+                    <a href="/days-in-state/blog/">Tax Guides</a>
+                    <a href="/days-in-state/support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/days-in-state/privacy.html">Privacy Policy</a>
+                    <a href="/days-in-state/terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // State threshold data
+    var stateData = {
+        "Alabama": { threshold: 213, label: "~7 months (213 days)", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Alaska": { threshold: null, noTax: true },
+        "Arizona": { threshold: 270, label: "9 months (270 days)", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Arkansas": { threshold: null, label: "Domicile only", abode: "N/A", dayDef: "N/A", noTax: false },
+        "California": { threshold: 270, label: "~9 months (factor-based)", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Colorado": { threshold: 183, label: "6 months (183 days)", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Connecticut": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Delaware": { threshold: 183, label: "183 days", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Florida": { threshold: null, noTax: true },
+        "Georgia": { threshold: 183, label: "183 days (rolling 365)", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Hawaii": { threshold: 200, label: "200 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Idaho": { threshold: 270, label: "270 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Illinois": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Indiana": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Iowa": { threshold: 183, label: "183 days", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Kansas": { threshold: null, label: "Domicile only", noTax: false },
+        "Kentucky": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Louisiana": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Maine": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Maryland": { threshold: 183, label: "183 days", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Massachusetts": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Michigan": { threshold: 183, label: "183 days", abode: "No", dayDef: "Any part of day", noTax: false },
+        "Minnesota": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Mississippi": { threshold: null, label: "Domicile only", noTax: false },
+        "Missouri": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Montana": { threshold: null, label: "Domicile only", noTax: false },
+        "Nebraska": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Nevada": { threshold: null, noTax: true },
+        "New Hampshire": { threshold: null, noTax: true },
+        "New Jersey": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "New Mexico": { threshold: 185, label: "185 days", abode: "No", dayDef: "Full 24-hour days", noTax: false },
+        "New York": { threshold: 183, label: "183 days", abode: "Yes (11+ months)", dayDef: "Any part of day", noTax: false },
+        "North Carolina": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "North Dakota": { threshold: 210, label: "210 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Ohio": { threshold: 183, label: "183 contact periods", abode: "Yes", dayDef: "Contact periods", noTax: false },
+        "Oklahoma": { threshold: null, label: "Domicile only", noTax: false },
+        "Oregon": { threshold: 200, label: "200 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Pennsylvania": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Rhode Island": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "South Carolina": { threshold: null, label: "Domicile only", noTax: false },
+        "South Dakota": { threshold: null, noTax: true },
+        "Tennessee": { threshold: null, noTax: true },
+        "Texas": { threshold: null, noTax: true },
+        "Utah": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Vermont": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Virginia": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Washington": { threshold: null, noTax: true },
+        "West Virginia": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Wisconsin": { threshold: 183, label: "183 days", abode: "Yes", dayDef: "Any part of day", noTax: false },
+        "Wyoming": { threshold: null, noTax: true }
+    };
+
+    var SAFETY_BUFFER = 10;
+    var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    // Populate dropdown
+    var sel = document.getElementById('stateSelect');
+    sel.innerHTML = '<option value="">Select a state...</option>';
+    Object.keys(stateData).sort().forEach(function(name) {
+        sel.innerHTML += '<option value="' + name + '">' + name + '</option>';
+    });
+
+    // Default "as of" to today
+    var today = new Date();
+    var todayStr = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0') + '-' + String(today.getDate()).padStart(2,'0');
+    document.getElementById('asOfDate').value = todayStr;
+
+    function dayOfYear(date) {
+        var start = new Date(date.getFullYear(), 0, 0);
+        var diff = date - start;
+        return Math.floor(diff / (1000 * 60 * 60 * 24));
+    }
+
+    function daysInYear(year) {
+        return ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0) ? 366 : 365;
+    }
+
+    function calculate() {
+        var errorEl = document.getElementById('calcError');
+        var stateName = document.getElementById('stateSelect').value;
+        var daysVal = document.getElementById('daysSpent').value;
+        var asOf = document.getElementById('asOfDate').value;
+
+        if (!stateName) {
+            errorEl.textContent = 'Please select a state.';
+            errorEl.classList.add('visible');
+            return;
+        }
+        if (!daysVal || parseInt(daysVal) < 0) {
+            errorEl.textContent = 'Please enter a valid number of days.';
+            errorEl.classList.add('visible');
+            return;
+        }
+        errorEl.classList.remove('visible');
+
+        var info = stateData[stateName];
+        var days = parseInt(daysVal);
+        var asOfDate = asOf ? new Date(asOf + 'T00:00:00') : today;
+        var year = asOfDate.getFullYear();
+        var totalDaysInYear = daysInYear(year);
+        var dayNum = dayOfYear(asOfDate);
+        var daysRemaining = totalDaysInYear - dayNum;
+
+        // Handle no-tax and domicile-only states
+        if (info.noTax) {
+            document.getElementById('resultsSection').classList.add('visible');
+            document.getElementById('resultsTitle').textContent = stateName + ' — No Income Tax';
+            document.getElementById('stateInfo').innerHTML = '<strong>' + stateName + '</strong> has no state income tax. There is no day-count threshold to worry about.';
+            document.getElementById('statusBanner').className = 'status-banner safe';
+            document.getElementById('statusBanner').innerHTML = 'No threshold to track<div class="status-sub">' + stateName + ' does not have a state income tax.</div>';
+            document.getElementById('statsGrid').innerHTML = '';
+            document.getElementById('budgetSection').style.display = 'none';
+            // Reset gauge
+            setGauge(0, 183, 'safe');
+            document.getElementById('gaugeDays').textContent = days;
+            document.getElementById('gaugeOf').textContent = 'days (no threshold)';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+
+        if (info.threshold === null) {
+            document.getElementById('resultsSection').classList.add('visible');
+            document.getElementById('resultsTitle').textContent = stateName + ' — Domicile-Based';
+            document.getElementById('stateInfo').innerHTML = '<strong>' + stateName + '</strong> uses a domicile-based residency test. There is no specific day-count threshold. Residency is determined by intent and facts & circumstances.';
+            document.getElementById('statusBanner').className = 'status-banner caution';
+            document.getElementById('statusBanner').innerHTML = 'Domicile-based state &mdash; no day threshold<div class="status-sub">This state determines residency by intent and connections, not day counts. Consult a tax professional.</div>';
+            document.getElementById('statsGrid').innerHTML = '';
+            document.getElementById('budgetSection').style.display = 'none';
+            setGauge(0, 183, 'safe');
+            document.getElementById('gaugeDays').textContent = days;
+            document.getElementById('gaugeOf').textContent = 'days (no threshold)';
+            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+        }
+
+        var threshold = info.threshold;
+        var pct = Math.min(days / threshold, 1);
+        var remaining = threshold - days;
+        var safeRemaining = Math.max(remaining - SAFETY_BUFFER, 0);
+        var pace = dayNum > 0 ? Math.round((days / dayNum) * totalDaysInYear) : 0;
+
+        // Status
+        var status, statusText, statusSub;
+        if (days > threshold) {
+            status = 'danger';
+            statusText = 'Threshold exceeded by ' + (days - threshold) + ' days';
+            statusSub = 'You have exceeded ' + stateName + '\'s ' + threshold + '-day statutory residency threshold.';
+        } else if (remaining <= 30) {
+            status = 'caution';
+            statusText = remaining + ' days remaining &mdash; approaching threshold';
+            statusSub = 'You are within 30 days of ' + stateName + '\'s threshold. Consider limiting visits.';
+        } else if (pace > threshold) {
+            status = 'caution';
+            statusText = 'On pace to exceed threshold';
+            statusSub = 'At your current rate, you\'ll reach ' + pace + ' days by year-end. Slow down your visits.';
+        } else {
+            status = 'safe';
+            statusText = 'Safely below threshold';
+            statusSub = 'You have ' + remaining + ' days remaining (' + safeRemaining + ' with safety buffer).';
+        }
+
+        // Render
+        document.getElementById('resultsSection').classList.add('visible');
+        document.getElementById('resultsTitle').textContent = stateName + ' — Threshold Status';
+        document.getElementById('budgetSection').style.display = '';
+
+        // State info bar
+        var infoHTML = '<span><strong>Threshold:</strong> ' + info.label + '</span>';
+        if (info.abode) infoHTML += '<span><strong>Abode Required:</strong> ' + info.abode + '</span>';
+        if (info.dayDef) infoHTML += '<span><strong>Day Definition:</strong> ' + info.dayDef + '</span>';
+        document.getElementById('stateInfo').innerHTML = infoHTML;
+
+        // Gauge
+        var gaugeColor = status === 'danger' ? '#D70015' : status === 'caution' ? '#C93400' : '#248A3D';
+        setGauge(pct, threshold, gaugeColor);
+        document.getElementById('gaugeDays').textContent = days;
+        document.getElementById('gaugeDays').style.color = gaugeColor;
+        document.getElementById('gaugeOf').textContent = 'of ' + threshold + ' days';
+
+        // Status banner
+        document.getElementById('statusBanner').className = 'status-banner ' + status;
+        document.getElementById('statusBanner').innerHTML = statusText + '<div class="status-sub">' + statusSub + '</div>';
+
+        // Stats grid
+        var paceClass = pace > threshold ? 'danger' : pace > threshold - 30 ? 'caution' : 'safe';
+        var remainClass = remaining <= 0 ? 'danger' : remaining <= 30 ? 'caution' : 'safe';
+        document.getElementById('statsGrid').innerHTML =
+            '<div class="stat-card"><div class="stat-value">' + days + '</div><div class="stat-label">Days Spent</div></div>' +
+            '<div class="stat-card"><div class="stat-value ' + remainClass + '">' + Math.max(remaining, 0) + '</div><div class="stat-label">Days Remaining</div></div>' +
+            '<div class="stat-card"><div class="stat-value ' + paceClass + '">' + pace + '</div><div class="stat-label">Projected Year-End</div></div>' +
+            '<div class="stat-card"><div class="stat-value">' + safeRemaining + '</div><div class="stat-label">Safe Budget (with buffer)</div></div>';
+
+        // Monthly budget
+        var currentMonth = asOfDate.getMonth(); // 0-indexed
+        var monthsLeft = 11 - currentMonth; // months after current
+        var perMonth = monthsLeft > 0 ? Math.floor(safeRemaining / monthsLeft) : 0;
+        var gridHTML = '';
+        for (var m = 0; m < 12; m++) {
+            var isPast = m < currentMonth;
+            var isCurrent = m === currentMonth;
+            var budget = isPast ? '—' : (isCurrent ? 'now' : (safeRemaining <= 0 ? '0' : perMonth));
+            var cellClass = 'month-cell' + (isPast ? ' past' : '') + (safeRemaining <= 0 && !isPast && !isCurrent ? ' over' : '');
+            gridHTML += '<div class="' + cellClass + '">' +
+                '<div class="month-name">' + monthNames[m] + '</div>' +
+                '<div class="month-budget">' + budget + '</div>' +
+                '<div class="month-label">' + (isPast ? 'past' : isCurrent ? 'tracking' : 'days/mo') + '</div>' +
+                '</div>';
+        }
+        document.getElementById('monthGrid').innerHTML = gridHTML;
+
+        document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function setGauge(pct, threshold, color) {
+        var fill = document.getElementById('gaugeFill');
+        // Arc path length for the semicircle
+        var radius = 120;
+        var circumference = Math.PI * radius; // ~377
+        var offset = circumference * (1 - Math.min(pct, 1));
+        fill.style.strokeDasharray = circumference;
+        fill.style.strokeDashoffset = offset;
+        fill.style.stroke = color;
+    }
+
+    // Event listeners
+    document.getElementById('btnCalculate').addEventListener('click', calculate);
+    document.querySelectorAll('.calc-section input, .calc-section select').forEach(function(el) {
+        el.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') { e.preventDefault(); calculate(); }
+        });
+    });
+    </script>
+
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>
