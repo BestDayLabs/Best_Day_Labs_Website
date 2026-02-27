@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free State Residency Audit Risk Assessment - Days in State</title>
+    <meta name="description" content="Answer 10 questions about your multi-state situation and get a personalized residency audit risk score. Free tool from Days in State.">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://www.bestdaylabs.com/days-in-state/tools/audit-risk-assessment/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free Residency Audit Risk Assessment - Days in State">
+    <meta property="og:description" content="Answer 10 questions about your multi-state situation and get a personalized residency audit risk score.">
+    <meta property="og:url" content="https://www.bestdaylabs.com/days-in-state/tools/audit-risk-assessment/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://www.bestdaylabs.com/days-in-state/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free Residency Audit Risk Assessment - Days in State">
+    <meta name="twitter:description" content="Answer 10 questions and get your personalized residency audit risk score.">
+    <meta name="twitter:image" content="https://www.bestdaylabs.com/days-in-state/assets/og-image.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+    <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+    <style>
+        .tool-hero {
+            padding: 140px 24px 60px;
+            text-align: center;
+            background: var(--color-bg-secondary);
+        }
+        .tool-hero h1 { margin-bottom: 16px; }
+        .tool-hero p {
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .tool-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 24px 80px;
+        }
+
+        /* Progress bar */
+        .progress-bar {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-xl);
+            height: 8px;
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--color-primary);
+            border-radius: var(--radius-xl);
+            transition: width 0.4s ease;
+        }
+        .progress-label {
+            font-size: 0.875rem;
+            color: var(--color-text-tertiary);
+            margin-bottom: 8px;
+            text-align: right;
+        }
+
+        /* Question card */
+        .question-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .question-number {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .question-help {
+            font-size: 0.875rem;
+            color: var(--color-text-tertiary);
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        /* Answer options */
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: var(--color-bg);
+        }
+        .answer-option:hover {
+            border-color: var(--color-primary);
+            background: rgba(10, 132, 255, 0.04);
+        }
+        .answer-option.selected {
+            border-color: var(--color-primary);
+            background: rgba(10, 132, 255, 0.08);
+        }
+        .answer-radio {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--color-border);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        .answer-option.selected .answer-radio {
+            border-color: var(--color-primary);
+            background: var(--color-primary);
+        }
+        .answer-radio-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: white;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .answer-option.selected .answer-radio-dot {
+            opacity: 1;
+        }
+        .answer-label {
+            font-size: 0.9375rem;
+            font-weight: 500;
+        }
+
+        /* Navigation buttons */
+        .question-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            gap: 12px;
+        }
+        .nav-btn {
+            padding: 12px 28px;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 0.9375rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .nav-btn.back {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-secondary);
+        }
+        .nav-btn.back:hover { background: var(--color-border); }
+        .nav-btn.next {
+            background: var(--color-primary);
+            color: white;
+            margin-left: auto;
+        }
+        .nav-btn.next:hover { filter: brightness(1.1); }
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Results */
+        .results-container {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Score gauge */
+        .score-gauge {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .gauge-svg {
+            width: 220px;
+            height: 130px;
+        }
+        .gauge-label {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .gauge-sublabel {
+            font-size: 0.875rem;
+            color: var(--color-text-tertiary);
+            margin-top: 4px;
+        }
+
+        /* Risk level cards */
+        .risk-summary {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .risk-summary h2 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        .risk-summary p {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            font-size: 0.9375rem;
+        }
+
+        /* Factor breakdown */
+        .factors-section {
+            margin-bottom: 24px;
+        }
+        .factors-section h3 {
+            font-size: 1.0625rem;
+            margin-bottom: 16px;
+        }
+        .factor-item {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .factor-name {
+            font-weight: 600;
+            font-size: 0.9375rem;
+        }
+        .factor-impact {
+            font-size: 0.8125rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: var(--radius-xl);
+        }
+        .factor-impact.high {
+            background: rgba(255, 59, 48, 0.1);
+            color: #FF3B30;
+        }
+        .factor-impact.medium {
+            background: rgba(255, 149, 0, 0.1);
+            color: #FF9500;
+        }
+        .factor-impact.low {
+            background: rgba(52, 199, 89, 0.1);
+            color: #34C759;
+        }
+        .factor-detail {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Recommendations */
+        .recommendations {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 24px;
+        }
+        .recommendations h3 {
+            font-size: 1.0625rem;
+            margin-bottom: 16px;
+        }
+        .rec-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            align-items: flex-start;
+        }
+        .rec-icon {
+            font-size: 1.125rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .rec-text {
+            font-size: 0.9375rem;
+            color: var(--color-text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Results actions */
+        .results-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .results-actions .nav-btn {
+            flex: 1;
+            text-align: center;
+        }
+
+        /* Disclaimer */
+        .tool-disclaimer {
+            font-size: 0.8125rem;
+            color: var(--color-text-tertiary);
+            text-align: center;
+            margin-top: 40px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 600px) {
+            .question-card { padding: 24px 20px; }
+            .question-text { font-size: 1.125rem; }
+            .results-actions { flex-direction: column; }
+        }
+    </style>
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "State Residency Audit Risk Assessment",
+        "description": "Answer 10 questions about your multi-state situation and get a personalized residency audit risk score with actionable recommendations.",
+        "url": "https://www.bestdaylabs.com/days-in-state/tools/audit-risk-assessment/",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Days in State",
+            "url": "https://daysinstate.app"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What triggers a state residency audit?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common triggers include: claiming domicile change from a high-tax to no-tax state, high income (over $500K), maintaining a home in the prior state, exceeding the 183-day threshold, inconsistent documentation (driver's license, voter registration), and filing a part-year return after years of full-year residency."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Which states are most aggressive with residency audits?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "New York is by far the most aggressive, with a dedicated residency audit unit. California, New Jersey, Connecticut, and Illinois also actively audit residents who claim to have moved to no-tax states. These high-tax states have the most revenue to lose from outbound migration."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How can I reduce my residency audit risk?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Key steps include: track your days in each state with GPS-verified records, sell or rent out your home in the prior state, update all documents (driver's license, voter registration, vehicle registration) to the new state, file a Declaration of Domicile if available, and keep your day count in the prior state well below 183 days."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/days-in-state/" class="nav-logo">
+                <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/tools/">Tools</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
+                <a href="/days-in-state/support.html">Support</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="tool-hero">
+        <h1>Residency Audit Risk Assessment</h1>
+        <p>Answer 10 questions about your multi-state situation and get a personalized audit risk score with actionable recommendations.</p>
+    </div>
+
+    <div class="tool-container">
+        <!-- Quiz Section -->
+        <div id="quizSection">
+            <div class="progress-label" id="progressLabel">Question 1 of 10</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 10%"></div>
+            </div>
+            <div class="question-card" id="questionCard">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Results Section (hidden initially) -->
+        <div id="resultsSection" style="display: none" class="results-container">
+            <!-- Populated by JS -->
+        </div>
+
+        <p class="tool-disclaimer">This assessment is for educational purposes only and does not constitute tax or legal advice. Audit risk depends on many factors not captured here. Consult a qualified tax professional for guidance specific to your situation.</p>
+    </div>
+
+    <!-- CTA -->
+    <section class="download">
+        <div class="container">
+            <h2>Track Your Days Automatically</h2>
+            <p class="section-subtitle">The #1 way to reduce audit risk is accurate day tracking. Days in State uses GPS to create a verifiable record of your state presence.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="app-store-badge">
+                <img src="../../assets/app-store-badge.svg" alt="Download on the App Store">
+            </a>
+            <p class="download-note">Requires iOS 17.0 or later. iPhone only.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/days-in-state/#features">Features</a>
+                    <a href="/days-in-state/#pricing">Pricing</a>
+                    <a href="/days-in-state/#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/days-in-state/tools/">Free Tools</a>
+                    <a href="/days-in-state/blog/">Tax Guides</a>
+                    <a href="/days-in-state/support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/days-in-state/privacy.html">Privacy Policy</a>
+                    <a href="/days-in-state/terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // Mobile nav toggle
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+
+    // ── Questions ──
+    const questions = [
+        {
+            id: 'prior_state',
+            text: 'What state are you leaving (or recently left)?',
+            help: 'The state you previously called home or are changing domicile from.',
+            options: [
+                { label: 'New York', value: 'ny', points: 10 },
+                { label: 'California', value: 'ca', points: 9 },
+                { label: 'New Jersey', value: 'nj', points: 7 },
+                { label: 'Connecticut or Illinois', value: 'ct_il', points: 6 },
+                { label: 'Other high-tax state (MN, OR, MA, etc.)', value: 'other_high', points: 4 },
+                { label: 'Low-tax or no-tax state', value: 'low', points: 1 }
+            ],
+            factor: 'Prior State Aggressiveness'
+        },
+        {
+            id: 'income_level',
+            text: 'What is your approximate annual income?',
+            help: 'Higher income makes you a more valuable audit target for states.',
+            options: [
+                { label: 'Over $1 million', value: '1m', points: 10 },
+                { label: '$500,000 – $1 million', value: '500k', points: 8 },
+                { label: '$250,000 – $500,000', value: '250k', points: 5 },
+                { label: '$100,000 – $250,000', value: '100k', points: 3 },
+                { label: 'Under $100,000', value: 'under100k', points: 1 }
+            ],
+            factor: 'Income Level'
+        },
+        {
+            id: 'home_in_prior',
+            text: 'Do you still own or rent a home in your prior state?',
+            help: 'Maintaining a permanent place of abode is a key audit trigger — especially in New York.',
+            options: [
+                { label: 'Yes, I own a home there and it\'s furnished', value: 'own_furnished', points: 10 },
+                { label: 'Yes, I rent a place there', value: 'rent', points: 7 },
+                { label: 'Family member lives there (I have access)', value: 'family', points: 5 },
+                { label: 'No, I sold/terminated my lease', value: 'none', points: 1 }
+            ],
+            factor: 'Home in Prior State'
+        },
+        {
+            id: 'days_in_prior',
+            text: 'How many days per year do you spend in your prior state?',
+            help: 'The 183-day statutory residency threshold is a critical line. Even below it, high day counts increase scrutiny.',
+            options: [
+                { label: 'More than 183 days', value: 'over183', points: 10 },
+                { label: '150 – 183 days', value: '150_183', points: 8 },
+                { label: '100 – 149 days', value: '100_149', points: 5 },
+                { label: '50 – 99 days', value: '50_99', points: 3 },
+                { label: 'Under 50 days', value: 'under50', points: 1 }
+            ],
+            factor: 'Days in Prior State'
+        },
+        {
+            id: 'documents_updated',
+            text: 'Have you updated your key documents to the new state?',
+            help: 'Driver\'s license, voter registration, vehicle registration, and bank addresses.',
+            options: [
+                { label: 'All updated (license, voter, vehicle, banks)', value: 'all', points: 1 },
+                { label: 'Most updated (2-3 of the above)', value: 'most', points: 3 },
+                { label: 'Only driver\'s license', value: 'license_only', points: 6 },
+                { label: 'Nothing updated yet', value: 'none', points: 9 }
+            ],
+            factor: 'Document Updates'
+        },
+        {
+            id: 'new_state_type',
+            text: 'What type of state are you moving to?',
+            help: 'Moves to no-tax states attract more scrutiny because the tax savings motive is obvious.',
+            options: [
+                { label: 'No income tax (FL, TX, NV, WY, SD, etc.)', value: 'no_tax', points: 8 },
+                { label: 'Low income tax (under 5%)', value: 'low_tax', points: 4 },
+                { label: 'Another high-tax state', value: 'high_tax', points: 1 }
+            ],
+            factor: 'Destination State'
+        },
+        {
+            id: 'business_ties',
+            text: 'Do you have active business ties in your prior state?',
+            help: 'Employer location, business ownership, clients, or professional licenses in the prior state.',
+            options: [
+                { label: 'My employer / business is headquartered there', value: 'hq', points: 8 },
+                { label: 'I have clients or a professional license there', value: 'clients', points: 5 },
+                { label: 'I work fully remote, no ties there', value: 'remote', points: 2 },
+                { label: 'My work has no connection to that state', value: 'none', points: 1 }
+            ],
+            factor: 'Business Ties'
+        },
+        {
+            id: 'family_ties',
+            text: 'Do you have close family in your prior state?',
+            help: 'Spouse, children in school, or elderly parents you visit regularly — auditors consider "near and dear" ties.',
+            options: [
+                { label: 'Spouse or children remain there', value: 'spouse_kids', points: 9 },
+                { label: 'Close family I visit regularly', value: 'close_family', points: 5 },
+                { label: 'Extended family (occasional visits)', value: 'extended', points: 2 },
+                { label: 'No close family there', value: 'none', points: 1 }
+            ],
+            factor: 'Family Ties'
+        },
+        {
+            id: 'tracking_method',
+            text: 'How do you track your days in each state?',
+            help: 'Auditors will ask for proof of where you were every day of the year. Your tracking method matters.',
+            options: [
+                { label: 'GPS-based automatic tracking (e.g., Days in State)', value: 'gps', points: 1 },
+                { label: 'Manual calendar or spreadsheet', value: 'manual', points: 4 },
+                { label: 'Credit card / flight records (reconstructed)', value: 'reconstructed', points: 6 },
+                { label: 'I don\'t track my days', value: 'none', points: 9 }
+            ],
+            factor: 'Day Tracking Method'
+        },
+        {
+            id: 'filing_change',
+            text: 'How are you filing your state tax return this year?',
+            help: 'The transition year (first year claiming non-resident status) gets the most attention.',
+            options: [
+                { label: 'First year filing as non-resident (just moved)', value: 'first_year', points: 8 },
+                { label: 'Part-year resident return (mid-year move)', value: 'part_year', points: 6 },
+                { label: '2nd or 3rd year as non-resident', value: 'recent', points: 4 },
+                { label: '4+ years as non-resident (well established)', value: 'established', points: 1 }
+            ],
+            factor: 'Filing Status Change'
+        }
+    ];
+
+    let currentQuestion = 0;
+    let answers = {};
+
+    // ── Render Question ──
+    function renderQuestion() {
+        const q = questions[currentQuestion];
+        const selected = answers[q.id];
+
+        document.getElementById('progressLabel').textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
+        document.getElementById('progressFill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+
+        let html = `
+            <div class="question-number">Question ${currentQuestion + 1}</div>
+            <div class="question-text">${q.text}</div>
+            <div class="question-help">${q.help}</div>
+            <div class="answer-options">
+        `;
+
+        q.options.forEach((opt, i) => {
+            const isSelected = selected === i;
+            html += `
+                <div class="answer-option ${isSelected ? 'selected' : ''}" onclick="selectAnswer(${i})">
+                    <div class="answer-radio">
+                        <div class="answer-radio-dot"></div>
+                    </div>
+                    <div class="answer-label">${opt.label}</div>
+                </div>
+            `;
+        });
+
+        html += `</div>
+            <div class="question-nav">
+                ${currentQuestion > 0 ? '<button class="nav-btn back" onclick="prevQuestion()">Back</button>' : '<div></div>'}
+                <button class="nav-btn next" id="nextBtn" onclick="nextQuestion()" ${selected === undefined ? 'disabled' : ''}>
+                    ${currentQuestion === questions.length - 1 ? 'See Results' : 'Next'}
+                </button>
+            </div>
+        `;
+
+        document.getElementById('questionCard').innerHTML = html;
+    }
+
+    function selectAnswer(index) {
+        const q = questions[currentQuestion];
+        answers[q.id] = index;
+        renderQuestion();
+    }
+
+    function nextQuestion() {
+        if (answers[questions[currentQuestion].id] === undefined) return;
+        if (currentQuestion < questions.length - 1) {
+            currentQuestion++;
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function prevQuestion() {
+        if (currentQuestion > 0) {
+            currentQuestion--;
+            renderQuestion();
+        }
+    }
+
+    // ── Calculate & Show Results ──
+    function showResults() {
+        document.getElementById('quizSection').style.display = 'none';
+        document.getElementById('resultsSection').style.display = 'block';
+
+        // Calculate score
+        let totalPoints = 0;
+        let maxPoints = 0;
+        const factors = [];
+
+        questions.forEach(q => {
+            const answerIndex = answers[q.id];
+            const option = q.options[answerIndex];
+            totalPoints += option.points;
+            const maxQ = Math.max(...q.options.map(o => o.points));
+            maxPoints += maxQ;
+
+            let impact = 'low';
+            const ratio = option.points / maxQ;
+            if (ratio >= 0.7) impact = 'high';
+            else if (ratio >= 0.4) impact = 'medium';
+
+            factors.push({
+                name: q.factor,
+                points: option.points,
+                maxPoints: maxQ,
+                impact: impact,
+                answer: option.label,
+                detail: getFactorDetail(q.id, option.value)
+            });
+        });
+
+        // Normalize to 0-100
+        const score = Math.round((totalPoints / maxPoints) * 100);
+
+        // Risk level
+        let riskLevel, riskColor, riskDescription;
+        if (score >= 75) {
+            riskLevel = 'High Risk';
+            riskColor = '#FF3B30';
+            riskDescription = 'Your situation has several characteristics that commonly trigger state residency audits. The combination of your prior state, income level, and current ties creates significant audit exposure. We strongly recommend consulting a tax professional who specializes in state residency matters and taking immediate steps to strengthen your documentation.';
+        } else if (score >= 50) {
+            riskLevel = 'Moderate Risk';
+            riskColor = '#FF9500';
+            riskDescription = 'Your situation has some audit risk factors that deserve attention. While not in the highest-risk category, there are specific areas where you can reduce your exposure. Focus on the high-impact factors identified below, and consider consulting a tax professional to review your domicile change.';
+        } else if (score >= 25) {
+            riskLevel = 'Low-Moderate Risk';
+            riskColor = '#5AC8FA';
+            riskDescription = 'Your situation has relatively few audit triggers. You\'re in a reasonable position, but there are still areas for improvement. Focus on maintaining good documentation and keeping your day count in the prior state well under any thresholds.';
+        } else {
+            riskLevel = 'Low Risk';
+            riskColor = '#34C759';
+            riskDescription = 'Your situation has minimal audit risk factors. You\'ve taken the right steps to establish clear residency in your new state. Continue maintaining good records and keeping your documentation current.';
+        }
+
+        // Build gauge SVG
+        const gaugeAngle = (score / 100) * 180;
+        const gaugeX = 110 + 85 * Math.cos((180 - gaugeAngle) * Math.PI / 180);
+        const gaugeY = 110 - 85 * Math.sin((180 - gaugeAngle) * Math.PI / 180);
+        const largeArc = gaugeAngle > 180 ? 1 : 0;
+
+        // Build recommendations
+        const recommendations = getRecommendations(answers, factors);
+
+        // Sort factors by impact
+        const sortOrder = { high: 0, medium: 1, low: 2 };
+        factors.sort((a, b) => sortOrder[a.impact] - sortOrder[b.impact]);
+
+        let html = `
+            <div class="score-gauge">
+                <svg class="gauge-svg" viewBox="0 0 220 130">
+                    <!-- Background arc -->
+                    <path d="M 20 110 A 90 90 0 0 1 200 110" fill="none" stroke="#E5E5EA" stroke-width="14" stroke-linecap="round"/>
+                    <!-- Score arc -->
+                    <path d="M 20 110 A 90 90 0 ${largeArc} 1 ${gaugeX.toFixed(1)} ${gaugeY.toFixed(1)}" fill="none" stroke="${riskColor}" stroke-width="14" stroke-linecap="round"/>
+                    <!-- Score text -->
+                    <text x="110" y="100" text-anchor="middle" font-size="36" font-weight="800" fill="${riskColor}">${score}</text>
+                    <text x="110" y="118" text-anchor="middle" font-size="11" fill="#8E8E93">out of 100</text>
+                    <!-- Min/max labels -->
+                    <text x="18" y="128" text-anchor="middle" font-size="10" fill="#8E8E93">0</text>
+                    <text x="202" y="128" text-anchor="middle" font-size="10" fill="#8E8E93">100</text>
+                </svg>
+                <div class="gauge-label" style="color: ${riskColor}">${riskLevel}</div>
+                <div class="gauge-sublabel">Residency Audit Risk Score</div>
+            </div>
+
+            <div class="risk-summary">
+                <h2>Your Assessment</h2>
+                <p>${riskDescription}</p>
+            </div>
+
+            <div class="factors-section">
+                <h3>Risk Factor Breakdown</h3>
+                ${factors.map(f => `
+                    <div class="factor-item">
+                        <div class="factor-header">
+                            <span class="factor-name">${f.name}</span>
+                            <span class="factor-impact ${f.impact}">${f.impact.charAt(0).toUpperCase() + f.impact.slice(1)} Impact</span>
+                        </div>
+                        <div class="factor-detail">${f.detail}</div>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div class="recommendations">
+                <h3>Recommended Actions</h3>
+                ${recommendations.map(r => `
+                    <div class="rec-item">
+                        <span class="rec-icon">${r.icon}</span>
+                        <span class="rec-text">${r.text}</span>
+                    </div>
+                `).join('')}
+            </div>
+
+            <div class="results-actions">
+                <button class="nav-btn back" onclick="retakeQuiz()">Retake Assessment</button>
+                <a href="/days-in-state/tools/" class="nav-btn next" style="text-decoration:none;display:flex;align-items:center;justify-content:center;">Explore More Tools</a>
+            </div>
+        `;
+
+        document.getElementById('resultsSection').innerHTML = html;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function retakeQuiz() {
+        answers = {};
+        currentQuestion = 0;
+        document.getElementById('quizSection').style.display = 'block';
+        document.getElementById('resultsSection').style.display = 'none';
+        renderQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── Factor Details ──
+    function getFactorDetail(questionId, value) {
+        const details = {
+            prior_state: {
+                ny: 'New York has a dedicated residency audit unit and is the most aggressive state for auditing departing residents. They audit thousands of high-income individuals annually.',
+                ca: 'California\'s Franchise Tax Board actively pursues former residents. They use a multifactor "closest connections" test that goes well beyond day counting.',
+                nj: 'New Jersey audits departing residents, particularly those moving to nearby no-tax states. They share data with New York for cross-border audits.',
+                ct_il: 'Connecticut and Illinois both actively audit high-income residents who claim to have moved. Connecticut is especially aggressive with nearby moves.',
+                other_high: 'Your prior state does conduct residency audits but is less aggressive than New York or California. Risk is still meaningful for high-income individuals.',
+                low: 'Your prior state is unlikely to aggressively audit departing residents. Low-tax and no-tax states have less revenue incentive to pursue former residents.'
+            },
+            income_level: {
+                '1m': 'At this income level, you are a prime audit target. States prioritize high-income audits because the revenue recovery justifies the audit cost.',
+                '500k': 'This income level puts you in the range where state audit programs actively screen for residency changes. You are a worthwhile target for auditors.',
+                '250k': 'Moderate audit target. You\'re above the threshold where many states begin evaluating residency change cases.',
+                '100k': 'Lower audit priority, but not immune — especially from New York, which audits across a broader income range than other states.',
+                under100k: 'At this income level, the cost of an audit typically exceeds the potential tax recovery, making you a low-priority target.'
+            },
+            home_in_prior: {
+                own_furnished: 'This is the single biggest audit trigger. A furnished home you have access to constitutes a "permanent place of abode" — a key element of New York\'s statutory residency test.',
+                rent: 'A rental you maintain counts as a permanent place of abode. Even if you rarely use it, having the lease creates audit exposure.',
+                family: 'Having access to a family member\'s home can count as a "permanent place of abode" in some states (notably New York). The test is whether the home is available to you.',
+                none: 'Eliminating your home in the prior state is one of the strongest steps you can take. This removes the "permanent place of abode" factor.'
+            },
+            days_in_prior: {
+                over183: 'Exceeding 183 days triggers statutory residency in most states, regardless of your claimed domicile. This alone can make you a tax resident.',
+                '150_183': 'You\'re dangerously close to the 183-day threshold. A miscounted travel day or partial day could push you over. States scrutinize taxpayers in this range.',
+                '100_149': 'Under the statutory threshold but high enough to draw attention. States may argue "domicile" rather than "statutory residency" if you have other ties.',
+                '50_99': 'A reasonable day count that suggests you\'ve genuinely moved. Some audit risk remains if combined with strong ties (home, family, business).',
+                under50: 'Minimal day count in the prior state. This strongly supports your domicile change and makes statutory residency claims impossible.'
+            },
+            documents_updated: {
+                all: 'Excellent. Updating all key documents is one of the strongest indicators of genuine domicile change. Auditors check these first.',
+                most: 'Good progress, but incomplete document updates leave gaps that auditors will notice. Complete the remaining items promptly.',
+                license_only: 'A driver\'s license alone is not sufficient. Auditors view this as a minimal effort that doesn\'t demonstrate genuine domicile intent.',
+                none: 'This is a significant red flag. Failing to update documents suggests you haven\'t truly committed to the domicile change, or that the move is temporary.'
+            },
+            new_state_type: {
+                no_tax: 'Moves to no-tax states are scrutinized because the tax-avoidance motive is clear. You need especially strong documentation to prove the move is genuine.',
+                low_tax: 'Less suspicious than a no-tax state move, but auditors still note the tax savings motive. Documentation remains important.',
+                high_tax: 'Moves between high-tax states attract less scrutiny because there\'s no obvious tax avoidance motive.'
+            },
+            business_ties: {
+                hq: 'Having your employer or business headquartered in the prior state is a strong tie. States argue this means your "center of economic activity" remains there.',
+                clients: 'Professional ties like clients or licenses connect you to the prior state. Consider whether you can shift these to your new state.',
+                remote: 'Fully remote work with no prior-state ties is favorable. Document your remote work arrangement clearly.',
+                none: 'No business connection to the prior state. This supports your domicile change.'
+            },
+            family_ties: {
+                spouse_kids: 'Having a spouse or children in the prior state is one of the strongest "near and dear" ties. Auditors weigh this heavily in domicile determinations.',
+                close_family: 'Regular visits to close family create a pattern that auditors note. The frequency and duration of visits matter.',
+                extended: 'Extended family with occasional visits is a minor factor. Unlikely to drive an audit on its own.',
+                none: 'No close family ties to the prior state. This supports your domicile change.'
+            },
+            tracking_method: {
+                gps: 'GPS-based tracking provides the strongest evidence for day counting. Automated, objective, and difficult to dispute.',
+                manual: 'Manual tracking is accepted but can be challenged. Ensure entries are contemporaneous (logged daily, not reconstructed later).',
+                reconstructed: 'Reconstructed records from credit cards and flights have gaps — they don\'t capture driving trips or days with no transactions. Auditors know this.',
+                none: 'Not tracking days is a serious gap. If audited, you\'ll need to reconstruct your entire year from receipts, statements, and other records — and auditors will question the accuracy.'
+            },
+            filing_change: {
+                first_year: 'The transition year gets the most scrutiny. This is when states verify whether the domicile change is genuine. Expect higher audit odds.',
+                part_year: 'Part-year returns flag the move to the prior state\'s tax department. They\'ll evaluate whether the move date and facts support the change.',
+                recent: 'Still within the window where the prior state may audit. Most residency audits are initiated within 3 years of the domicile change.',
+                established: 'Well-established non-resident status. After 4+ years, audit risk drops significantly unless you\'ve changed your pattern recently.'
+            }
+        };
+        return details[questionId]?.[value] || '';
+    }
+
+    // ── Recommendations ──
+    function getRecommendations(answers, factors) {
+        const recs = [];
+
+        // High-impact factor recommendations
+        const homeAnswer = questions.find(q => q.id === 'home_in_prior').options[answers.home_in_prior]?.value;
+        if (homeAnswer === 'own_furnished' || homeAnswer === 'rent') {
+            recs.push({
+                icon: '🏠',
+                text: '<strong>Sell or terminate your home in the prior state.</strong> A furnished home available to you is the #1 audit trigger. If you must keep it, rent it out at fair market value with a third-party tenant (not family).'
+            });
+        }
+
+        const docsAnswer = questions.find(q => q.id === 'documents_updated').options[answers.documents_updated]?.value;
+        if (docsAnswer !== 'all') {
+            recs.push({
+                icon: '📋',
+                text: '<strong>Update all key documents immediately.</strong> Get your driver\'s license, voter registration, vehicle registration, and bank/financial account addresses changed to your new state. These are the first things auditors check.'
+            });
+        }
+
+        const daysAnswer = questions.find(q => q.id === 'days_in_prior').options[answers.days_in_prior]?.value;
+        if (daysAnswer === 'over183' || daysAnswer === '150_183') {
+            recs.push({
+                icon: '📅',
+                text: '<strong>Reduce your days in the prior state below 183.</strong> If possible, aim for under 150 to create a comfortable buffer. Track every day carefully — partial days and travel days count in most states.'
+            });
+        }
+
+        const trackingAnswer = questions.find(q => q.id === 'tracking_method').options[answers.tracking_method]?.value;
+        if (trackingAnswer !== 'gps') {
+            recs.push({
+                icon: '📍',
+                text: '<strong>Start GPS-based day tracking.</strong> Apps like <a href="/days-in-state/" style="color:var(--color-primary)">Days in State</a> create an automatic, verifiable record of your state presence every day. This is your strongest audit defense.'
+            });
+        }
+
+        const familyAnswer = questions.find(q => q.id === 'family_ties').options[answers.family_ties]?.value;
+        if (familyAnswer === 'spouse_kids') {
+            recs.push({
+                icon: '👨‍👩‍👧',
+                text: '<strong>Address the split family situation.</strong> If your spouse or children remain in the prior state, this is a strong tie that auditors weigh heavily. Consider whether the family can relocate, or document clear reasons for the arrangement.'
+            });
+        }
+
+        const stateAnswer = questions.find(q => q.id === 'new_state_type').options[answers.new_state_type]?.value;
+        if (stateAnswer === 'no_tax') {
+            recs.push({
+                icon: '📄',
+                text: '<strong>File a Declaration of Domicile</strong> in your new state if available (Florida, Virginia, and others offer this). While not conclusive, it creates a formal record of your intent to establish domicile.'
+            });
+        }
+
+        const incomeAnswer = questions.find(q => q.id === 'income_level').options[answers.income_level]?.value;
+        if (incomeAnswer === '1m' || incomeAnswer === '500k') {
+            recs.push({
+                icon: '💼',
+                text: '<strong>Consult a tax professional specializing in state residency.</strong> At your income level, the stakes justify professional guidance. A specialist can review your specific facts and identify additional steps.'
+            });
+        }
+
+        // Always recommend
+        if (recs.length < 3) {
+            recs.push({
+                icon: '🗂️',
+                text: '<strong>Build your "domicile file."</strong> Keep copies of your new state driver\'s license, voter registration, lease/deed, utility bills, bank statements, club memberships, doctor/dentist in the new state, and any Declaration of Domicile.'
+            });
+        }
+
+        return recs;
+    }
+
+    // Initialize
+    renderQuestion();
+    </script>
+</body>
+</html>
