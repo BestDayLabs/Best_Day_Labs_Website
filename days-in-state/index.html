@@ -5,25 +5,109 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Days in State - Automatic State Presence Tracking for Tax Documentation</title>
     <meta name="description" content="Track which states you visit each day for tax compliance. Automatic GPS detection, privacy-first design, CPA-ready exports.">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://daysinstate.app/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Days in State - Automatic State Presence Tracking">
+    <meta property="og:description" content="Track which states you visit each day for tax compliance. Automatic GPS detection, privacy-first design, CPA-ready exports.">
+    <meta property="og:url" content="https://daysinstate.app/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://daysinstate.app/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Days in State - Automatic State Presence Tracking">
+    <meta name="twitter:description" content="Track which states you visit each day for tax compliance. Automatic GPS detection, privacy-first design, CPA-ready exports.">
+    <meta name="twitter:image" content="https://daysinstate.app/assets/og-image.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-    <link rel="apple-touch-icon" href="assets/app-icon.png">
+    <link rel="apple-touch-icon" href="assets/favicon.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Days in State",
+      "operatingSystem": "iOS 17+",
+      "applicationCategory": "FinanceApplication",
+      "description": "Automatic state presence tracking for multi-state tax compliance. GPS detection, CPA-ready exports, and privacy-first design.",
+      "offers": [
+        {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD",
+          "name": "Free"
+        },
+        {
+          "@type": "Offer",
+          "price": "39.99",
+          "priceCurrency": "USD",
+          "name": "Lifetime Pro"
+        },
+        {
+          "@type": "Offer",
+          "price": "19.99",
+          "priceCurrency": "USD",
+          "name": "Pro Annual"
+        },
+        {
+          "@type": "Offer",
+          "price": "4.99",
+          "priceCurrency": "USD",
+          "name": "Pro Monthly"
+        }
+      ],
+      "author": {
+        "@type": "Organization",
+        "name": "Best Day Labs",
+        "url": "https://daysinstate.app"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Best Day Labs",
+      "url": "https://daysinstate.app",
+      "logo": "https://daysinstate.app/assets/daysinstatesvg.svg",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "support@daysinstate.app",
+        "contactType": "customer support"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Days in State",
+      "url": "https://daysinstate.app",
+      "description": "Automatic state presence tracking for multi-state tax documentation."
+    }
+    </script>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
+            <a href="/days-in-state/" class="nav-logo">
                 <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
                 <span class="logo-text">Days in State</span>
             </a>
-            <div class="nav-links">
+            <div class="nav-links" id="navLinks">
                 <a href="#features">Features</a>
                 <a href="#privacy">Privacy</a>
                 <a href="#pricing">Pricing</a>
                 <a href="support.html">Support</a>
                 <a href="#download" class="nav-cta">Download</a>
             </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -47,38 +131,7 @@
             <p class="hero-note">Requires iOS 17+ • iPhone only</p>
         </div>
         <div class="hero-visual">
-            <div class="phone-mockup">
-                <div class="phone-screen">
-                    <div class="app-preview">
-                        <div class="preview-header">
-                            <span>2026</span>
-                            <span class="current-state">📍 California</span>
-                        </div>
-                        <div class="preview-states">
-                            <div class="state-row">
-                                <span class="state-name">California</span>
-                                <div class="state-bar" style="--width: 45%"></div>
-                                <span class="state-days">164 days</span>
-                            </div>
-                            <div class="state-row">
-                                <span class="state-name">New York</span>
-                                <div class="state-bar" style="--width: 25%"></div>
-                                <span class="state-days">91 days</span>
-                            </div>
-                            <div class="state-row">
-                                <span class="state-name">Texas</span>
-                                <div class="state-bar" style="--width: 15%"></div>
-                                <span class="state-days">55 days</span>
-                            </div>
-                            <div class="state-row">
-                                <span class="state-name">Florida</span>
-                                <div class="state-bar" style="--width: 10%"></div>
-                                <span class="state-days">37 days</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <img src="assets/app-screenshot.png" alt="Days in State app showing dashboard with California at 25 days, New York at 20 days, and United Kingdom at 7 days" class="hero-screenshot">
         </div>
     </section>
 
@@ -325,7 +378,9 @@
                     <a href="#download">Download</a>
                 </div>
                 <div class="footer-links">
-                    <h4>Support</h4>
+                    <h4>Resources</h4>
+                    <a href="tools/">Free Tools</a>
+                    <a href="blog/">Tax Guides</a>
                     <a href="support.html">Help Center</a>
                     <a href="mailto:support@daysinstate.app">Contact Us</a>
                 </div>
@@ -341,5 +396,17 @@
             </div>
         </div>
     </footer>
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
 </body>
 </html>

@@ -5,8 +5,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Support - Days in State</title>
     <meta name="description" content="Get help with Days in State. FAQs, troubleshooting, and contact information.">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://daysinstate.app/support.html">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Support - Days in State">
+    <meta property="og:description" content="Get help with Days in State. FAQs, troubleshooting, and contact information.">
+    <meta property="og:url" content="https://daysinstate.app/support.html">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://daysinstate.app/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Support - Days in State">
+    <meta name="twitter:description" content="Get help with Days in State. FAQs, troubleshooting, and contact information.">
+    <meta name="twitter:image" content="https://daysinstate.app/assets/og-image.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/favicon.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does automatic tracking work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Days in State uses your iPhone's GPS to detect when you cross state lines. The app runs in the background using iOS's significant location change feature, which is battery-efficient and triggers when you move approximately 500 meters. When a state change is detected, a record is created automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this drain my battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Days in State uses iOS's most battery-efficient location monitoring. We don't continuously track your location—we only wake up when iOS detects a significant location change. Most users see no noticeable impact on battery life."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I forget to open the app?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "That's fine! Background tracking works even when the app isn't open. As long as location permissions are enabled, the app will record state changes automatically. You can also manually add entries for any days you might have missed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does iCloud backup work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Days in State is an iPhone-only app, but Pro users can back up their data to iCloud for safety. Open Settings in the app and toggle on iCloud Backup. Your data is backed up automatically. If you lose your phone or get a new one, you can restore all your records with one tap."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is my location data private?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, completely. Your data is stored on your device and, if you enable iCloud backup, in your private iCloud account. We never see, store, or have access to your location data. There are no analytics, no tracking, no servers on our end."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I edit or delete records?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Tap any day in the calendar view to see details and make edits. You can change the state/country, adjust the day type, add context labels, or delete individual records. All changes are logged in the audit trail."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What's the difference between Free and Pro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Free includes automatic state tracking and shows the last 30 days. Pro adds full tax year history, calendar view, CPA-ready exports, accountant sharing, and iCloud backup. Pro is available as a monthly subscription, annual subscription, or one-time lifetime purchase."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I export my data for my CPA?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "With Pro, go to Settings then Export Data. You can generate a CSV file with all your presence records, including dates, locations, day counts, and confidence scores. Share the file directly with your tax professional via email, AirDrop, or any other method."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does confidence score mean?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The confidence score indicates the evidentiary strength of each record: 1.0 (100%) means GPS detected plus user confirmed, 0.9 (90%) means GPS detected automatically, and 0.7 (70%) means manual entry. User-confirmed records carry the most weight for audit defense."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does the app provide tax advice?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Days in State tracks where you were and when—that's it. We do not calculate tax thresholds, determine residency, or provide any tax advice. Always consult a qualified tax professional for tax-related decisions."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I restore my purchase on a new device?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Go to Settings in the app and tap Restore Purchases. Make sure you're signed into the same Apple ID you used for the original purchase. Your Pro subscription or lifetime purchase will be restored automatically."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I cancel my subscription?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Subscriptions are managed through Apple. Open the Settings app on your iPhone, tap your name at the top, tap Subscriptions, find Days in State, and tap Cancel Subscription. You'll continue to have Pro access until the end of your billing period."
+          }
+        }
+      ]
+    }
+    </script>
     <style>
         .support-hero {
             padding: 140px 24px 60px;
@@ -78,17 +198,22 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-container">
-            <a href="/" class="nav-logo">
+            <a href="/days-in-state/" class="nav-logo">
                 <span class="logo-icon"><img src="assets/daysinstatesvg.svg" alt="Days in State"></span>
                 <span class="logo-text">Days in State</span>
             </a>
-            <div class="nav-links">
-                <a href="/#features">Features</a>
-                <a href="/#privacy">Privacy</a>
-                <a href="/#pricing">Pricing</a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/#privacy">Privacy</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
                 <a href="support.html">Support</a>
-                <a href="/#download" class="nav-cta">Download</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
             </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
@@ -227,5 +352,17 @@
             </div>
         </div>
     </footer>
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
 </body>
 </html>

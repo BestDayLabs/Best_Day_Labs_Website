@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State Residency Rules by State (2026) - Day Count Thresholds for All 50 States</title>
+    <meta name="description" content="Look up residency day-count thresholds for all 50 US states. Searchable table with statutory residency rules, domicile tests, abode requirements, and special exceptions. Updated for 2026.">
+    <meta name="keywords" content="state residency rules, 183 day rule, statutory residency, state tax residency requirements, days in state tax, domicile test, state tax thresholds">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://daysinstate.app/tools/state-residency-rules-lookup/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="State Residency Rules by State (2026) - All 50 States">
+    <meta property="og:description" content="Look up residency day-count thresholds for all 50 US states. Searchable reference with statutory residency rules and domicile tests.">
+    <meta property="og:url" content="https://daysinstate.app/tools/state-residency-rules-lookup/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://daysinstate.app/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="State Residency Rules by State (2026) - All 50 States">
+    <meta name="twitter:description" content="Searchable table of residency day-count thresholds for all 50 US states. Updated for 2026.">
+    <meta name="twitter:image" content="https://daysinstate.app/assets/og-image.png">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+    <link rel="apple-touch-icon" href="../../assets/favicon.svg">
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Dataset",
+      "name": "US State Tax Residency Rules (2026)",
+      "description": "Comprehensive dataset of statutory residency day-count thresholds, domicile tests, abode requirements, and special exceptions for all 50 US states.",
+      "url": "https://daysinstate.app/tools/state-residency-rules-lookup/",
+      "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+      "creator": {
+        "@type": "Organization",
+        "name": "Best Day Labs"
+      },
+      "dateModified": "2026-02-26",
+      "temporalCoverage": "2026"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the 183-day rule for state taxes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The 183-day rule is a common threshold used by many states to determine statutory residency. If you spend more than 183 days in a state during a tax year, you may be considered a statutory resident and owe state income tax, even if your domicile is elsewhere. However, most states also require you to maintain a permanent place of abode in the state. The specific rules vary significantly by state."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many states use the 183-day rule?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Approximately 20 states use a 183-day threshold as part of their statutory residency test. However, the 183-day rule alone is rarely sufficient. Most of these states also require that you maintain a permanent place of abode within the state. Nine states have no income tax at all, and the remaining states use domicile-based tests, different day counts, or factor-based analyses."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What counts as a 'day' for state residency purposes?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The definition varies by state. Most states count any part of a day as a full day — meaning even a few hours in the state counts. Some states specifically define it as being present at any time during the day. New York, for example, counts any part of a day spent in the state. A few states may use an overnight test. Always check your specific state's definition."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between domicile and statutory residency?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Domicile is your permanent, primary home — the place you intend to return to. You can only have one domicile at a time. Statutory residency is triggered by spending a certain number of days in a state while maintaining an abode there, regardless of your domicile. You can be a statutory resident of one state while domiciled in another, potentially owing taxes in both."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which states have no income tax?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Nine states have no state income tax: Alaska, Florida, Nevada, New Hampshire (limited to interest and dividends only, phasing out), South Dakota, Tennessee (no tax on wages; investment income tax fully phased out), Texas, Washington, and Wyoming. Residents of these states do not need to worry about state income tax residency thresholds."
+          }
+        }
+      ]
+    }
+    </script>
+    <style>
+        .breadcrumb {
+            max-width: 1000px;
+            margin: 80px auto 0;
+            padding: 16px 24px;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+        }
+        .breadcrumb a { color: var(--color-primary); }
+        .breadcrumb span { margin: 0 8px; }
+
+        .tool-page {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+        .tool-page h1 {
+            text-align: left;
+            margin-bottom: 8px;
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+        }
+        .tool-meta {
+            color: var(--color-text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 32px;
+        }
+        .editorial-content {
+            max-width: 800px;
+            margin-bottom: 48px;
+        }
+        .editorial-content h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin: 32px 0 12px;
+        }
+        .editorial-content p {
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.7;
+        }
+        .editorial-content ul {
+            color: var(--color-text-secondary);
+            margin: 0 0 16px 24px;
+            line-height: 1.7;
+        }
+        .editorial-content li { margin-bottom: 8px; }
+
+        /* Search & Filters */
+        .tool-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+        }
+        .filter-select {
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 0.9375rem;
+            font-family: var(--font-sans);
+            background: var(--color-bg);
+            cursor: pointer;
+        }
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+        }
+        .result-count {
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* Table */
+        .rules-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 48px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+        }
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9375rem;
+        }
+        .rules-table th {
+            background: var(--color-bg-secondary);
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--color-text-secondary);
+            border-bottom: 2px solid var(--color-border);
+            cursor: pointer;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .rules-table th:hover {
+            color: var(--color-text);
+        }
+        .rules-table th .sort-arrow {
+            margin-left: 4px;
+            opacity: 0.4;
+        }
+        .rules-table th.sorted .sort-arrow {
+            opacity: 1;
+            color: var(--color-primary);
+        }
+        .rules-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: top;
+        }
+        .rules-table tr:last-child td {
+            border-bottom: none;
+        }
+        .rules-table tr:hover td {
+            background: rgba(10, 132, 255, 0.04);
+        }
+        .state-name-cell {
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .tag-green {
+            background: rgba(52, 199, 89, 0.15);
+            color: #248A3D;
+        }
+        .tag-blue {
+            background: rgba(10, 132, 255, 0.12);
+            color: #0066CC;
+        }
+        .tag-orange {
+            background: rgba(255, 149, 0, 0.15);
+            color: #C93400;
+        }
+        .tag-gray {
+            background: var(--color-bg-secondary);
+            color: var(--color-text-secondary);
+        }
+        .notes-cell {
+            font-size: 0.8125rem;
+            color: var(--color-text-secondary);
+            max-width: 280px;
+        }
+
+        /* CTA Box */
+        .cta-box {
+            background: linear-gradient(135deg, var(--color-primary), #5AC8FA);
+            color: white;
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin: 48px 0;
+        }
+        .cta-box h2 {
+            color: white;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+        }
+        .cta-box p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 24px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-box .btn-white {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            color: var(--color-primary);
+            padding: 14px 28px;
+            border-radius: var(--radius-xl);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .cta-box .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            color: var(--color-primary);
+        }
+
+        /* Related Links */
+        .related-section h2 {
+            text-align: left;
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+        .related-links {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .related-link {
+            background: var(--color-bg-secondary);
+            padding: 20px;
+            border-radius: var(--radius-md);
+            transition: transform 0.2s;
+        }
+        .related-link:hover {
+            transform: translateY(-2px);
+        }
+        .related-link h4 {
+            margin-bottom: 4px;
+        }
+        .related-link h4 a {
+            color: var(--color-text);
+        }
+        .related-link h4 a:hover {
+            color: var(--color-primary);
+        }
+        .related-link p {
+            color: var(--color-text-secondary);
+            font-size: 0.8125rem;
+            margin: 0;
+        }
+        @media (max-width: 600px) {
+            .related-links { grid-template-columns: 1fr; }
+            .tool-controls { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/days-in-state/" class="nav-logo">
+                <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/tools/">Tools</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
+                <a href="/days-in-state/support.html">Support</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="/days-in-state/">Home</a><span>&rsaquo;</span><a href="/days-in-state/tools/">Tools</a><span>&rsaquo;</span>State Residency Rules Lookup
+    </div>
+
+    <div class="tool-page">
+        <h1>State Tax Residency Rules: All 50 States (2026)</h1>
+        <p class="tool-meta">Last updated February 2026 &bull; Data sourced from state tax departments and statutes</p>
+
+        <!-- Editorial Content Above Tool -->
+        <div class="editorial-content">
+            <p>Every state has its own rules for determining who qualifies as a tax resident. If you split your time between two or more states, understanding these rules is essential to filing your taxes correctly and avoiding an unexpected audit.</p>
+
+            <h2>Why Day Counts Matter for State Taxes</h2>
+            <p>Many states use a <strong>statutory residency test</strong>: if you spend more than a certain number of days in the state (typically 183) while maintaining a place to live there, you can be taxed as a resident even if your permanent home is somewhere else. This means you could owe income tax in <em>two states</em> simultaneously.</p>
+            <p>The rules vary significantly. Some states count any part of a day as a full day. Others require an overnight stay. Some have no day-count test at all, relying entirely on where your "domicile" is. Nine states have no income tax whatsoever.</p>
+
+            <h2>How to Use This Tool</h2>
+            <p>Search for any state by name or abbreviation. Filter by tax type to quickly find no-income-tax states, states with the 183-day threshold, or states with unique rules. Click any column header to sort.</p>
+            <ul>
+                <li><strong>Day Threshold</strong> &mdash; the number of days that triggers statutory residency (if applicable)</li>
+                <li><strong>Abode Required</strong> &mdash; whether you must also maintain a permanent place of abode in the state</li>
+                <li><strong>Day Definition</strong> &mdash; what the state counts as a "day" (any part vs. overnight)</li>
+                <li><strong>Test Type</strong> &mdash; how the state determines residency (domicile, days + abode, or factor-based)</li>
+            </ul>
+        </div>
+
+        <!-- Tool Controls -->
+        <div class="tool-controls">
+            <input type="text" class="search-input" id="stateSearch" placeholder="Search states (e.g., New York, CA, Florida)...">
+            <select class="filter-select" id="taxFilter">
+                <option value="all">All States</option>
+                <option value="no-tax">No Income Tax (9)</option>
+                <option value="183-day">183-Day Threshold</option>
+                <option value="other-threshold">Other Day Threshold</option>
+                <option value="domicile-only">Domicile Only</option>
+            </select>
+        </div>
+        <div class="result-count" id="resultCount">Showing 50 of 50 states</div>
+
+        <!-- Data Table -->
+        <div class="rules-table-wrapper">
+            <table class="rules-table" id="rulesTable">
+                <thead>
+                    <tr>
+                        <th data-sort="state" class="sorted">State <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="threshold">Day Threshold <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="abode">Abode Req. <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="dayDef">Day Definition <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="testType">Test Type <span class="sort-arrow">&#9650;</span></th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+
+        <!-- CTA Box -->
+        <div class="cta-box">
+            <h2>Stop Counting Days Manually</h2>
+            <p>Days in State automatically tracks which states you visit using GPS. Get CPA-ready reports with confidence scores for audit defense.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="btn-white">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                Download for iOS
+            </a>
+        </div>
+
+        <!-- Below-Tool Editorial Content -->
+        <div class="editorial-content">
+            <h2>Key Takeaways: What You Need to Know</h2>
+            <p>The most common mistake people make is assuming the 183-day rule is universal and straightforward. In reality:</p>
+            <ul>
+                <li><strong>The 183-day rule is not a safe harbor.</strong> Spending fewer than 183 days doesn't guarantee you won't be considered a resident. States can still tax you based on domicile.</li>
+                <li><strong>Most states require an abode, not just days.</strong> The statutory residency test typically requires both exceeding the day threshold <em>and</em> maintaining a permanent place of abode in the state.</li>
+                <li><strong>States define "day" differently.</strong> New York counts any part of a day. This means a layover or a day trip counts the same as sleeping in the state overnight.</li>
+                <li><strong>Some states are more aggressive than others.</strong> New York, California, and Connecticut are known for actively auditing residency claims. If you have significant income and split time between states, documentation is critical.</li>
+                <li><strong>Domicile is separate from statutory residency.</strong> You can owe taxes in a state where you're domiciled even if you spend very few days there.</li>
+            </ul>
+
+            <h2>How to Protect Yourself</h2>
+            <p>Whether you're a snowbird splitting time between New York and Florida, a remote worker moving between states, or a digital nomad with no fixed address, <strong>documenting your days is the single most important thing you can do</strong> to protect yourself in a residency audit. The burden of proof is on you.</p>
+            <p>Tax authorities examine cell phone records, credit card transactions, social media posts, flight records, and utility bills to determine where you actually spent your time. Having an automated, GPS-based record of your daily location provides objective evidence that can corroborate (or replace) these other records.</p>
+
+            <p><em>This information is for educational purposes only and is not tax advice. State tax rules change frequently. Always consult a qualified tax professional for advice about your specific situation.</em></p>
+        </div>
+
+        <!-- Related Tools & Resources -->
+        <div class="related-section">
+            <h2>Related Tools &amp; Resources</h2>
+            <div class="related-links">
+                <div class="related-link">
+                    <h4><a href="/days-in-state/tools/">All Free Tools</a></h4>
+                    <p>Day calculators, tax savings estimator, audit risk assessment, and more.</p>
+                </div>
+                <div class="related-link">
+                    <h4><a href="/days-in-state/support.html">FAQ</a></h4>
+                    <p>How automatic tracking works, privacy, exports, and subscription details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="../../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/days-in-state/#features">Features</a>
+                    <a href="/days-in-state/#pricing">Pricing</a>
+                    <a href="/days-in-state/#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/days-in-state/tools/">Free Tools</a>
+                    <a href="/days-in-state/blog/">Tax Guides</a>
+                    <a href="/days-in-state/support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/days-in-state/privacy.html">Privacy Policy</a>
+                    <a href="/days-in-state/terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // State residency rules data — all 50 states
+    var stateData = [
+      { state: "Alabama", abbr: "AL", threshold: "7 months", abode: "Yes", dayDef: "Any part of day", testType: "Domicile / Days", category: "other-threshold", notes: "Presumed resident if present 7+ months (~213 days) OR maintain permanent abode. Does NOT use 183-day rule." },
+      { state: "Alaska", abbr: "AK", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. No residency test needed for tax purposes." },
+      { state: "Arizona", abbr: "AZ", threshold: "9 months", abode: "No", dayDef: "Any part of day", testType: "Domicile / Days", category: "other-threshold", notes: "Presumed resident if present more than 9 months (~270 days). Rebutted by proving domicile and permanent abode elsewhere." },
+      { state: "Arkansas", abbr: "AR", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "Domicile-based only. No explicit day-count threshold. Residency determined by intent and facts & circumstances." },
+      { state: "California", abbr: "CA", threshold: "9 months*", abode: "Yes", dayDef: "Any part of day", testType: "Factor-based", category: "other-threshold", notes: "No strict day-count threshold. 9-month safe harbor: present <9 months + only transitory purpose = nonresident. Uses closest connections test. Aggressive enforcement." },
+      { state: "Colorado", abbr: "CO", threshold: "6 months", abode: "Yes", dayDef: "Any part of day", testType: "Domicile / Days", category: "other-threshold", notes: "Domicile-based. Domiciled if maintained abode for 6+ months; presumed domiciled if present more than 6 months." },
+      { state: "Connecticut", abbr: "CT", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in CT. Known for aggressive audits of NYC commuters." },
+      { state: "Delaware", abbr: "DE", threshold: "183", abode: "No", dayDef: "Any part of day", testType: "Domicile / Days", category: "183-day", notes: "Domicile-based. Resident if domiciled in DE or maintained place of abode and spent 183+ days." },
+      { state: "Florida", abbr: "FL", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. Popular domicile state for snowbirds. Must establish domicile to claim FL residency." },
+      { state: "Georgia", abbr: "GA", threshold: "183", abode: "No", dayDef: "Any part of day", testType: "Days Only", category: "183-day", notes: "183+ days triggers residency with NO abode requirement. Uses rolling 365-day period, not just calendar year. One of the strictest states." },
+      { state: "Hawaii", abbr: "HI", threshold: "200", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "other-threshold", notes: "Presumed resident if present 200+ days. Presumption overcome by showing permanent abode outside HI and temporary purpose." },
+      { state: "Idaho", abbr: "ID", threshold: "270", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "other-threshold", notes: "Statutory resident if 270+ days AND maintain abode for entire year. One of the most lenient day-count thresholds." },
+      { state: "Illinois", abbr: "IL", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in IL." },
+      { state: "Indiana", abbr: "IN", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days in IN with permanent place of abode." },
+      { state: "Iowa", abbr: "IA", threshold: "183", abode: "No", dayDef: "Any part of day", testType: "Domicile / Days", category: "183-day", notes: "Domicile-based. Present 183+ days creates presumption of residency." },
+      { state: "Kansas", abbr: "KS", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "Domicile-based only. No explicit day-count threshold. Residency based on intent and facts & circumstances." },
+      { state: "Kentucky", abbr: "KY", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days and maintains place of abode in KY. Flat tax rate of 3.5% (2026)." },
+      { state: "Louisiana", abbr: "LA", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days and maintains permanent place of abode in LA." },
+      { state: "Maine", abbr: "ME", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days in ME and maintains permanent place of abode." },
+      { state: "Maryland", abbr: "MD", threshold: "183", abode: "No", dayDef: "Any part of day", testType: "Days Only", category: "183-day", notes: "183+ days triggers residency with NO abode requirement. One of the more aggressive states for claiming statutory residency." },
+      { state: "Massachusetts", abbr: "MA", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if domiciled in MA or maintains permanent place of abode and spends 183+ days." },
+      { state: "Michigan", abbr: "MI", threshold: "183", abode: "No", dayDef: "Any part of day", testType: "Domicile / Days", category: "183-day", notes: "Resident if domiciled in MI OR spend 183+ days (no abode required). Reciprocal agreements with IL, IN, KY, MN, OH, WI." },
+      { state: "Minnesota", abbr: "MN", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in MN. Aggressive auditor." },
+      { state: "Mississippi", abbr: "MS", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "No day-count test. Resident if domiciled, maintain abode, or exercise citizenship rights (voter registration, homestead)." },
+      { state: "Missouri", abbr: "MO", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with permanent place of abode in MO." },
+      { state: "Montana", abbr: "MT", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "Domicile-based only. No specific day-count threshold for statutory residency." },
+      { state: "Nebraska", abbr: "NE", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with permanent place of abode in NE." },
+      { state: "Nevada", abbr: "NV", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. Popular domicile state for those leaving California." },
+      { state: "New Hampshire", abbr: "NH", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax*", category: "no-tax", notes: "No tax on earned income. Had limited Interest & Dividends tax, now fully phased out as of 2025." },
+      { state: "New Jersey", abbr: "NJ", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in NJ. Common for NYC commuters." },
+      { state: "New Mexico", abbr: "NM", threshold: "185", abode: "No", dayDef: "Full 24-hour days", testType: "Days Only", category: "other-threshold", notes: "185+ days triggers residency with NO abode requirement. Uniquely counts only full 24-hour days. Days need not be consecutive." },
+      { state: "New York", abbr: "NY", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "183+ days AND abode maintained 11+ months. Most aggressive auditor in the US. Tracks cell phones, credit cards, EZ-Pass." },
+      { state: "North Carolina", abbr: "NC", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with abode in NC. Flat tax rate 3.99% (2026)." },
+      { state: "North Dakota", abbr: "ND", threshold: "210", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "other-threshold", notes: "210+ days AND permanent abode (dwelling with cooking/bathroom). Reciprocal agreements with MN, MT." },
+      { state: "Ohio", abbr: "OH", threshold: "183", abode: "Yes", dayDef: "Contact periods", testType: "Days + Abode", category: "183-day", notes: "Uses 'contact periods' (any part of day = 1 period). 183+ contact periods + abode = presumed domicile. Flat rate 2.75%." },
+      { state: "Oklahoma", abbr: "OK", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "Domicile-based only. Resident if domiciled in OK. No day-count statutory test." },
+      { state: "Oregon", abbr: "OR", threshold: "200", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "other-threshold", notes: "Resident if domiciled in OR. Also: if 200+ days and maintains permanent abode, statutory resident." },
+      { state: "Pennsylvania", abbr: "PA", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in PA. Flat rate 3.07%." },
+      { state: "Rhode Island", abbr: "RI", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with permanent place of abode in RI." },
+      { state: "South Carolina", abbr: "SC", threshold: "None", abode: "N/A", dayDef: "N/A", testType: "Domicile", category: "domicile-only", notes: "Domicile-based only. No day-count threshold. Residency determined by intent and totality of connections." },
+      { state: "South Dakota", abbr: "SD", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. Popular domicile state for digital nomads and full-time RVers." },
+      { state: "Tennessee", abbr: "TN", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No tax on wages or earned income. Hall Tax on investment income fully repealed as of 2021." },
+      { state: "Texas", abbr: "TX", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. Popular domicile state for those relocating from high-tax states." },
+      { state: "Utah", abbr: "UT", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with permanent place of abode in UT. Flat rate 4.55%." },
+      { state: "Vermont", abbr: "VT", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in VT." },
+      { state: "Virginia", abbr: "VA", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if domiciled in VA or maintains place of abode and present 183+ days." },
+      { state: "Washington", abbr: "WA", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax*", category: "no-tax", notes: "No traditional income tax. Has a 7% capital gains tax on gains over $270,000 (upheld 2023)." },
+      { state: "West Virginia", abbr: "WV", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days with permanent place of abode in WV." },
+      { state: "Wisconsin", abbr: "WI", threshold: "183", abode: "Yes", dayDef: "Any part of day", testType: "Days + Abode", category: "183-day", notes: "Statutory resident if 183+ days AND maintains permanent place of abode in WI." },
+      { state: "Wyoming", abbr: "WY", threshold: "N/A", abode: "N/A", dayDef: "N/A", testType: "No Income Tax", category: "no-tax", notes: "No state income tax. No residency test needed for tax purposes." }
+    ];
+
+    var currentSort = { key: 'state', dir: 'asc' };
+
+    function getTagHTML(testType) {
+        if (testType.includes('No Income Tax')) return '<span class="tag tag-green">' + testType + '</span>';
+        if (testType === 'Days + Abode') return '<span class="tag tag-blue">' + testType + '</span>';
+        if (testType.includes('Domicile')) return '<span class="tag tag-orange">' + testType + '</span>';
+        return '<span class="tag tag-gray">' + testType + '</span>';
+    }
+
+    function renderTable(data) {
+        var tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        data.forEach(function(s) {
+            var tr = document.createElement('tr');
+            tr.innerHTML =
+                '<td class="state-name-cell">' + s.state + ' <span style="color:var(--color-text-tertiary)">(' + s.abbr + ')</span></td>' +
+                '<td>' + (s.threshold === 'N/A' ? '<span style="color:var(--color-text-tertiary)">N/A</span>' : '<strong>' + s.threshold + (s.threshold.match(/^\d+$/) ? ' days' : '') + '</strong>') + '</td>' +
+                '<td>' + (s.abode === 'N/A' ? '<span style="color:var(--color-text-tertiary)">N/A</span>' : s.abode) + '</td>' +
+                '<td>' + (s.dayDef === 'N/A' ? '<span style="color:var(--color-text-tertiary)">N/A</span>' : s.dayDef) + '</td>' +
+                '<td>' + getTagHTML(s.testType) + '</td>' +
+                '<td class="notes-cell">' + s.notes + '</td>';
+            tbody.appendChild(tr);
+        });
+        document.getElementById('resultCount').textContent = 'Showing ' + data.length + ' of 50 states';
+    }
+
+    function filterAndSort() {
+        var query = document.getElementById('stateSearch').value.toLowerCase().trim();
+        var filter = document.getElementById('taxFilter').value;
+        var filtered = stateData.filter(function(s) {
+            var matchesSearch = !query ||
+                s.state.toLowerCase().includes(query) ||
+                s.abbr.toLowerCase() === query ||
+                s.notes.toLowerCase().includes(query);
+            var matchesFilter = filter === 'all' || s.category === filter;
+            return matchesSearch && matchesFilter;
+        });
+        filtered.sort(function(a, b) {
+            var key = currentSort.key;
+            var valA, valB;
+            if (key === 'threshold') {
+                valA = a.threshold === 'N/A' ? 999 : (parseInt(a.threshold) || 999);
+                valB = b.threshold === 'N/A' ? 999 : (parseInt(b.threshold) || 999);
+            } else {
+                valA = a[key] || '';
+                valB = b[key] || '';
+            }
+            if (valA < valB) return currentSort.dir === 'asc' ? -1 : 1;
+            if (valA > valB) return currentSort.dir === 'asc' ? 1 : -1;
+            return 0;
+        });
+        renderTable(filtered);
+    }
+
+    document.getElementById('stateSearch').addEventListener('input', filterAndSort);
+    document.getElementById('taxFilter').addEventListener('change', filterAndSort);
+
+    document.querySelectorAll('.rules-table th[data-sort]').forEach(function(th) {
+        th.addEventListener('click', function() {
+            var key = this.dataset.sort;
+            if (currentSort.key === key) {
+                currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort = { key: key, dir: 'asc' };
+            }
+            document.querySelectorAll('.rules-table th').forEach(function(h) { h.classList.remove('sorted'); });
+            this.classList.add('sorted');
+            this.querySelector('.sort-arrow').textContent = currentSort.dir === 'asc' ? '\u25B2' : '\u25BC';
+            filterAndSort();
+        });
+    });
+
+    // Initial render
+    filterAndSort();
+    </script>
+
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>

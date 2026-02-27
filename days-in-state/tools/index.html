@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free State Tax Tools - Days in State</title>
+    <meta name="description" content="Free interactive tools for multi-state tax compliance. State residency rules lookup, day calculators, tax savings estimator, and audit risk assessment.">
+    <meta name="theme-color" content="#0A84FF">
+    <link rel="canonical" href="https://daysinstate.app/tools/">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Free State Tax Tools - Days in State">
+    <meta property="og:description" content="Free interactive tools for multi-state tax compliance. State residency rules lookup, day calculators, and more.">
+    <meta property="og:url" content="https://daysinstate.app/tools/">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://daysinstate.app/assets/og-image.png">
+    <meta property="og:site_name" content="Days in State">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Free State Tax Tools - Days in State">
+    <meta name="twitter:description" content="Free interactive tools for multi-state tax compliance.">
+    <meta name="twitter:image" content="https://daysinstate.app/assets/og-image.png">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+    <link rel="apple-touch-icon" href="../assets/favicon.svg">
+    <style>
+        .tools-hero {
+            padding: 140px 24px 60px;
+            text-align: center;
+            background: var(--color-bg-secondary);
+        }
+        .tools-hero h1 {
+            margin-bottom: 16px;
+        }
+        .tools-hero p {
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .tools-grid {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 24px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        .tool-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+        .tool-card.featured {
+            border: 2px solid var(--color-primary);
+        }
+        .tool-card .tool-badge {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: var(--radius-xl);
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .tool-card .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .tool-card h3 {
+            margin-bottom: 8px;
+        }
+        .tool-card h3 a {
+            color: var(--color-text);
+        }
+        .tool-card h3 a:hover {
+            color: var(--color-primary);
+        }
+        .tool-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.9375rem;
+            margin-bottom: 16px;
+        }
+        .tool-card .tool-link {
+            font-weight: 600;
+            font-size: 0.9375rem;
+        }
+        .tool-card.coming-soon {
+            opacity: 0.6;
+        }
+        .tool-card.coming-soon .tool-badge {
+            background: var(--color-text-tertiary);
+        }
+        @media (max-width: 600px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/days-in-state/" class="nav-logo">
+                <span class="logo-icon"><img src="../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                <span class="logo-text">Days in State</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/days-in-state/#features">Features</a>
+                <a href="/days-in-state/tools/">Tools</a>
+                <a href="/days-in-state/#pricing">Pricing</a>
+                <a href="/days-in-state/support.html">Support</a>
+                <a href="/days-in-state/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="tools-hero">
+        <h1>Free State Tax Tools</h1>
+        <p>Interactive tools to help you understand multi-state tax residency rules, calculate day counts, and assess your compliance risk.</p>
+    </div>
+
+    <div class="tools-grid">
+        <div class="tool-card featured">
+            <span class="tool-badge">Popular</span>
+            <span class="tool-icon">📋</span>
+            <h3><a href="state-residency-rules-lookup/">State Residency Rules Lookup</a></h3>
+            <p>Search and compare residency day-count thresholds, domicile tests, and special rules for all 50 states.</p>
+            <a href="state-residency-rules-lookup/" class="tool-link">Use This Tool &rarr;</a>
+        </div>
+
+        <div class="tool-card">
+            <span class="tool-badge">New</span>
+            <span class="tool-icon">📊</span>
+            <h3><a href="state-residency-day-calculator/">State Residency Day Calculator</a></h3>
+            <p>Enter your travel dates and see day counts per state. Know exactly where you stand against each threshold.</p>
+            <a href="state-residency-day-calculator/" class="tool-link">Use This Tool &rarr;</a>
+        </div>
+
+        <div class="tool-card">
+            <span class="tool-badge">New</span>
+            <span class="tool-icon">💰</span>
+            <h3><a href="tax-savings-calculator/">Tax Savings Calculator</a></h3>
+            <p>Enter your income and two states to see the dollar impact of shifting your days between them.</p>
+            <a href="tax-savings-calculator/" class="tool-link">Use This Tool &rarr;</a>
+        </div>
+
+        <div class="tool-card coming-soon">
+            <span class="tool-badge">Coming Soon</span>
+            <span class="tool-icon">⏱</span>
+            <h3>183-Day Threshold Tracker</h3>
+            <p>Track how close you are to the 183-day statutory residency threshold in any state.</p>
+        </div>
+
+        <div class="tool-card coming-soon">
+            <span class="tool-badge">Coming Soon</span>
+            <span class="tool-icon">🌴</span>
+            <h3>Snowbird Day Calculator</h3>
+            <p>Enter your departure and return dates. See day counts for each state and flag any threshold crossings.</p>
+        </div>
+
+        <div class="tool-card coming-soon">
+            <span class="tool-badge">Coming Soon</span>
+            <span class="tool-icon">🔍</span>
+            <h3>Audit Risk Assessment</h3>
+            <p>Answer 10 questions about your situation and get a personalized residency audit risk score.</p>
+        </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="download">
+        <div class="container">
+            <h2>Want Automatic Day Tracking?</h2>
+            <p class="section-subtitle">Stop counting manually. Days in State uses GPS to track your state presence automatically.</p>
+            <a href="https://apps.apple.com/app/days-in-state/id0000000000" class="app-store-badge">
+                <img src="../assets/app-store-badge.svg" alt="Download on the App Store">
+            </a>
+            <p class="download-note">Requires iOS 17.0 or later. iPhone only.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <span class="logo-icon"><img src="../assets/daysinstatesvg.svg" alt="Days in State"></span>
+                    <span class="logo-text">Days in State</span>
+                    <p>Automatic state presence tracking for tax documentation.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Product</h4>
+                    <a href="/days-in-state/#features">Features</a>
+                    <a href="/days-in-state/#pricing">Pricing</a>
+                    <a href="/days-in-state/#download">Download</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <a href="/days-in-state/tools/">Free Tools</a>
+                    <a href="/days-in-state/blog/">Tax Guides</a>
+                    <a href="/days-in-state/support.html">Help Center</a>
+                    <a href="mailto:support@daysinstate.app">Contact Us</a>
+                </div>
+                <div class="footer-links">
+                    <h4>Legal</h4>
+                    <a href="/days-in-state/privacy.html">Privacy Policy</a>
+                    <a href="/days-in-state/terms.html">Terms of Service</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+                <p class="disclaimer">Days in State provides presence tracking for documentation purposes only. It is not tax advice. Consult a qualified tax professional for tax-related decisions.</p>
+            </div>
+        </div>
+    </footer>
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>
