@@ -14,6 +14,12 @@ const apps = [
         folderName: "days-in-state"
     },
     {
+        name: "JustShowUp",
+        description: "A calm record of the places that shape your life.",
+        iconUrl: "justshowup/icon.png",
+        folderName: "justshowup"
+    },
+    {
         name: "AxeLog",
         description: "The ultimate guitar practice tracker.",
         iconUrl: "axelog/images/axelog-icon.png", // Placeholder

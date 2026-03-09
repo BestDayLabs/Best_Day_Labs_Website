@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXXGXN3HND"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KXXGXN3HND');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - JustShowUp</title>
+    <meta name="description" content="JustShowUp terms of service.">
+    <meta name="theme-color" content="#0F1A2E">
+    <link rel="canonical" href="https://www.bestdaylabs.com/justshowup/terms.html">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/justshowup/" class="nav-logo">
+                <span class="logo-icon"><img src="icon.png" alt="JustShowUp"></span>
+                <span class="logo-text">JustShowUp</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/justshowup/#places">Places</a>
+                <a href="/justshowup/#how-it-works">How It Works</a>
+                <a href="/justshowup/#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="/justshowup/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="legal-content">
+        <h1>Terms of Service</h1>
+        <p class="updated">Last updated: March 8, 2026</p>
+
+        <h2>Agreement to Terms</h2>
+        <p>By downloading, installing, or using JustShowUp ("the App"), you agree to be bound by these Terms of Service. If you do not agree, do not use the App.</p>
+
+        <h2>Description of Service</h2>
+        <p>JustShowUp is a personal place-visit recording application for iOS. The App uses device-based geofencing to detect when you arrive at and leave places you have configured, and presents that information in a calendar view. The App is designed for personal reflection and is not intended for medical, therapeutic, legal, employment, or compliance purposes.</p>
+
+        <h2>Privacy</h2>
+        <p>Your privacy is fundamental to how JustShowUp works. All location data is stored on your device and is never transmitted to us. Please review our <a href="privacy.html">Privacy Policy</a> for full details.</p>
+
+        <h2>Subscriptions and Purchases</h2>
+        <p>JustShowUp offers a free tier and optional paid upgrades (Pro) through Apple's App Store. All purchases are processed by Apple and subject to Apple's terms and conditions.</p>
+        <ul>
+            <li>Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current billing period</li>
+            <li>You can manage and cancel subscriptions in your Apple ID settings</li>
+            <li>Refunds are handled by Apple per their refund policy</li>
+        </ul>
+
+        <h2>Acceptable Use</h2>
+        <p>You agree to use the App only for its intended purpose of personal place-visit recording. You may not:</p>
+        <ul>
+            <li>Reverse-engineer, decompile, or disassemble the App</li>
+            <li>Use the App for surveillance of others</li>
+            <li>Redistribute or resell the App</li>
+            <li>Use the App in any way that violates applicable laws</li>
+        </ul>
+
+        <h2>Disclaimers</h2>
+        <p>The App is provided "as is" without warranties of any kind. We do not guarantee:</p>
+        <ul>
+            <li>The accuracy of geofence detection (which depends on iOS and device hardware)</li>
+            <li>Uninterrupted or error-free operation</li>
+            <li>That the App will meet your specific requirements</li>
+        </ul>
+        <p>JustShowUp does not provide medical advice, therapeutic outcomes, legal proof, employment documentation, or health diagnostics. Do not rely on the App for any such purpose.</p>
+
+        <h2>Limitation of Liability</h2>
+        <p>To the maximum extent permitted by law, Best Day Labs shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the App.</p>
+
+        <h2>Changes to Terms</h2>
+        <p>We may update these Terms from time to time. Continued use of the App after changes constitutes acceptance of the updated Terms.</p>
+
+        <h2>Contact</h2>
+        <p>Questions about these Terms? Contact us at:</p>
+        <p><a href="mailto:support@bestdaylabs.com">support@bestdaylabs.com</a></p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>
