@@ -130,11 +130,17 @@
             font-size: clamp(1.75rem, 4vw, 2.5rem);
         }
         .article-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             color: var(--color-text-secondary);
             font-size: 0.875rem;
             margin-bottom: 32px;
             padding-bottom: 24px;
             border-bottom: 1px solid var(--color-border);
+        }
+        .meta-sep {
+            color: var(--color-text-tertiary);
         }
 
         .toc {
@@ -320,7 +326,13 @@
 
     <article class="article">
         <h1>State Tax Reciprocity Agreements Explained</h1>
-        <div class="article-meta">Updated February 26, 2026 &middot; 11 min read</div>
+        <div class="article-meta">
+            <span>By Best Day Labs</span>
+            <span class="meta-sep">&middot;</span>
+            <time datetime="2026-02-26">February 26, 2026</time>
+            <span class="meta-sep">&middot;</span>
+            <span>11 min read</span>
+        </div>
 
         <!-- Table of Contents -->
         <div class="toc">
