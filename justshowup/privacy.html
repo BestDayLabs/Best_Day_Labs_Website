@@ -12,12 +12,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy - JustShowUp</title>
-    <meta name="description" content="JustShowUp privacy policy. Your location data stays on your device. No accounts, no analytics, no cloud sync.">
+    <meta name="description" content="JustShowUp privacy policy. Your place data stays on your device. No accounts, no cloud sync. Details on analytics and ad attribution.">
     <meta name="theme-color" content="#0F1A2E">
     <link rel="canonical" href="https://www.bestdaylabs.com/justshowup/privacy.html">
     <!-- Open Graph -->
     <meta property="og:title" content="Privacy Policy - JustShowUp">
-    <meta property="og:description" content="Your location data stays on your device. No accounts, no analytics, no cloud sync.">
+    <meta property="og:description" content="Your place data stays on your device. No accounts, no cloud sync. Details on analytics and ad attribution.">
     <meta property="og:url" content="https://www.bestdaylabs.com/justshowup/privacy.html">
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://www.bestdaylabs.com/justshowup/icon.png">
@@ -25,7 +25,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Privacy Policy - JustShowUp">
-    <meta name="twitter:description" content="Your location data stays on your device. No accounts, no analytics, no cloud sync.">
+    <meta name="twitter:description" content="Your place data stays on your device. No accounts, no cloud sync. Details on analytics and ad attribution.">
     <meta name="twitter:image" content="https://www.bestdaylabs.com/justshowup/icon.png">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icon.png" type="image/png">
@@ -56,24 +56,23 @@
 
     <div class="legal-content">
         <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: March 8, 2026</p>
+        <p class="updated">Last updated: March 19, 2026</p>
 
         <div class="highlight-box">
-            <p>Your location data stays on your device. We never see it, store it, or have access to it. There are no accounts, no analytics SDKs, and no cloud sync.</p>
+            <p>Your place data&mdash;names, addresses, coordinates, visit history&mdash;stays on your device. We never see it, store it, or have access to it. There are no accounts and no cloud sync. The App does use limited analytics and ad attribution services, described below.</p>
         </div>
 
         <h2>Overview</h2>
         <p>JustShowUp ("the App") is designed with privacy as a foundational principle. We believe your location data is deeply personal. The App is architected so that we never have access to it.</p>
 
         <h2>Data We Collect</h2>
-        <p><strong>We do not collect any personal data.</strong></p>
-        <p>The App processes location data entirely on your device. This data is:</p>
+        <p><strong>We do not collect any place data.</strong> Your place names, addresses, coordinates, and visit history are processed and stored entirely on your device. This data is:</p>
         <ul>
             <li>Stored locally on your iPhone</li>
             <li>Never transmitted to our servers</li>
-            <li>Never shared with third parties</li>
             <li>Never synced to the cloud</li>
         </ul>
+        <p>The App does collect limited, anonymized analytics events and may share your device advertising identifier with Meta for ad measurement. See the sections below for details.</p>
 
         <h2>Location Data</h2>
         <p>The App uses iOS geofencing to detect when you arrive at or leave places you have configured. This location data:</p>
@@ -88,32 +87,45 @@
         <h2>No Accounts</h2>
         <p>JustShowUp does not require or offer account creation. There is no sign-up, no login, no email collection, and no user profile.</p>
 
-        <h2>No Analytics</h2>
-        <p>We do not use any analytics SDKs or services within the App. We do not track:</p>
+        <h2>Analytics</h2>
+        <p>The App uses <strong>PostHog</strong> for product analytics. PostHog collects anonymized funnel events&mdash;for example, when a paywall is shown or a purchase is started. This helps us understand how people use the App so we can improve it.</p>
+        <p>PostHog does <strong>not</strong> receive:</p>
         <ul>
-            <li>How you use the App</li>
-            <li>What features you access</li>
-            <li>How often you open the App</li>
-            <li>Any usage patterns</li>
+            <li>Place names, addresses, or coordinates</li>
+            <li>Visit history or calendar data</li>
+            <li>Any information about where you go</li>
         </ul>
-        <p>Note: This website uses Google Analytics for page visit statistics. The App itself contains no analytics.</p>
+        <p>Analytics data is sent to PostHog's servers (us.i.posthog.com). No place data is included.</p>
+        <p>Note: This website uses Google Analytics for page visit statistics.</p>
+
+        <h2>Tracking &amp; Advertising</h2>
+        <p>The App uses the <strong>Facebook (Meta) SDK</strong> for ad attribution only. This measures which ads led to app installs and subscriptions.</p>
+        <ul>
+            <li>The App requests tracking permission via Apple's App Tracking Transparency (ATT) framework</li>
+            <li>If you grant permission, your device's advertising identifier (IDFA) is shared with Meta for ad measurement</li>
+            <li>You can deny or revoke this permission at any time in iOS Settings &rarr; Privacy &amp; Security &rarr; Tracking</li>
+            <li>No place data is shared with Meta</li>
+            <li>No user profiles are built by us</li>
+            <li>No data is sold to data brokers</li>
+        </ul>
 
         <h2>No Cloud Sync</h2>
-        <p>Your place and visit data is stored exclusively on your device. There is no cloud sync, no backup service, and no remote storage of any kind.</p>
+        <p>Your place and visit data is stored exclusively on your device. There is no cloud sync, no backup service, and no remote storage of any kind. Exports (PDF/CSV) are generated and shared locally.</p>
 
         <h2>Third-Party Services</h2>
-        <p>The App uses the following Apple services:</p>
+        <p>The App uses the following services:</p>
         <ul>
-            <li><strong>Core Location</strong> &mdash; For geofence-based arrival and departure detection (on-device)</li>
-            <li><strong>StoreKit</strong> &mdash; For in-app purchases (Apple handles payment)</li>
+            <li><strong>Core Location</strong> (Apple) &mdash; For geofence-based arrival and departure detection (on-device)</li>
+            <li><strong>StoreKit</strong> (Apple) &mdash; For in-app purchases (Apple handles payment)</li>
+            <li><strong>PostHog</strong> &mdash; Anonymized product analytics (no place data sent)</li>
+            <li><strong>Facebook/Meta SDK</strong> &mdash; Ad attribution only (IDFA with your permission, no place data sent)</li>
         </ul>
-        <p>We do not use any third-party analytics, advertising, or tracking services in the App.</p>
 
         <h2>In-App Purchases</h2>
-        <p>Purchases are processed by Apple through StoreKit. We do not receive or store any payment information. This is the only data flow that leaves your device, and it goes directly to Apple&mdash;not to us.</p>
+        <p>Purchases are processed by Apple through StoreKit. We do not receive or store any payment information.</p>
 
         <h2>Data Retention</h2>
-        <p>Since we don't collect your data, there is nothing to retain on our end. Your data remains on your device until you choose to delete it.</p>
+        <p>Your place data remains on your device until you choose to delete it. We do not store it on our servers. PostHog retains anonymized analytics events per their retention policy. Meta retains ad attribution data per their data policy.</p>
         <p>You can delete all your data at any time:</p>
         <ul>
             <li>Within the App via Settings</li>
@@ -121,7 +133,7 @@
         </ul>
 
         <h2>Children's Privacy</h2>
-        <p>The App is not directed at children under 13. We do not knowingly collect any information from children, since we do not collect information from anyone.</p>
+        <p>The App is not directed at children under 13. We do not knowingly collect personal information from children.</p>
 
         <h2>Changes to This Policy</h2>
         <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
@@ -131,7 +143,7 @@
         <p><a href="mailto:privacy@bestdaylabs.com">privacy@bestdaylabs.com</a></p>
 
         <div class="highlight-box">
-            <p>Your data. Your device. Your life. We built JustShowUp this way because we believe location data is too personal to trust to anyone&mdash;including us.</p>
+            <p>Your places. Your device. Your life. We use analytics to improve the App and ad attribution to measure our marketing&mdash;but your place data never leaves your phone.</p>
         </div>
     </div>
 
