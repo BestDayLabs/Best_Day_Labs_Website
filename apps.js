@@ -24,5 +24,11 @@ const apps = [
         description: "The ultimate guitar practice tracker.",
         iconUrl: "axelog/images/axelog-icon.png", // Placeholder
         folderName: "axelog"
+    },
+    {
+        name: "Touge",
+        description: "Gran Turismo IRL",
+        iconUrl: "axelog/images/axelog-icon.png", // Placeholder
+        folderName: "Touge Website"
     }
 ];
