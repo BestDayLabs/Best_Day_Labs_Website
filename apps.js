@@ -28,7 +28,7 @@ const apps = [
     {
         name: "Touge",
         description: "Gran Turismo IRL",
-        iconUrl: "axelog/images/axelog-icon.png", // Placeholder
-        folderName: "Touge Website"
+        iconUrl: "touge/TougeAppIcon.png", // Placeholder
+        folderName: "touge"
     }
 ];
