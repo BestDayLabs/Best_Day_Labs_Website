@@ -30,5 +30,11 @@ const apps = [
         description: "Gran Turismo IRL",
         iconUrl: "touge/TougeAppIcon.png", // Placeholder
         folderName: "touge"
+    },
+    {
+        name: "ScreenTax",
+        description: "Pay the cost of your screentime.",
+        iconUrl: "screentax/ScreenTax Icon.png", // Placeholder
+        folderName: "screentax"
     }
 ];
