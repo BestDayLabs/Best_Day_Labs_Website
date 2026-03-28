@@ -98,24 +98,23 @@
 
     <div class="legal-content">
         <h1>Privacy Policy</h1>
-        <p class="updated">Last updated: January 24, 2026</p>
+        <p class="updated">Last updated: March 2026</p>
 
         <div class="highlight-box">
-            <p>🔒 TL;DR: Your location data stays on your device and in your private iCloud. We never see it, store it, or have access to it.</p>
+            <p>🔒 TL;DR: Your location data stays on your device and in your private iCloud. We never see it. We use anonymous analytics to improve the app and measure ad effectiveness — you control ad tracking via Apple's permission prompt.</p>
         </div>
 
         <h2>Overview</h2>
-        <p>Days in State ("the App") is designed with privacy as a core principle. We believe your location data is sensitive and personal, and we've architected the App so that we never have access to it.</p>
+        <p>Days in State ("the App") is designed with privacy as a core principle. We believe your location data is sensitive and personal, and we've architected the App so that we never have access to it. The App does use anonymous analytics and ad measurement services, but these never receive your location data, presence records, or personal information.</p>
 
         <h2>Data We Collect</h2>
-        <p><strong>We do not collect any personal data.</strong></p>
-        <p>The App processes location data entirely on your device. This data is:</p>
+        <p><strong>We do not collect your location or presence data.</strong> Your state/country records are processed and stored entirely on your device. This data is:</p>
         <ul>
             <li>Stored locally on your iPhone</li>
             <li>Optionally backed up to your private iCloud account (if you enable iCloud backup)</li>
             <li>Never transmitted to our servers</li>
-            <li>Never shared with third parties</li>
         </ul>
+        <p>The App does collect anonymous usage analytics (screen views, feature usage, subscription events) to help us improve the product. See the Analytics section below for details.</p>
 
         <h2>Location Data</h2>
         <p>The App uses your device's GPS to determine which state or country you are in. This location data:</p>
@@ -138,22 +137,32 @@
         </ul>
 
         <h2>Analytics</h2>
-        <p>We do not use any analytics services. We do not track:</p>
+        <p>The App uses the following analytics services to help us improve the product:</p>
         <ul>
-            <li>How you use the App</li>
-            <li>What features you access</li>
-            <li>How often you open the App</li>
-            <li>Any other usage patterns</li>
+            <li><strong>Firebase Analytics (Google)</strong> — We collect anonymous app usage data (screen views, feature usage, subscription events) to understand how the App is used and improve it. No location data is included. This data is aggregated and cannot identify you.</li>
+            <li><strong>Facebook SDK (Meta)</strong> — We use the Facebook SDK to measure the effectiveness of our advertising campaigns. This SDK may receive a signal indicating whether you allowed ad tracking (via Apple's App Tracking Transparency prompt). No location data is shared with Facebook.</li>
+        </ul>
+        <p>All analytics data is about app usage, never about your location records.</p>
+
+        <h2>Advertising &amp; Tracking</h2>
+        <ul>
+            <li>We use Apple's App Tracking Transparency (ATT) framework to ask your permission before measuring ad effectiveness</li>
+            <li>If you decline, no ad tracking occurs — the App works identically either way</li>
+            <li>We never share your location data, presence records, or personal information with advertisers</li>
+            <li>Ad measurement data is limited to: whether you installed the App, whether you subscribed, and general usage patterns</li>
+            <li>You can change your tracking permission at any time in iOS Settings</li>
         </ul>
 
         <h2>Third-Party Services</h2>
-        <p>The App uses the following Apple services:</p>
+        <p>The App uses the following services:</p>
         <ul>
-            <li><strong>Core Location</strong> - For GPS-based state detection (on-device)</li>
-            <li><strong>CloudKit</strong> - For optional iCloud backup (your private database)</li>
-            <li><strong>StoreKit</strong> - For in-app purchases (Apple handles payment)</li>
+            <li><strong>Core Location</strong> (Apple) — For GPS-based state detection (on-device)</li>
+            <li><strong>CloudKit</strong> (Apple) — For optional iCloud backup (your private database)</li>
+            <li><strong>StoreKit</strong> (Apple) — For in-app purchases (Apple handles payment)</li>
+            <li><strong>Firebase Analytics</strong> (Google) — Anonymous usage analytics</li>
+            <li><strong>Facebook SDK</strong> (Meta) — Ad campaign measurement</li>
+            <li><strong>App Tracking Transparency</strong> (Apple) — We ask for your permission before enabling ad measurement. You can change this anytime in iOS Settings.</li>
         </ul>
-        <p>We do not use any third-party analytics, advertising, or tracking services.</p>
 
         <h2>In-App Purchases</h2>
         <p>Purchases are processed by Apple. We do not receive or store any payment information. Apple may share limited transaction data with us (such as whether a purchase was successful), but no personal financial information.</p>
@@ -168,7 +177,7 @@
         </ul>
 
         <h2>Children's Privacy</h2>
-        <p>The App is not directed at children under 13. We do not knowingly collect any information from children since we don't collect information from anyone.</p>
+        <p>The App is not directed at children under 13. We do not knowingly collect personal information from children.</p>
 
         <h2>Changes to This Policy</h2>
         <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
@@ -178,7 +187,7 @@
         <p><a href="mailto:privacy@daysinstate.app">privacy@daysinstate.app</a></p>
 
         <div class="highlight-box">
-            <p>📱 Your data. Your device. Your control. We built Days in State this way because we believe location data is too sensitive to trust to anyone—including us.</p>
+            <p>📱 Your location data. Your device. Your control. We use analytics to improve the App and measure our ads — but your location records never leave your phone.</p>
         </div>
     </div>
 
