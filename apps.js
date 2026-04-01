@@ -36,5 +36,11 @@ const apps = [
         description: "Pay the cost of your screentime.",
         iconUrl: "screentax/ScreenTax Icon.png", // Placeholder
         folderName: "screentax"
+    },
+    {
+        name: "Nerve",
+        description: "Answer questions to unlock screentime.",
+        iconUrl: "nerve/Nerve Icon.png", // Placeholder
+        folderName: "nerve"
     }
 ];
