@@ -837,10 +837,76 @@
                 grid-template-columns: repeat(3, 1fr);
             }
         }
+
+        /* TikTok In-App Browser Banner */
+        .tiktok-banner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            background: var(--accent-gold);
+            color: #1a1400;
+            padding: 14px 20px;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.5;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            animation: slideDown 0.4s ease-out;
+        }
+
+        .tiktok-banner.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .tiktok-banner .dots-icon {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin: 0 2px;
+            vertical-align: middle;
+        }
+
+        .tiktok-banner .highlight {
+            color: #1a1400;
+            background: rgba(255, 255, 255, 0.35);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .tiktok-banner .arrow-hint {
+            display: block;
+            margin-top: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0.7;
+        }
+
+        body.has-tiktok-banner nav {
+            top: 0;
+        }
     </style>
 </head>
 
 <body>
+    <!-- TikTok In-App Browser Banner -->
+    <div class="tiktok-banner" id="tiktokBanner">
+        Tap <span class="dots-icon">&#8943;</span> above and then <span class="highlight">"Open in browser"</span> to download the app for free.
+        <span class="arrow-hint">&#8599; Look for the three dots in the top right corner</span>
+    </div>
+
     <!-- Navigation -->
     <nav>
         <div class="container nav-inner">
@@ -1260,6 +1326,17 @@
             el.style.transition = `opacity 0.4s ease ${i * 0.05}s, transform 0.4s ease ${i * 0.05}s`;
             observer.observe(el);
         });
+
+        // Detect TikTok in-app browser and show banner
+        (function() {
+            var ua = navigator.userAgent || '';
+            var isTikTok = /TikTok|BytedanceWebview|ByteLocale|musical_ly/i.test(ua);
+            if (isTikTok) {
+                var banner = document.getElementById('tiktokBanner');
+                banner.classList.add('visible');
+                document.body.classList.add('has-tiktok-banner');
+            }
+        })();
     </script>
 </body>
 
