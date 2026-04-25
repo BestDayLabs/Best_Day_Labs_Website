@@ -36,5 +36,11 @@ const apps = [
         description: "Answer questions to unlock screentime.",
         iconUrl: "nerve/Nerve Icon.png", // Placeholder
         folderName: "nerve"
+    },
+    {
+        name: "Bounce",
+        description: "Turn any TikTok song list into an Apple Music playlist.",
+        iconUrl: "bounce/BounceIcon.png",
+        folderName: "bounce"
     }
 ];

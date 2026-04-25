@@ -1,0 +1,282 @@
+/* --- Base Variables & Reset --- */
+:root {
+    --bg-color: #0A0A0A;
+    --bg-elev: #141414;
+    --text-main: #FFFFFF;
+    --text-muted: #9A9A9A;
+    --accent-lime: #C6FF34;
+    --accent-pink: #FF3FBF;
+    --border-soft: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: var(--accent-lime);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* --- Layout --- */
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.legal-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    text-align: left;
+}
+
+/* --- Typography --- */
+h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 1.25rem;
+    color: var(--accent-lime);
+    font-weight: 600;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 520px;
+    margin: 0 auto 48px auto;
+    line-height: 1.5;
+}
+
+.legal-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.legal-container .effective-date {
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 48px;
+    display: block;
+}
+
+.legal-container h2 {
+    font-size: 1.5rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.legal-container h3 {
+    font-size: 1.125rem;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.legal-container p,
+.legal-container ul {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.legal-container ul {
+    padding-left: 24px;
+}
+
+.legal-container li {
+    margin-bottom: 8px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 32px;
+    font-weight: 500;
+}
+
+/* --- Icon Hero --- */
+.app-icon {
+    width: 168px;
+    height: 168px;
+    border-radius: 38px;
+    margin-bottom: 32px;
+    box-shadow:
+        0 24px 64px rgba(198, 255, 52, 0.18),
+        0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Steps --- */
+.steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 56px;
+    text-align: left;
+}
+
+.step {
+    background-color: var(--bg-elev);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    padding: 24px 20px;
+}
+
+.step-number {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--accent-lime);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.step-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+}
+
+.step-body {
+    font-size: 0.9375rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+/* --- App Store Button --- */
+.app-store-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-lime);
+    color: #0A0A0A !important;
+    height: 56px;
+    padding: 0 32px;
+    border-radius: 28px;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.app-store-badge:hover {
+    transform: scale(1.03);
+}
+
+.app-store-badge.coming-soon {
+    background-color: transparent;
+    color: var(--text-main) !important;
+    border: 1px solid var(--border-soft);
+    cursor: default;
+}
+
+.app-store-badge.coming-soon:hover {
+    transform: none;
+    opacity: 1;
+}
+
+.testflight-note {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 64px;
+}
+
+.testflight-note a {
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-soft);
+}
+
+/* --- Footer --- */
+footer {
+    width: 100%;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 32px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.footer-links {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+/* --- Animation --- */
+.fade-in {
+    animation: fadeIn 0.7s ease-out forwards;
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.delay-1 {
+    animation-delay: 0.08s;
+}
+
+.delay-2 {
+    animation-delay: 0.16s;
+}
+
+.delay-3 {
+    animation-delay: 0.24s;
+}
+
+.delay-4 {
+    animation-delay: 0.32s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 3rem;
+    }
+
+    .app-icon {
+        width: 144px;
+        height: 144px;
+        border-radius: 32px;
+    }
+
+    .steps {
+        grid-template-columns: 1fr;
+    }
+}
