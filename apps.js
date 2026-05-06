@@ -42,5 +42,11 @@ const apps = [
         description: "Turn any TikTok song list into an Apple Music playlist.",
         iconUrl: "bounce/BounceIcon.png",
         folderName: "bounce"
+    },
+    {
+        name: "Riff",
+        description: "Learn the chords to any song.",
+        iconUrl: "riff/RiffIcon.png",
+        folderName: "riff"
     }
 ];

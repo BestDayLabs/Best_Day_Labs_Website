@@ -1,0 +1,249 @@
+/* --- Base Variables & Reset --- */
+:root {
+    --bg-color: #0A0E1A;
+    --text-main: #FFFFFF;
+    --text-muted: #A0AABF;
+    --accent-green: #22C55E;
+    --mockup-border: #1a2138;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+    color: var(--accent-green);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+a:hover {
+    opacity: 0.8;
+}
+
+/* --- Layout --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.legal-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 60px 24px;
+    text-align: left;
+}
+
+/* --- Typography --- */
+h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.tagline {
+    font-size: 1.25rem;
+    color: var(--accent-green);
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.description {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 40px auto;
+    line-height: 1.5;
+}
+
+.legal-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.legal-container .effective-date {
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 48px;
+    display: block;
+}
+
+.legal-container h2 {
+    font-size: 1.5rem;
+    margin-top: 32px;
+    margin-bottom: 16px;
+    color: var(--text-main);
+}
+
+.legal-container h3 {
+    font-size: 1.125rem;
+    margin-top: 24px;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+.legal-container p,
+.legal-container ul {
+    color: var(--text-muted);
+    margin-bottom: 16px;
+}
+
+.legal-container ul {
+    padding-left: 24px;
+}
+
+.legal-container li {
+    margin-bottom: 8px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 32px;
+    font-weight: 500;
+}
+
+/* --- App Icon --- */
+.app-icon {
+    width: 120px;
+    height: 120px;
+    border-radius: 27px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* --- How It Works --- */
+.steps {
+    display: flex;
+    gap: 32px;
+    margin: 0 auto 48px auto;
+    max-width: 600px;
+    text-align: center;
+}
+
+.step {
+    flex: 1;
+}
+
+.step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    color: #000;
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 12px;
+}
+
+.step h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.step p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* --- App Store Button --- */
+.app-store-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000000;
+    color: #FFFFFF !important;
+    height: 56px;
+    padding: 0 32px;
+    border-radius: 28px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 64px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.app-store-badge:hover {
+    transform: scale(1.03);
+    opacity: 0.9;
+}
+
+/* --- Footer --- */
+footer {
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 32px;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.footer-links {
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+/* --- Animation --- */
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.delay-1 {
+    animation-delay: 0.1s;
+}
+
+.delay-2 {
+    animation-delay: 0.2s;
+}
+
+.delay-3 {
+    animation-delay: 0.3s;
+}
+
+.delay-4 {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Responsive --- */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2.75rem;
+    }
+
+    .steps {
+        flex-direction: column;
+        gap: 24px;
+    }
+}

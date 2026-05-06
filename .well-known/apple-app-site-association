@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "AU7J33HGQ9.com.natetaylor.Riff",
+        "paths": ["/riff/song/*"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Riff — Learn Any Song</title>
+<meta property="og:title" content="Check out this song on Riff">
+<meta property="og:description" content="Learn the chords to any song with Riff">
+<meta property="og:type" content="website">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#0F0F14;color:#EEE;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center}
+.c{padding:32px;max-width:400px;width:100%}
+.art{width:120px;height:120px;border-radius:20px;margin:0 auto 20px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.art img{width:100%;height:100%;object-fit:cover;display:block}
+.art-placeholder{width:100%;height:100%;background:linear-gradient(135deg,#6C5CE7,#A855F7);display:flex;align-items:center;justify-content:center;font-size:44px}
+h1{font-size:18px;font-weight:600;margin-bottom:4px;line-height:1.3}
+.ar{color:#999;font-size:14px;margin-bottom:28px}
+.b{display:block;width:100%;padding:16px;border:none;border-radius:14px;font-size:16px;font-weight:600;cursor:pointer;text-decoration:none;text-align:center;margin-bottom:12px}
+.bp{background:linear-gradient(135deg,#22C55E,#16A34A);color:#fff}
+.bs{background:rgba(255,255,255,.08);color:#BBC}
+.f{color:#555;font-size:11px;margin-top:20px}
+</style>
+</head>
+<body>
+<div class="c" id="song-view" style="display:none">
+<div class="art" id="art"><div class="art-placeholder">&#127928;</div></div>
+<h1 id="title">Loading...</h1>
+<p class="ar" id="artist"></p>
+<a class="b bp" id="open" href="#">Open in Riff</a>
+<a class="b bs" href="https://apps.apple.com/app/riff/id6763969917">Get Riff on the App Store</a>
+<p class="f">Riff — learn any song by ear</p>
+</div>
+<div class="c" id="generic-view" style="display:none">
+<h1>Page Not Found</h1>
+<p class="ar">The page you're looking for doesn't exist.</p>
+<a class="b bs" href="/">Back to Best Day Labs</a>
+</div>
+<script>
+(function(){
+  var parts = location.pathname.split("/").filter(Boolean);
+  // Check if this is a /riff/song/{uuid} path
+  if(parts.length >= 3 && parts[0] === "riff" && parts[1] === "song" && parts[2]){
+    var id = parts[2];
+    document.getElementById("song-view").style.display = "block";
+    document.getElementById("open").href = "riff://catalog/" + id;
+
+    var url = "https://gyihpvpzgrkbqrpoyfps.supabase.co/rest/v1/catalog_songs?id=eq." + id + "&select=title,artist,album_art_url";
+    var key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd5aWhwdnB6Z3JrYnFycG95ZnBzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyNDAxNDksImV4cCI6MjA5MjgxNjE0OX0.mU6APQWyi2eOMIPTiyPdfh6DEZNoaeIr6ZT7TrVeS3s";
+
+    fetch(url, {headers:{"apikey": key, "Authorization": "Bearer " + key}})
+      .then(function(r){return r.json()})
+      .then(function(rows){
+        if(!rows||!rows.length){
+          document.getElementById("title").textContent = "Song not found";
+          return;
+        }
+        var s = rows[0];
+        document.getElementById("title").textContent = s.title;
+        document.getElementById("artist").textContent = s.artist;
+        document.title = s.title + " by " + s.artist + " — Riff";
+        if(s.album_art_url){
+          document.getElementById("art").innerHTML = '<img src="' + s.album_art_url + '" alt="Album art">';
+        }
+      })
+      .catch(function(){
+        document.getElementById("title").textContent = "Song not found";
+      });
+  } else {
+    document.getElementById("generic-view").style.display = "block";
+  }
+})();
+</script>
+</body>
+</html>
