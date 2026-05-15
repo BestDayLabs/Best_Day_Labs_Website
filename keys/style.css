@@ -18,12 +18,12 @@
     --text-mute:    #8B93A4;
     --text-faint:   #5B6478;
 
-    /* Accents */
-    --accent:       #6366F1;   /* indigo */
-    --accent-hi:    #8B5CF6;   /* violet */
-    --accent-blue:  #3B82F6;
+    /* Accents — keyed on vivid blue with a cyan highlight. */
+    --accent:       #3B82F6;   /* blue-500, primary */
+    --accent-hi:    #06B6D4;   /* cyan-500, for gradient pop */
+    --accent-blue:  #2563EB;   /* blue-600, deeper backdrop blob */
     --accent-mint:  #2DD4BF;
-    --accent-glow:  rgba(99, 102, 241, 0.45);
+    --accent-glow:  rgba(59, 130, 246, 0.45);
 
     --max-w:        1080px;
     --radius:       18px;
@@ -153,7 +153,7 @@ main.landing {
     border-radius: 29px;
     display: block;
     box-shadow:
-        0 22px 60px rgba(99, 102, 241, 0.35),
+        0 22px 60px rgba(59, 130, 246, 0.35),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset;
 }
 
@@ -166,8 +166,8 @@ main.landing {
     color: var(--accent);
     margin-bottom: 24px;
     padding: 6px 14px;
-    background: rgba(99, 102, 241, 0.12);
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    background: rgba(59, 130, 246, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.25);
     border-radius: 999px;
 }
 
@@ -358,8 +358,8 @@ h1.headline {
     width: 44px;
     height: 44px;
     border-radius: 12px;
-    background: rgba(99, 102, 241, 0.15);
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -387,9 +387,9 @@ h1.headline {
     text-align: center;
     padding: 64px 32px;
     background: linear-gradient(160deg,
-                rgba(99, 102, 241, 0.10) 0%,
-                rgba(139, 92, 246, 0.05) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.18);
+                rgba(59, 130, 246, 0.10) 0%,
+                rgba(6, 182, 212, 0.05) 100%);
+    border: 1px solid rgba(59, 130, 246, 0.18);
     border-radius: 26px;
     position: relative;
     overflow: hidden;
@@ -491,7 +491,7 @@ footer.site-footer {
 
 .legal a {
     color: var(--accent);
-    border-bottom: 1px solid rgba(99, 102, 241, 0.35);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.35);
 }
 .legal a:hover { opacity: 1; border-bottom-color: var(--accent); }
 
