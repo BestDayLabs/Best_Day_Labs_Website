@@ -4,54 +4,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Riff - Learn the Chords to Any Song</title>
+    <title>Riff — Play along with the chords to any song.</title>
     <meta name="description"
-        content="Import any song, get instant chord analysis, and play along. Riff uses AI to detect chords, beats, and lyrics so you can learn any song by ear.">
+        content="Import any song from YouTube, Spotify, Apple Music, TikTok, or your library. Riff uses AI to detect the chords, beats, and lyrics so you can play along in real time.">
+
+    <meta property="og:title" content="Riff — Play along with the chords to any song.">
+    <meta property="og:description"
+        content="AI chord detection, real-time playback, and a community catalog. Built for guitar players on iPhone and iPad.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bestdaylabs.com/riff/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <main class="container">
-        <img src="RiffIcon.png" alt="Riff App Icon" class="app-icon fade-in">
-        <h1 class="fade-in delay-1">Riff</h1>
-        <p class="tagline fade-in delay-1">Learn the Chords to Any Song</p>
-        <p class="description fade-in delay-1">
-            Import any song from YouTube, Spotify, or your library. Riff uses AI to detect the chords, beats, and
-            lyrics so you can play along instantly.
-        </p>
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
 
-        <div class="steps fade-in delay-2">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Import</h3>
-                <p>Share a link from YouTube, Spotify, or any music source.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Analyze</h3>
-                <p>AI detects chords, beats, and lyrics automatically.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Play Along</h3>
-                <p>Follow the chords in real time as the song plays.</p>
-            </div>
+    <main class="landing">
+        <div class="container">
+
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-icon-wrap fade-in">
+                    <img src="RiffIcon.png" alt="Riff app icon" class="app-icon">
+                </div>
+
+                <span class="eyebrow fade-in delay-1">Now on iPhone &amp; iPad</span>
+
+                <h1 class="headline fade-in delay-1">
+                    Play along with <br>
+                    <span class="grad">the chords to any song.</span>
+                </h1>
+
+                <p class="hero-sub fade-in delay-2">
+                    Import any song from YouTube, Spotify, Apple Music, TikTok — anywhere. Riff uses AI to detect the
+                    chords, beats, and lyrics in seconds so you can pick up your guitar and play.
+                </p>
+
+                <div class="cta-row fade-in delay-3">
+                    <a href="https://apps.apple.com/us/app/riff-play-along-with-chords/id6763969917"
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i data-lucide="apple"></i>
+                        Download on the App Store
+                    </a>
+                    <a href="#how" class="btn btn-ghost">
+                        See how it works
+                        <i data-lucide="arrow-down"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section class="section" id="how">
+                <div class="section-heading">
+                    <h2>Any song. Chords on screen. Seconds later.</h2>
+                    <p>Three steps — no tabs to dig up, no covers to compare.</p>
+                </div>
+
+                <div class="steps">
+                    <div class="step fade-in">
+                        <div class="step-num">1</div>
+                        <h3>Import</h3>
+                        <p>Share a link from YouTube, Spotify, Apple Music, TikTok, or your library.</p>
+                    </div>
+                    <div class="step fade-in delay-1">
+                        <div class="step-num">2</div>
+                        <h3>Analyze</h3>
+                        <p>AI extracts the chord changes, beat grid, and lyrics in real time.</p>
+                    </div>
+                    <div class="step fade-in delay-2">
+                        <div class="step-num">3</div>
+                        <h3>Play Along</h3>
+                        <p>Follow the chords scroll across the screen exactly when they hit.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES -->
+            <section class="section">
+                <div class="section-heading">
+                    <h2>Made for actually playing the song</h2>
+                    <p>Not just reading chords — feeling them.</p>
+                </div>
+
+                <div class="features">
+                    <div class="feature fade-in">
+                        <div class="feature-icon"><i data-lucide="music-2"></i></div>
+                        <h3>Chord Detection</h3>
+                        <p>Major, minor, 7ths, sus, slash chords — recognized automatically from the audio.</p>
+                    </div>
+                    <div class="feature fade-in delay-1">
+                        <div class="feature-icon"><i data-lucide="activity"></i></div>
+                        <h3>Beat Grid</h3>
+                        <p>Every chord change locked to the song's tempo so your strums land where they should.</p>
+                    </div>
+                    <div class="feature fade-in delay-2">
+                        <div class="feature-icon"><i data-lucide="mic-2"></i></div>
+                        <h3>Lyrics in Sync</h3>
+                        <p>Lyrics scroll with the music so you can sing while you play, no second screen needed.</p>
+                    </div>
+                    <div class="feature fade-in delay-3">
+                        <div class="feature-icon"><i data-lucide="edit-3"></i></div>
+                        <h3>Tap to Edit</h3>
+                        <p>Rename, retime, delete, or add a chord with a single tap. Your edits stay in your library.</p>
+                    </div>
+                    <div class="feature fade-in delay-4">
+                        <div class="feature-icon"><i data-lucide="globe-2"></i></div>
+                        <h3>Community Catalog</h3>
+                        <p>Browse and save chord analyses other players have published — no need to start from zero.</p>
+                    </div>
+                    <div class="feature fade-in delay-5">
+                        <div class="feature-icon"><i data-lucide="library"></i></div>
+                        <h3>Your Library</h3>
+                        <p>Every song you analyze is saved offline and ready when you pick up the guitar.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLOSING CTA -->
+            <section class="section">
+                <div class="closing fade-in">
+                    <h2>Pick it up and play.</h2>
+                    <p>The song stuck in your head can be on your fretboard in 30 seconds.</p>
+                    <a href="https://apps.apple.com/us/app/riff-play-along-with-chords/id6763969917"
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i data-lucide="apple"></i>
+                        Download Riff
+                    </a>
+                </div>
+            </section>
+
         </div>
-
-        <a href="https://apps.apple.com/app/riff/id6763969917" class="app-store-badge fade-in delay-3" target="_blank"
-            rel="noopener noreferrer">
-            Download on the App Store
-        </a>
-
-        <footer class="fade-in delay-4">
-            <div class="footer-links">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms of Service</a>
-                <a href="support.html">Support</a>
-            </div>
-            <p>&copy; 2026 Best Day Labs</p>
-        </footer>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="support.html">Support</a>
+            <a href="https://bestdaylabs.com">Best Day Labs</a>
+        </div>
+        <p>&copy; 2026 Best Day Labs. Crafted with care.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) window.lucide.createIcons();
+        });
+    </script>
 </body>
 
 </html>
