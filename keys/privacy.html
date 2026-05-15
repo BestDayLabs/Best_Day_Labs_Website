@@ -73,11 +73,16 @@
             <li><strong>Supabase</strong> — authentication, database, file storage.</li>
             <li><strong>Replicate</strong> — piano transcription machine-learning models.</li>
             <li><strong>Anthropic</strong> — sheet music optical recognition.</li>
+            <li><strong>PostHog</strong> — anonymous product analytics (see section 9).</li>
         </ul>
 
-        <h2>9. No advertising or tracking</h2>
-        <p>Keys does not contain any advertising, analytics SDKs, or third-party tracking services. We do not collect
-            device identifiers, location data, contacts, or browsing history outside the App.</p>
+        <h2>9. Product analytics</h2>
+        <p>We use PostHog, a privacy-respecting product analytics service, to understand how the App is used in
+            aggregate — for example, which features are popular, where users encounter errors, and how the import
+            flow performs. The events we record describe interactions (e.g. "import succeeded", "learn mode
+            started") and are keyed only by your anonymous Supabase user ID. We do not collect screen recordings,
+            full keystroke logs, advertising identifiers, location data, contacts, or browsing history outside the
+            App. We do not use this data to track you across other apps or websites.</p>
 
         <h2>10. Children's privacy</h2>
         <p>The App is rated 4+ and may be used by people of any age, but we do not knowingly collect personal
