@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — Keys</title>
+    <meta name="description" content="Privacy Policy for Keys, operated by Best Day Labs.">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="legal-container fade-in">
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
+
+        <h1>Privacy Policy</h1>
+        <span class="effective-date">Effective Date: May 15, 2026</span>
+
+        <p>This Privacy Policy explains how Best Day Labs ("we", "us", or "our") handles your information when you use
+            the Keys mobile application (the "App").</p>
+
+        <h2>1. Video Imports & Audio Transcription</h2>
+        <p>When you share or paste a video link, our servers download the audio from the source (TikTok, Instagram,
+            YouTube, etc.) and pass it to a third-party machine-learning service (Replicate) to extract the piano part
+            as MIDI. Audio is processed in memory and is not permanently stored on our servers. The resulting MIDI and
+            note data are returned to your device and saved to your library.</p>
+
+        <h2>2. Microphone (Learn Mode)</h2>
+        <p>Learn Mode listens through your device microphone to detect which notes you play. Audio captured by the
+            microphone is processed entirely on your device — it is never uploaded, recorded, or stored anywhere. The
+            microphone is only active while Learn Mode is enabled.</p>
+
+        <h2>3. Camera & Photos (Sheet Music Scanning)</h2>
+        <p>If you use the sheet music scanning feature, the captured image is sent to a third-party AI service
+            (Anthropic) for transcription. The image is processed in the request and discarded; we do not retain
+            uploaded sheet music images. If you select a profile photo from your Photo Library, that image is stored
+            locally on your device and is not uploaded to our servers unless you publish a song to the community
+            catalog (see below).</p>
+
+        <h2>4. Account & Sign-In</h2>
+        <p>Keys signs you in anonymously through Supabase Auth so your library and votes can sync across devices. If
+            you publish a song to the community catalog, your display name and (if you set one) profile photo are
+            associated with that contribution and visible to other Keys users. No password is collected.</p>
+
+        <h2>5. Community Catalog</h2>
+        <p>If you choose to publish a transcription to the public catalog, the song's metadata (title, artist, source
+            URL, MIDI, note data) is stored in Supabase, a third-party database and storage service. Published catalog
+            entries are visible to all Keys users. You may request removal of your contributions at any time by
+            contacting us.</p>
+
+        <h2>6. Subscriptions</h2>
+        <p>Keys is a paid subscription app. All payments are processed by Apple through the App Store; we do not
+            receive or store your payment information. Subscription status is checked via Apple's StoreKit framework.</p>
+
+        <h2>7. Local Data</h2>
+        <p>Your song library, playback preferences, achievements, and playback history are stored locally on your
+            device using Apple's SwiftData framework. This data is not transmitted to us.</p>
+
+        <h2>8. Third-Party Services</h2>
+        <p>We use the following third parties to operate the App. Each handles your data according to their own privacy
+            policies:</p>
+        <ul>
+            <li><strong>Apple</strong> — App Store, StoreKit, Sign in with Apple.</li>
+            <li><strong>Supabase</strong> — authentication, database, file storage.</li>
+            <li><strong>Replicate</strong> — piano transcription machine-learning models.</li>
+            <li><strong>Anthropic</strong> — sheet music optical recognition.</li>
+        </ul>
+
+        <h2>9. No Advertising or Tracking</h2>
+        <p>Keys does not contain any advertising, analytics SDKs, or third-party tracking services. We do not collect
+            device identifiers, location data, contacts, or browsing history outside the App.</p>
+
+        <h2>10. Children's Privacy</h2>
+        <p>The App is rated 4+ and may be used by people of any age, but we do not knowingly collect personal
+            information from children under 13 beyond what is necessary to provide the App's core functionality.</p>
+
+        <h2>11. Your Rights</h2>
+        <p>You can delete your Keys account and associated catalog data from within the App (Profile → Account → Delete
+            Account), or by emailing us at the address below.</p>
+
+        <h2>12. Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. The "Effective Date" above will reflect the most recent
+            update. Continued use of the App after changes means you accept the revised policy.</p>
+
+        <h2>13. Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us at: <br><a
+                href="mailto:support@bestdaylabs.com">support@bestdaylabs.com</a></p>
+    </main>
+</body>
+
+</html>

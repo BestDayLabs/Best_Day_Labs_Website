@@ -48,5 +48,11 @@ const apps = [
         description: "Learn the chords to any song.",
         iconUrl: "riff/RiffIcon.png",
         folderName: "riff"
+    },
+    {
+        name: "Keys",
+        description: "Turn any piano video into something you can play.",
+        iconUrl: "keys/KeysIcon.png",
+        folderName: "keys"
     }
 ];
