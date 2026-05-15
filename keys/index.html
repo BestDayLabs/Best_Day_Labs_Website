@@ -7,77 +7,157 @@
     <title>Keys — Turn any piano video into something you can play.</title>
     <meta name="description"
         content="Share a piano video from TikTok, Instagram, or YouTube. Keys transcribes the piano part and turns it into an interactive piano roll you can play along with on iPhone or iPad.">
+
+    <meta property="og:title" content="Keys — Turn any piano video into something you can play.">
+    <meta property="og:description"
+        content="AI piano transcription, learn mode, and an infinite catalog of classical pieces. Built for iPhone and iPad.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bestdaylabs.com/keys/">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <main class="container">
-        <img src="KeysIcon.png" alt="Keys App Icon" class="app-icon fade-in">
-        <h1 class="fade-in delay-1">Keys</h1>
-        <p class="tagline fade-in delay-1">Turn any piano video into something you can play.</p>
-        <p class="description fade-in delay-1">
-            Share a piano video from TikTok, Instagram, or YouTube. Keys transcribes the piano part into an interactive
-            piano roll — slow it down, loop the hard parts, and play along.
-        </p>
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
 
-        <div class="steps fade-in delay-2">
-            <div class="step">
-                <div class="step-number">1</div>
-                <h3>Share</h3>
-                <p>Paste a link, or share a video to Keys from any app.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">2</div>
-                <h3>Transcribe</h3>
-                <p>AI extracts the piano part as MIDI in under a minute.</p>
-            </div>
-            <div class="step">
-                <div class="step-number">3</div>
-                <h3>Play</h3>
-                <p>Follow the notes on a virtual keyboard at your own pace.</p>
-            </div>
+    <main class="landing">
+        <div class="container">
+
+            <!-- HERO -->
+            <section class="hero">
+                <div class="hero-icon-wrap fade-in">
+                    <img src="KeysIcon.png" alt="Keys app icon" class="app-icon">
+                </div>
+
+                <span class="eyebrow fade-in delay-1">Now on iPhone &amp; iPad</span>
+
+                <h1 class="headline fade-in delay-1">
+                    Turn any piano video <br>
+                    <span class="grad">into something you can play.</span>
+                </h1>
+
+                <p class="hero-sub fade-in delay-2">
+                    Share a video from TikTok, Instagram, or YouTube. Keys transcribes the piano part into an
+                    interactive piano roll — slow it down, loop the hard parts, and play along.
+                </p>
+
+                <div class="cta-row fade-in delay-3">
+                    <a href="#" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i data-lucide="apple"></i>
+                        Download on the App Store
+                    </a>
+                    <a href="#how" class="btn btn-ghost">
+                        See how it works
+                        <i data-lucide="arrow-down"></i>
+                    </a>
+                </div>
+            </section>
+
+            <!-- HOW IT WORKS -->
+            <section class="section" id="how">
+                <div class="section-heading">
+                    <h2>From video to playable in under a minute</h2>
+                    <p>Three steps. No setup, no theory required.</p>
+                </div>
+
+                <div class="steps">
+                    <div class="step fade-in">
+                        <div class="step-num">1</div>
+                        <h3>Share</h3>
+                        <p>Paste a link, or share a piano video to Keys from any app.</p>
+                    </div>
+                    <div class="step fade-in delay-1">
+                        <div class="step-num">2</div>
+                        <h3>Transcribe</h3>
+                        <p>Our piano transcription model extracts the notes as MIDI.</p>
+                    </div>
+                    <div class="step fade-in delay-2">
+                        <div class="step-num">3</div>
+                        <h3>Play</h3>
+                        <p>Follow the falling notes on a virtual keyboard at your own pace.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES -->
+            <section class="section">
+                <div class="section-heading">
+                    <h2>Built for practice, not for show</h2>
+                    <p>Every feature exists because it makes learning a piece faster.</p>
+                </div>
+
+                <div class="features">
+                    <div class="feature fade-in">
+                        <div class="feature-icon"><i data-lucide="ear"></i></div>
+                        <h3>Learn Mode</h3>
+                        <p>Keys listens through your mic and waits for the right note before advancing.</p>
+                    </div>
+                    <div class="feature fade-in delay-1">
+                        <div class="feature-icon"><i data-lucide="gauge"></i></div>
+                        <h3>Adjustable Speed</h3>
+                        <p>Practice at quarter speed up to 2× — no pitch shift, same instrument.</p>
+                    </div>
+                    <div class="feature fade-in delay-2">
+                        <div class="feature-icon"><i data-lucide="repeat-2"></i></div>
+                        <h3>Loop Sections</h3>
+                        <p>Set A/B markers and drill the tricky bars until they're muscle memory.</p>
+                    </div>
+                    <div class="feature fade-in delay-3">
+                        <div class="feature-icon"><i data-lucide="globe-2"></i></div>
+                        <h3>Discover Feed</h3>
+                        <p>Browse hundreds of classical pieces and community-uploaded transcriptions.</p>
+                    </div>
+                    <div class="feature fade-in delay-4">
+                        <div class="feature-icon"><i data-lucide="scan-line"></i></div>
+                        <h3>Sheet Music Scan</h3>
+                        <p>Point your camera at sheet music and get a playable transcription.</p>
+                    </div>
+                    <div class="feature fade-in delay-5">
+                        <div class="feature-icon"><i data-lucide="library"></i></div>
+                        <h3>Your Library</h3>
+                        <p>Every song you transcribe is saved and synced across your devices.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CLOSING CTA -->
+            <section class="section">
+                <div class="closing fade-in">
+                    <h2>Make it click.</h2>
+                    <p>Take the song stuck in your head and turn it into something your hands can do.</p>
+                    <a href="#" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                        <i data-lucide="apple"></i>
+                        Download Keys
+                    </a>
+                </div>
+            </section>
+
         </div>
-
-        <div class="features fade-in delay-3">
-            <div class="feature">
-                <h3>Learn Mode</h3>
-                <p>Keys listens through your mic and waits for the right note before advancing.</p>
-            </div>
-            <div class="feature">
-                <h3>Adjustable Speed</h3>
-                <p>Practice slow, perform fast — quarter speed up to 2×, no pitch shift.</p>
-            </div>
-            <div class="feature">
-                <h3>Loop Sections</h3>
-                <p>Mark A/B points and drill the hard bars until they click.</p>
-            </div>
-            <div class="feature">
-                <h3>Discover Feed</h3>
-                <p>Browse hundreds of classical pieces and community uploads.</p>
-            </div>
-            <div class="feature">
-                <h3>Sheet Music Scan</h3>
-                <p>Point your camera at sheet music and get a playable transcription.</p>
-            </div>
-            <div class="feature">
-                <h3>Library</h3>
-                <p>Every song you transcribe is saved to your personal library.</p>
-            </div>
-        </div>
-
-        <a href="#" class="app-store-badge fade-in delay-4" target="_blank" rel="noopener noreferrer">
-            Download on the App Store
-        </a>
-
-        <footer class="fade-in delay-5">
-            <div class="footer-links">
-                <a href="privacy.html">Privacy Policy</a>
-                <a href="terms.html">Terms of Service</a>
-                <a href="mailto:support@bestdaylabs.com">Support</a>
-            </div>
-            <p>&copy; 2026 Best Day Labs</p>
-        </footer>
     </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Service</a>
+            <a href="mailto:support@bestdaylabs.com">Support</a>
+            <a href="https://bestdaylabs.com">Best Day Labs</a>
+        </div>
+        <p>&copy; 2026 Best Day Labs. Crafted with care.</p>
+    </footer>
+
+    <script>
+        // Render Lucide icons after DOM ready.
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) window.lucide.createIcons();
+        });
+    </script>
 </body>
 
 </html>
