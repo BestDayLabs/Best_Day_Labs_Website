@@ -23,16 +23,18 @@
         <a href="index.html" class="back-link">&larr; Back to Keys</a>
 
         <h1>Privacy Policy</h1>
-        <span class="effective-date">Effective May 15, 2026</span>
+        <span class="effective-date">Effective May 30, 2026</span>
 
         <p>This Privacy Policy explains how Best Day Labs ("we", "us", or "our") handles your information when you use
             the Keys mobile application (the "App").</p>
 
         <h2>1. Video imports &amp; audio transcription</h2>
         <p>When you share or paste a video link, our servers download the audio from the source (TikTok, Instagram,
-            YouTube, etc.) and pass it to a third-party machine-learning service (Replicate) to extract the piano part
-            as MIDI. Audio is processed in memory and is not permanently stored on our servers. The resulting MIDI and
-            note data are returned to your device and saved to your library.</p>
+            YouTube, etc.) and pass it to third-party machine-learning services — primarily Modal, with Replicate used
+            as a fallback — to extract the piano part as MIDI. The same processing applies when you use related
+            features such as vocal removal or piano-cover generation. Audio is processed transiently for the duration
+            of the request and is not permanently stored on our servers. The resulting MIDI and note data are returned
+            to your device and saved to your library.</p>
 
         <h2>2. Microphone (Learn Mode)</h2>
         <p>Learn Mode listens through your device microphone to detect which notes you play. Audio captured by the
@@ -47,9 +49,10 @@
             catalog (see below).</p>
 
         <h2>4. Account &amp; sign-in</h2>
-        <p>Keys signs you in anonymously through Supabase Auth so your library and votes can sync across devices. If
-            you publish a song to the community catalog, your display name and (if you set one) profile photo are
-            associated with that contribution and visible to other Keys users. No password is collected.</p>
+        <p>Keys signs you in anonymously through Supabase Auth so your library and votes can sync across devices. We do
+            not collect a password, email address, or name at sign-in, and we do not use Sign in with Apple. If you
+            publish a song to the community catalog, your display name and (if you set one) profile photo are
+            associated with that contribution and visible to other Keys users.</p>
 
         <h2>5. Community catalog</h2>
         <p>If you choose to publish a transcription to the public catalog, the song's metadata (title, artist, source
@@ -69,35 +72,66 @@
         <p>We use the following third parties to operate the App. Each handles your data according to their own privacy
             policies:</p>
         <ul>
-            <li><strong>Apple</strong> — App Store, StoreKit, Sign in with Apple.</li>
-            <li><strong>Supabase</strong> — authentication, database, file storage.</li>
-            <li><strong>Replicate</strong> — piano transcription machine-learning models.</li>
+            <li><strong>Apple</strong> — App Store, StoreKit, and subscription billing.</li>
+            <li><strong>Supabase</strong> — anonymous authentication, database, file storage.</li>
+            <li><strong>Modal</strong> — piano transcription machine-learning models (primary).</li>
+            <li><strong>Replicate</strong> — piano transcription machine-learning models (fallback).</li>
             <li><strong>Anthropic</strong> — sheet music optical recognition.</li>
-            <li><strong>PostHog</strong> — anonymous product analytics (see section 9).</li>
+            <li><strong>Railway</strong> — hosting for our backend servers that process video imports.</li>
+            <li><strong>PostHog</strong> — pseudonymous product analytics (see section 9).</li>
         </ul>
 
         <h2>9. Product analytics</h2>
         <p>We use PostHog, a privacy-respecting product analytics service, to understand how the App is used in
             aggregate — for example, which features are popular, where users encounter errors, and how the import
             flow performs. The events we record describe interactions (e.g. "import succeeded", "learn mode
-            started") and are keyed only by your anonymous Supabase user ID. We do not collect screen recordings,
-            full keystroke logs, advertising identifiers, location data, contacts, or browsing history outside the
-            App. We do not use this data to track you across other apps or websites.</p>
+            started") and are keyed to your app-generated, pseudonymous Supabase user ID; PostHog may also process
+            technical metadata such as device type and IP address as part of delivering the service. This information
+            is pseudonymous rather than fully anonymous, because the app-generated ID is persistent. We do not collect
+            screen recordings, full keystroke logs, advertising identifiers, precise location data, contacts, or
+            browsing history outside the App, and we do not use this data to track you across other apps or websites.</p>
 
-        <h2>10. Children's privacy</h2>
-        <p>The App is rated 4+ and may be used by people of any age, but we do not knowingly collect personal
-            information from children under 13 beyond what is necessary to provide the App's core functionality.</p>
+        <h2>10. Data retention</h2>
+        <p>We keep information only as long as needed for the purposes described in this policy:</p>
+        <ul>
+            <li><strong>Imported audio</strong> — held transiently in memory only for the duration of the
+                transcription request, then discarded.</li>
+            <li><strong>Sheet music images</strong> — processed within the request and not retained.</li>
+            <li><strong>Account &amp; catalog data</strong> — retained until you delete your account or request
+                removal of your contributions, after which it is deleted from active systems within a reasonable
+                period (subject to routine backup cycles).</li>
+            <li><strong>Analytics events</strong> — retained by PostHog in aggregate for product-improvement purposes.</li>
+        </ul>
 
-        <h2>11. Your rights</h2>
-        <p>You can delete your Keys account and associated catalog data from within the App (Profile → Account → Delete
-            Account), or by emailing us at the address below.</p>
+        <h2>11. International users &amp; data transfers</h2>
+        <p>We operate from the United States, and our service providers may process your information in the United
+            States and other countries. If you access the App from outside the United States, you understand that your
+            information may be transferred to, stored, and processed in the United States, where data-protection laws
+            may differ from those in your jurisdiction.</p>
 
-        <h2>12. Changes to this policy</h2>
+        <h2>12. Your privacy rights (GDPR &amp; CCPA)</h2>
+        <p>Depending on where you live, you may have rights regarding your personal information, including the right to
+            access, correct, delete, or port your data, and to object to or restrict certain processing. Because Keys
+            is designed around anonymous, on-device, and pseudonymous data, the personal information we hold about any
+            individual is limited.</p>
+        <p>You can delete your Keys account and associated catalog data at any time from within the App
+            (Profile → Account → Delete Account), or by emailing us at the address below. We will not discriminate
+            against you for exercising these rights.</p>
+        <p><strong>We do not sell or share your personal information</strong>, and we do not use it for cross-context
+            behavioral advertising, as those terms are defined under the California Consumer Privacy Act (CCPA/CPRA).</p>
+
+        <h2>13. Children's privacy</h2>
+        <p>Keys is not directed to children under 13, and we do not knowingly collect personal information from
+            children under 13. While the App carries a 4+ content rating (meaning its content is suitable for general
+            audiences), it is intended for use by individuals aged 13 and older. If you believe a child under 13 has
+            provided us with personal information, please contact us and we will delete it.</p>
+
+        <h2>14. Changes to this policy</h2>
         <p>We may update this Privacy Policy from time to time. The "Effective" date above will reflect the most recent
             update. Continued use of the App after changes means you accept the revised policy.</p>
 
-        <h2>13. Contact</h2>
-        <p>If you have any questions about this Privacy Policy, please contact us at
+        <h2>15. Contact</h2>
+        <p>If you have any questions about this Privacy Policy or wish to exercise a privacy right, please contact us at
             <a href="mailto:support@bestdaylabs.com">support@bestdaylabs.com</a>.
         </p>
     </main>
