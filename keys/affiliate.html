@@ -114,9 +114,9 @@
         // page; the affiliate tables are protected by Row Level Security and
         // are only reachable through the token-gated `affiliate_dashboard`
         // function. Copy these from your Supabase project settings (they are
-        // the same SUPABASE_URL / SUPABASE_ANON_KEY the app already uses).
-        const SUPABASE_URL = "https://YOUR-PROJECT.supabase.co";
-        const SUPABASE_ANON_KEY = "YOUR-PUBLIC-ANON-KEY";
+        // the SUPABASE_URL + publishable key from your Supabase project).
+        const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
         // ----------------------------------------------------------------
 
         const $ = (id) => document.getElementById(id);
@@ -124,7 +124,7 @@
             "$" + (cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
         const configured =
-            !SUPABASE_URL.includes("YOUR-PROJECT") && !SUPABASE_ANON_KEY.includes("YOUR-PUBLIC");
+            !SUPABASE_URL.includes("YOUR-PROJECT") && !SUPABASE_ANON_KEY.includes("YOUR-PUBLIC-ANON-KEY");
         if (!configured) {
             $("configWarning").textContent =
                 "Dashboard not yet configured: set SUPABASE_URL and SUPABASE_ANON_KEY in affiliate.html.";
