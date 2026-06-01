@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Admin — Keys</title>
+    <meta name="description" content="Internal affiliate overview.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin { max-width: 1100px; margin: 0 auto; }
+        .totals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 18px 0 26px; }
+        .totals .card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 14px 16px;
+        }
+        .totals .label { font-size: 11px; letter-spacing: 0.4px; opacity: 0.6; text-transform: uppercase; }
+        .totals .value { font-size: 24px; font-weight: 700; margin-top: 4px; }
+        .totals .value.money { color: #9d8bff; }
+        table.codes { width: 100%; border-collapse: collapse; font-size: 14px; }
+        table.codes th, table.codes td {
+            text-align: left; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        table.codes th { font-size: 11px; letter-spacing: 0.4px; opacity: 0.55; text-transform: uppercase; cursor: pointer; user-select: none; }
+        table.codes td.num, table.codes th.num { text-align: right; font-variant-numeric: tabular-nums; }
+        table.codes tr.inactive { opacity: 0.45; }
+        table.codes td .pill {
+            font-size: 11px; padding: 2px 8px; border-radius: 999px;
+            background: rgba(157,139,255,0.18); color: #b9acff;
+        }
+        .muted { opacity: 0.6; font-size: 13px; }
+        .error { color: #ff8080; }
+        .toolbar { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+        .toolbar input {
+            font: inherit; padding: 9px 12px; border-radius: 10px; flex: 1;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff;
+        }
+        .toolbar button {
+            font: inherit; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
+        }
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <main class="legal admin fade-in">
+        <a href="index.html" class="back-link">&larr; Back to Keys</a>
+        <h1>Affiliate Admin</h1>
+        <p class="muted">All creator codes and their stats. Earnings are estimates, finalized after Apple's refund window.</p>
+
+        <div class="totals" id="totals">
+            <div class="card"><div class="label">Codes</div><div class="value" id="tCodes">—</div></div>
+            <div class="card"><div class="label">Redemptions</div><div class="value" id="tRedemptions">—</div></div>
+            <div class="card"><div class="label">Conversions</div><div class="value" id="tConversions">—</div></div>
+            <div class="card"><div class="label">Total owed</div><div class="value money" id="tOwed">—</div></div>
+        </div>
+
+        <div class="toolbar">
+            <input id="filter" type="text" placeholder="Filter by code or name…" autocomplete="off">
+            <button id="refresh">Refresh</button>
+        </div>
+
+        <table class="codes" id="table">
+            <thead>
+                <tr>
+                    <th data-k="code">Code</th>
+                    <th data-k="name">Name</th>
+                    <th class="num" data-k="redemptions">Redeems</th>
+                    <th class="num" data-k="conversions">Convs</th>
+                    <th class="num" data-k="total_paid_periods">Periods</th>
+                    <th class="num" data-k="commission_cents">Owed</th>
+                    <th data-k="rate">Rate</th>
+                </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+        </table>
+
+        <p id="status" class="muted" style="margin-top:18px;"></p>
+        <p id="configWarning" class="error hidden" style="margin-top:18px;"></p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="index.html">Keys</a>
+            <a href="affiliate.html">Creator Dashboard</a>
+            <a href="mailto:support@bestdaylabs.com">Support</a>
+        </div>
+        <p>&copy; 2026 Best Day Labs.</p>
+    </footer>
+
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+        // Public values (publishable key). Admin data is reachable via the
+        // affiliate_admin_all RPC. This page is unlisted/noindex; it is NOT
+        // access-controlled — anyone with the URL can view aggregate stats.
+        const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
+
+        const $ = (id) => document.getElementById(id);
+        const money = (c) => "$" + (c / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        const configured = !SUPABASE_URL.includes("YOUR-PROJECT");
+        if (!configured) {
+            $("configWarning").textContent = "Not configured: set SUPABASE_URL / SUPABASE_ANON_KEY.";
+            $("configWarning").classList.remove("hidden");
+        }
+        const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+        let allRows = [];
+        let sortKey = "commission_cents";
+        let sortDir = -1;
+
+        function render() {
+            const q = $("filter").value.trim().toLowerCase();
+            let rows = allRows.filter(r =>
+                !q || (r.code || "").toLowerCase().includes(q) || (r.name || "").toLowerCase().includes(q));
+
+            rows.sort((a, b) => {
+                let av = a[sortKey], bv = b[sortKey];
+                if (typeof av === "string") { av = (av || "").toLowerCase(); bv = (bv || "").toLowerCase(); }
+                return av < bv ? -sortDir : av > bv ? sortDir : 0;
+            });
+
+            $("rows").innerHTML = rows.map(r => `
+                <tr class="${r.active ? "" : "inactive"}">
+                    <td><strong>${r.code}</strong></td>
+                    <td>${r.name ?? ""}</td>
+                    <td class="num">${r.redemptions ?? 0}</td>
+                    <td class="num">${r.conversions ?? 0}</td>
+                    <td class="num">${r.total_paid_periods ?? 0}</td>
+                    <td class="num">${money(r.commission_cents ?? 0)}</td>
+                    <td><span class="pill">$${(r.rate_first_cents/100).toFixed(2)} / $${(r.rate_recurring_cents/100).toFixed(2)}</span></td>
+                </tr>`).join("");
+
+            // Totals (over the full set, not just the filtered view).
+            $("tCodes").textContent = allRows.length;
+            $("tRedemptions").textContent = allRows.reduce((s, r) => s + Number(r.redemptions || 0), 0);
+            $("tConversions").textContent = allRows.reduce((s, r) => s + Number(r.conversions || 0), 0);
+            $("tOwed").textContent = money(allRows.reduce((s, r) => s + Number(r.commission_cents || 0), 0));
+        }
+
+        async function load() {
+            if (!supabase) return;
+            $("status").textContent = "Loading…";
+            const { data, error } = await supabase.rpc("affiliate_admin_all");
+            if (error) {
+                $("status").textContent = "Error loading data: " + error.message;
+                return;
+            }
+            allRows = data || [];
+            $("status").textContent = `${allRows.length} code(s) · updated ${new Date().toLocaleString()}`;
+            render();
+        }
+
+        // Column sorting
+        document.querySelectorAll("th[data-k]").forEach(th => {
+            th.addEventListener("click", () => {
+                const k = th.dataset.k === "rate" ? "rate_first_cents" : th.dataset.k;
+                if (sortKey === k) sortDir *= -1; else { sortKey = k; sortDir = (typeof allRows[0]?.[k] === "string") ? 1 : -1; }
+                render();
+            });
+        });
+        $("filter").addEventListener("input", render);
+        $("refresh").addEventListener("click", load);
+        load();
+    </script>
+</body>
+
+</html>
