@@ -51,13 +51,11 @@
         <a href="index.html" class="back-link">&larr; Back to Keys</a>
 
         <h1>Creator Dashboard</h1>
-        <p class="muted">Track your Keys referrals and earnings. Enter the code and access
-            token we sent you.</p>
+        <p class="muted">Track your Keys referrals and earnings. Just enter your creator code.</p>
 
         <!-- Login -->
         <div id="login" class="login">
             <input id="code" type="text" placeholder="Creator code (e.g. JOHNPIANO)" autocomplete="off">
-            <input id="token" type="text" placeholder="Access token" autocomplete="off">
             <button class="primary" id="viewBtn">View my dashboard</button>
             <div id="loginError" class="error hidden"></div>
         </div>
@@ -110,11 +108,10 @@
         import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
         // ---- CONFIG (fill these in once) -------------------------------
-        // Both are PUBLIC values — the anon key is safe to ship in a static
-        // page; the affiliate tables are protected by Row Level Security and
-        // are only reachable through the token-gated `affiliate_dashboard`
-        // function. Copy these from your Supabase project settings (they are
-        // the SUPABASE_URL + publishable key from your Supabase project).
+        // Both are PUBLIC values — the publishable key is safe to ship in a
+        // static page; the affiliate tables are RLS-locked and only reachable
+        // through the `affiliate_dashboard_by_code` function, which returns a
+        // single creator's public aggregates (no email/PII).
         const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
         // ----------------------------------------------------------------
@@ -133,18 +130,17 @@
 
         const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
 
-        async function load(code, token) {
+        async function load(code) {
             $("loginError").classList.add("hidden");
             if (!supabase) return;
 
-            const { data, error } = await supabase.rpc("affiliate_dashboard", {
+            const { data, error } = await supabase.rpc("affiliate_dashboard_by_code", {
                 p_code: code.trim(),
-                p_token: token.trim(),
             });
 
             if (error || !data || data.length === 0) {
                 $("loginError").textContent =
-                    "Couldn't load your dashboard. Check your code and access token.";
+                    "No data for that code. Double-check it and try again.";
                 $("loginError").classList.remove("hidden");
                 return;
             }
@@ -160,14 +156,14 @@
             $("login").classList.add("hidden");
             $("results").classList.remove("hidden");
 
-            // Persist in the URL so a refresh keeps the view (token stays local).
+            // Persist in the URL so a refresh keeps the view.
             const url = new URL(window.location);
             url.searchParams.set("code", code.trim());
-            url.searchParams.set("token", token.trim());
             history.replaceState(null, "", url);
         }
 
-        $("viewBtn").addEventListener("click", () => load($("code").value, $("token").value));
+        $("viewBtn").addEventListener("click", () => load($("code").value));
+        $("code").addEventListener("keydown", (e) => { if (e.key === "Enter") load($("code").value); });
         $("logout").addEventListener("click", (e) => {
             e.preventDefault();
             const url = new URL(window.location);
@@ -175,12 +171,11 @@
             window.location.href = url.toString();
         });
 
-        // Auto-load if code+token are in the URL (?code=...&token=...).
+        // Auto-load if a code is in the URL (?code=...).
         const params = new URLSearchParams(window.location.search);
-        if (params.get("code") && params.get("token")) {
+        if (params.get("code")) {
             $("code").value = params.get("code");
-            $("token").value = params.get("token");
-            load(params.get("code"), params.get("token"));
+            load(params.get("code"));
         }
     </script>
 </body>
