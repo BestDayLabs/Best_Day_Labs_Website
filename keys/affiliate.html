@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Dashboard — Keys</title>
+    <meta name="description" content="Affiliate / creator earnings dashboard for Keys.">
+    <meta name="robots" content="noindex">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dash { max-width: 720px; margin: 0 auto; }
+        .dash .login { display: flex; flex-direction: column; gap: 12px; max-width: 360px; }
+        .dash input {
+            font: inherit; padding: 12px 14px; border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);
+            color: #fff;
+        }
+        .dash button.primary {
+            font: inherit; font-weight: 600; padding: 12px 18px; border: 0;
+            border-radius: 999px; color: #fff; cursor: pointer;
+            background: linear-gradient(135deg, #6d5cff, #8a6bff);
+        }
+        .stat-grid {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 22px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 18px 20px;
+        }
+        .stat-card .label { font-size: 12px; letter-spacing: 0.4px; opacity: 0.6; text-transform: uppercase; }
+        .stat-card .value { font-size: 30px; font-weight: 700; margin-top: 6px; }
+        .stat-card.payout .value { color: #9d8bff; }
+        .muted { opacity: 0.6; font-size: 13px; }
+        .error { color: #ff8080; font-size: 14px; }
+        .hidden { display: none; }
+    </style>
+</head>
+
+<body>
+    <div class="bg-glow"></div>
+    <div class="bg-grid"></div>
+
+    <main class="legal dash fade-in">
+        <a href="index.html" class="back-link">&larr; Back to Keys</a>
+
+        <h1>Creator Dashboard</h1>
+        <p class="muted">Track your Keys referrals and earnings. Enter the code and access
+            token we sent you.</p>
+
+        <!-- Login -->
+        <div id="login" class="login">
+            <input id="code" type="text" placeholder="Creator code (e.g. JOHNPIANO)" autocomplete="off">
+            <input id="token" type="text" placeholder="Access token" autocomplete="off">
+            <button class="primary" id="viewBtn">View my dashboard</button>
+            <div id="loginError" class="error hidden"></div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="hidden">
+            <h2 id="creatorName" style="margin-bottom:4px;"></h2>
+            <p class="muted">Code: <span id="creatorCode"></span></p>
+
+            <div class="stat-grid">
+                <div class="stat-card">
+                    <div class="label">Redemptions</div>
+                    <div class="value" id="redemptions">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Conversions</div>
+                    <div class="value" id="conversions">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="label">Paid periods</div>
+                    <div class="value" id="periods">—</div>
+                </div>
+                <div class="stat-card payout">
+                    <div class="label">Estimated earnings</div>
+                    <div class="value" id="commission">—</div>
+                </div>
+            </div>
+
+            <p class="muted" style="margin-top:18px;">
+                "Redemptions" = users who entered your code. "Conversions" = those who became
+                paying subscribers after the free trial. Earnings are estimates and are finalized
+                after Apple's refund window. Payouts are sent monthly.
+            </p>
+            <p><a href="#" id="logout" class="muted">Sign out</a></p>
+        </div>
+
+        <p id="configWarning" class="error hidden" style="margin-top:24px;"></p>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="index.html">Keys</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="mailto:support@bestdaylabs.com">Support</a>
+        </div>
+        <p>&copy; 2026 Best Day Labs.</p>
+    </footer>
+
+    <script type="module">
+        import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+        // ---- CONFIG (fill these in once) -------------------------------
+        // Both are PUBLIC values — the anon key is safe to ship in a static
+        // page; the affiliate tables are protected by Row Level Security and
+        // are only reachable through the token-gated `affiliate_dashboard`
+        // function. Copy these from your Supabase project settings (they are
+        // the SUPABASE_URL + publishable key from your Supabase project).
+        const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
+        // ----------------------------------------------------------------
+
+        const $ = (id) => document.getElementById(id);
+        const money = (cents) =>
+            "$" + (cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        const configured =
+            !SUPABASE_URL.includes("YOUR-PROJECT") && !SUPABASE_ANON_KEY.includes("YOUR-PUBLIC-ANON-KEY");
+        if (!configured) {
+            $("configWarning").textContent =
+                "Dashboard not yet configured: set SUPABASE_URL and SUPABASE_ANON_KEY in affiliate.html.";
+            $("configWarning").classList.remove("hidden");
+        }
+
+        const supabase = configured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+        async function load(code, token) {
+            $("loginError").classList.add("hidden");
+            if (!supabase) return;
+
+            const { data, error } = await supabase.rpc("affiliate_dashboard", {
+                p_code: code.trim(),
+                p_token: token.trim(),
+            });
+
+            if (error || !data || data.length === 0) {
+                $("loginError").textContent =
+                    "Couldn't load your dashboard. Check your code and access token.";
+                $("loginError").classList.remove("hidden");
+                return;
+            }
+
+            const row = data[0];
+            $("creatorName").textContent = row.name || "Creator";
+            $("creatorCode").textContent = row.code;
+            $("redemptions").textContent = row.redemptions ?? 0;
+            $("conversions").textContent = row.conversions ?? 0;
+            $("periods").textContent = row.total_paid_periods ?? 0;
+            $("commission").textContent = money(row.commission_cents ?? 0);
+
+            $("login").classList.add("hidden");
+            $("results").classList.remove("hidden");
+
+            // Persist in the URL so a refresh keeps the view (token stays local).
+            const url = new URL(window.location);
+            url.searchParams.set("code", code.trim());
+            url.searchParams.set("token", token.trim());
+            history.replaceState(null, "", url);
+        }
+
+        $("viewBtn").addEventListener("click", () => load($("code").value, $("token").value));
+        $("logout").addEventListener("click", (e) => {
+            e.preventDefault();
+            const url = new URL(window.location);
+            url.search = "";
+            window.location.href = url.toString();
+        });
+
+        // Auto-load if code+token are in the URL (?code=...&token=...).
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("code") && params.get("token")) {
+            $("code").value = params.get("code");
+            $("token").value = params.get("token");
+            load(params.get("code"), params.get("token"));
+        }
+    </script>
+</body>
+
+</html>
