@@ -59,6 +59,13 @@
         <h1>Affiliate Admin</h1>
         <p class="muted">All creator codes and their stats. Earnings are estimates, finalized after Apple's refund window.</p>
 
+        <div id="gate" class="toolbar hidden" style="max-width:420px;">
+            <input id="tokenInput" type="text" placeholder="Admin token" autocomplete="off">
+            <button id="gateBtn">View</button>
+        </div>
+        <p id="gateError" class="error hidden" style="margin-top:8px;"></p>
+
+        <div id="content" class="hidden">
         <div class="totals" id="totals">
             <div class="card"><div class="label">Codes</div><div class="value" id="tCodes">—</div></div>
             <div class="card"><div class="label">Redemptions</div><div class="value" id="tRedemptions">—</div></div>
@@ -90,6 +97,8 @@
         </table>
 
         <p id="status" class="muted" style="margin-top:18px;"></p>
+        </div>
+
         <p id="configWarning" class="error hidden" style="margin-top:18px;"></p>
     </main>
 
@@ -105,9 +114,10 @@
     <script type="module">
         import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-        // Public values (publishable key). Admin data is reachable via the
-        // affiliate_admin_all RPC. This page is unlisted/noindex; it is NOT
-        // access-controlled — anyone with the URL can view aggregate stats.
+        // Public values (publishable key — safe to ship). Admin data is gated
+        // by the affiliate_admin_all RPC, which returns nothing without a valid
+        // admin token (passed as ?token=… and checked against a server-side
+        // secret). The key alone can't read the affiliate tables.
         const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
 
@@ -189,15 +199,46 @@
             $("tOwed").textContent = money(allRows.reduce((s, r) => s + Number(r.commission_cents || 0), 0));
         }
 
+        // Admin token gates the data. It lives only in the URL (?token=…),
+        // never in this page's source, and the RPC returns nothing without it.
+        const params = new URLSearchParams(window.location.search);
+        let token = params.get("token") || "";
+
+        function showGate(msg) {
+            $("content").classList.add("hidden");
+            $("gate").classList.remove("hidden");
+            if (msg) { $("gateError").textContent = msg; $("gateError").classList.remove("hidden"); }
+            else { $("gateError").classList.add("hidden"); }
+        }
+
+        function enterToken() {
+            const t = $("tokenInput").value.trim();
+            if (!t) return;
+            token = t;
+            const url = new URL(window.location);
+            url.searchParams.set("token", t);
+            history.replaceState(null, "", url);
+            $("gate").classList.add("hidden");
+            $("gateError").classList.add("hidden");
+            $("content").classList.remove("hidden");
+            load();
+        }
+
         async function load() {
-            if (!supabase) return;
+            if (!supabase || !token) return;
             $("status").textContent = "Loading…";
-            const { data, error } = await supabase.rpc("affiliate_admin_all");
+            const { data, error } = await supabase.rpc("affiliate_admin_all", { p_token: token });
             if (error) {
                 $("status").textContent = "Error loading data: " + error.message;
                 return;
             }
-            allRows = data || [];
+            // A valid token always returns the (non-empty) affiliate list, so an
+            // empty result means the token was rejected.
+            if (!data || data.length === 0) {
+                showGate("That token didn't work — check the link you were given.");
+                return;
+            }
+            allRows = data;
             $("status").textContent = `${allRows.length} code(s) · updated ${new Date().toLocaleString()}`;
             render();
         }
@@ -212,7 +253,16 @@
         });
         $("filter").addEventListener("input", render);
         $("refresh").addEventListener("click", load);
-        load();
+        $("gateBtn").addEventListener("click", enterToken);
+        $("tokenInput").addEventListener("keydown", e => { if (e.key === "Enter") enterToken(); });
+
+        // Boot: load straight away if a token is in the URL, else prompt for it.
+        if (token) {
+            $("content").classList.remove("hidden");
+            load();
+        } else {
+            showGate("");
+        }
     </script>
 </body>
 
