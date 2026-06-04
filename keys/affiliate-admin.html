@@ -76,6 +76,7 @@
         <div class="toolbar">
             <input id="filter" type="text" placeholder="Filter by code or name…" autocomplete="off">
             <button id="refresh">Refresh</button>
+            <button id="signout">Forget device</button>
         </div>
 
         <table class="codes" id="table">
@@ -199,10 +200,22 @@
             $("tOwed").textContent = money(allRows.reduce((s, r) => s + Number(r.commission_cents || 0), 0));
         }
 
-        // Admin token gates the data. It lives only in the URL (?token=…),
-        // never in this page's source, and the RPC returns nothing without it.
+        // Admin token gates the data. It can arrive via the URL (?token=…) the
+        // first time, but is then remembered in localStorage so you only enter
+        // it once per device. The RPC returns nothing without a valid token.
+        const STORE_KEY = "keysAdminToken";
         const params = new URLSearchParams(window.location.search);
-        let token = params.get("token") || "";
+        let token = params.get("token") || localStorage.getItem(STORE_KEY) || "";
+
+        // Drop the token from the address bar if it came in via the URL, so it
+        // doesn't linger in browser history once it's saved locally.
+        function cleanUrl() {
+            if (params.get("token")) {
+                const url = new URL(window.location);
+                url.searchParams.delete("token");
+                history.replaceState(null, "", url);
+            }
+        }
 
         function showGate(msg) {
             $("content").classList.add("hidden");
@@ -215,13 +228,19 @@
             const t = $("tokenInput").value.trim();
             if (!t) return;
             token = t;
-            const url = new URL(window.location);
-            url.searchParams.set("token", t);
-            history.replaceState(null, "", url);
             $("gate").classList.add("hidden");
             $("gateError").classList.add("hidden");
             $("content").classList.remove("hidden");
             load();
+        }
+
+        // Clear the saved token on this device and return to the prompt.
+        function signOut() {
+            localStorage.removeItem(STORE_KEY);
+            token = "";
+            $("tokenInput").value = "";
+            cleanUrl();
+            showGate("");
         }
 
         async function load() {
@@ -233,11 +252,15 @@
                 return;
             }
             // A valid token always returns the (non-empty) affiliate list, so an
-            // empty result means the token was rejected.
+            // empty result means the token was rejected — forget it on this device.
             if (!data || data.length === 0) {
+                localStorage.removeItem(STORE_KEY);
                 showGate("That token didn't work — check the link you were given.");
                 return;
             }
+            // Valid — remember it on this device so we don't ask again.
+            localStorage.setItem(STORE_KEY, token);
+            cleanUrl();
             allRows = data;
             $("status").textContent = `${allRows.length} code(s) · updated ${new Date().toLocaleString()}`;
             render();
@@ -254,6 +277,7 @@
         $("filter").addEventListener("input", render);
         $("refresh").addEventListener("click", load);
         $("gateBtn").addEventListener("click", enterToken);
+        $("signout").addEventListener("click", signOut);
         $("tokenInput").addEventListener("keydown", e => { if (e.key === "Enter") enterToken(); });
 
         // Boot: load straight away if a token is in the URL, else prompt for it.
