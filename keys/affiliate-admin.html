@@ -46,7 +46,7 @@
             font: inherit; padding: 9px 14px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15);
             background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
         }
-        .hidden { display: none; }
+        .hidden { display: none !important; }
 
         /* Add-creator form */
         .addbar { margin: 2px 0 14px; }
@@ -74,8 +74,13 @@
         }
         .created code { background: rgba(255,255,255,0.12); padding: 1px 6px; border-radius: 6px; }
 
-        /* Mobile: 2-up totals, wrapping toolbar, single-column form, and the
-           wide table reflowed into stacked cards. */
+        /* Wrap the table so it can scroll sideways instead of squishing. On
+           desktop it fits and never scrolls; on narrow screens it keeps the
+           full desktop row layout and you swipe horizontally. */
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+        /* Mobile: 2-up totals, wrapping toolbar, single-column form. The stats
+           table stays as rows (desktop look) and scrolls horizontally. */
         @media (max-width: 720px) {
             .totals { grid-template-columns: repeat(2, 1fr); }
             .toolbar { flex-wrap: wrap; }
@@ -83,21 +88,8 @@
             .toolbar button { flex: 1 1 auto; }
             .addform { grid-template-columns: 1fr; }
 
-            table.codes thead { display: none; }
-            table.codes, table.codes tbody, table.codes tr, table.codes td { display: block; width: 100%; }
-            table.codes tr {
-                background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
-                border-radius: 14px; padding: 4px 6px; margin-bottom: 12px;
-            }
-            table.codes td {
-                display: flex; justify-content: space-between; align-items: center; gap: 14px;
-                text-align: right; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.06);
-            }
-            table.codes td:last-child { border-bottom: 0; }
-            table.codes td::before {
-                content: attr(data-label); flex: 0 0 auto; text-align: left;
-                font-size: 11px; letter-spacing: 0.4px; opacity: 0.55; text-transform: uppercase;
-            }
+            table.codes { min-width: 760px; }
+            table.codes th, table.codes td { white-space: nowrap; }
         }
     </style>
 </head>
@@ -161,6 +153,7 @@
             </div>
         </form>
 
+        <div class="table-wrap">
         <table class="codes" id="table">
             <thead>
                 <tr>
@@ -178,6 +171,7 @@
             </thead>
             <tbody id="rows"></tbody>
         </table>
+        </div>
 
         <p id="status" class="muted" style="margin-top:18px;"></p>
         </div>
