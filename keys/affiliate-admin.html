@@ -76,6 +76,8 @@
                 <tr>
                     <th data-k="code">Code</th>
                     <th data-k="name">Name</th>
+                    <th data-k="handle">Handle</th>
+                    <th data-k="payout_method">Payment</th>
                     <th class="num" data-k="redemptions">Redeems</th>
                     <th class="num" data-k="conversions">Convs</th>
                     <th class="num" data-k="total_paid_periods">Periods</th>
@@ -111,6 +113,26 @@
 
         const $ = (id) => document.getElementById(id);
         const money = (c) => "$" + (c / 100).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+        const esc = (s) => String(s).replace(/[&<>"']/g, c =>
+            ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+        const dash = '<span style="opacity:0.4">—</span>';
+
+        // Social handle cell.
+        function handleCell(handle) {
+            return handle ? esc(handle) : dash;
+        }
+
+        // Payment cell: method as a pill + the destination details beside it.
+        // Both are admin-only fields (never exposed on the creator dashboard).
+        function paymentCell(method, details) {
+            if (!method && !details) return dash;
+            const pill = method
+                ? `<span class="pill" style="background:rgba(255,255,255,0.1);color:#cfc9ff">${esc(method)}</span> `
+                : "";
+            const dest = details ? `<span class="muted">${esc(details)}</span>` : "";
+            return pill + dest;
+        }
 
         // Contract day-countdown cell. Shows days remaining; amber under 14
         // days, red once expired, dash when no contract is set.
@@ -150,6 +172,8 @@
                 <tr class="${r.active ? "" : "inactive"}">
                     <td><strong>${r.code}</strong></td>
                     <td>${r.name ?? ""}</td>
+                    <td>${handleCell(r.handle)}</td>
+                    <td>${paymentCell(r.payout_method, r.payout_details)}</td>
                     <td class="num">${r.redemptions ?? 0}</td>
                     <td class="num">${r.conversions ?? 0}</td>
                     <td class="num">${r.total_paid_periods ?? 0}</td>
