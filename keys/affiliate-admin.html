@@ -74,6 +74,34 @@
         }
         .created code { background: rgba(255,255,255,0.12); padding: 1px 6px; border-radius: 6px; }
 
+        /* Per-row edit button + edit modal */
+        .edit-btn {
+            font: inherit; font-size: 12px; margin-left: 8px; padding: 2px 8px; cursor: pointer;
+            border-radius: 8px; border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.08); color: #fff; white-space: nowrap;
+        }
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 50; padding: 20px;
+            background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center;
+        }
+        .modal {
+            width: 100%; max-width: 420px; display: flex; flex-direction: column; gap: 12px;
+            background: #1a1730; border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px; padding: 22px;
+        }
+        .modal h3 { margin: 0; font-size: 18px; }
+        .modal .field { display: flex; flex-direction: column; gap: 5px; }
+        .modal label { font-size: 11px; letter-spacing: 0.4px; opacity: 0.6; text-transform: uppercase; }
+        .modal input, .modal select {
+            font: inherit; padding: 10px 12px; border-radius: 10px; width: 100%; box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff;
+        }
+        .modal .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
+        .modal button.secondary {
+            font: inherit; padding: 10px 16px; border-radius: 999px; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); color: #fff;
+        }
+
         /* Wrap the table so it can scroll sideways instead of squishing. On
            desktop it fits and never scrolls; on narrow screens it keeps the
            full desktop row layout and you swipe horizontally. */
@@ -179,6 +207,29 @@
         <p id="configWarning" class="error hidden" style="margin-top:18px;"></p>
     </main>
 
+    <div id="editModal" class="modal-overlay hidden">
+        <div class="modal">
+            <h3>Edit <span id="editCode"></span></h3>
+            <div class="field"><label>Handle</label><input id="e_handle" placeholder="@johnpiano" autocomplete="off"></div>
+            <div class="field"><label>Payout method</label>
+                <select id="e_method">
+                    <option value="">—</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="venmo">Venmo</option>
+                    <option value="zelle">Zelle</option>
+                    <option value="cashapp">Cash App</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="field"><label>Payout details</label><input id="e_details" placeholder="email / @handle / account" autocomplete="off"></div>
+            <div class="actions">
+                <button class="btn-primary" id="e_save">Save</button>
+                <button class="secondary" id="e_cancel">Cancel</button>
+                <span id="editError" class="error"></span>
+            </div>
+        </div>
+    </div>
+
     <footer class="site-footer">
         <div class="footer-links">
             <a href="index.html">Keys</a>
@@ -260,7 +311,7 @@
                     <td data-label="Code"><strong>${r.code}</strong></td>
                     <td data-label="Name">${r.name ?? ""}</td>
                     <td data-label="Handle">${handleCell(r.handle)}</td>
-                    <td data-label="Payment">${paymentCell(r.payout_method, r.payout_details)}</td>
+                    <td data-label="Payment">${paymentCell(r.payout_method, r.payout_details)}<button class="edit-btn" title="Edit payout / handle" data-code="${esc(r.code)}" data-handle="${esc(r.handle ?? "")}" data-method="${esc(r.payout_method ?? "")}" data-details="${esc(r.payout_details ?? "")}">✎ Edit</button></td>
                     <td class="num" data-label="Redeems">${r.redemptions ?? 0}</td>
                     <td class="num" data-label="Convs">${r.conversions ?? 0}</td>
                     <td class="num" data-label="Periods">${r.total_paid_periods ?? 0}</td>
@@ -403,6 +454,59 @@
         $("tokenInput").addEventListener("keydown", e => { if (e.key === "Enter") enterToken(); });
         $("addToggle").addEventListener("click", () => $("addform").classList.toggle("hidden"));
         $("addform").addEventListener("submit", createCreator);
+
+        // ---- Edit a creator's handle + payout (inline) ------------------
+        let editCode = null;
+
+        function openEdit(btn) {
+            editCode = btn.dataset.code;
+            $("editCode").textContent = editCode;
+            $("e_handle").value = btn.dataset.handle || "";
+            $("e_method").value = btn.dataset.method || "";
+            $("e_details").value = btn.dataset.details || "";
+            $("editError").textContent = "";
+            $("editModal").classList.remove("hidden");
+        }
+
+        function closeEdit() {
+            $("editModal").classList.add("hidden");
+            editCode = null;
+        }
+
+        async function saveEdit() {
+            if (!supabase || !token || !editCode) return;
+            $("editError").textContent = "";
+            $("e_save").disabled = true;
+            const { data, error } = await supabase.rpc("affiliate_admin_update", {
+                p_token: token,
+                p_code: editCode,
+                p_handle: $("e_handle").value.trim() || null,
+                p_payout_method: $("e_method").value || null,
+                p_payout_details: $("e_details").value.trim() || null,
+            });
+            $("e_save").disabled = false;
+            if (error) { $("editError").textContent = error.message; return; }
+
+            // Patch the row locally and re-render (no full reload needed).
+            const upd = Array.isArray(data) ? data[0] : data;
+            const row = allRows.find(r => r.code === editCode);
+            if (row && upd) {
+                row.handle = upd.handle;
+                row.payout_method = upd.payout_method;
+                row.payout_details = upd.payout_details;
+            }
+            closeEdit();
+            render();
+        }
+
+        // Edit buttons are re-created on every render, so delegate from #rows.
+        $("rows").addEventListener("click", (e) => {
+            const btn = e.target.closest(".edit-btn");
+            if (btn) openEdit(btn);
+        });
+        $("e_save").addEventListener("click", saveEdit);
+        $("e_cancel").addEventListener("click", closeEdit);
+        $("editModal").addEventListener("click", (e) => { if (e.target.id === "editModal") closeEdit(); });
 
         // Boot: load straight away if a token is in the URL, else prompt for it.
         if (token) {
