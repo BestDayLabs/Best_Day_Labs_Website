@@ -47,6 +47,58 @@
             background: rgba(255,255,255,0.06); color: #fff; cursor: pointer;
         }
         .hidden { display: none; }
+
+        /* Add-creator form */
+        .addbar { margin: 2px 0 14px; }
+        .addform {
+            display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px; padding: 16px; margin-bottom: 18px;
+        }
+        .addform .field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+        .addform label { font-size: 11px; letter-spacing: 0.4px; opacity: 0.6; text-transform: uppercase; }
+        .addform input, .addform select {
+            font: inherit; padding: 10px 12px; border-radius: 10px; width: 100%; box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff;
+        }
+        .addform .actions { grid-column: 1 / -1; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .btn-primary {
+            font: inherit; font-weight: 600; padding: 10px 18px; border: 0; border-radius: 999px;
+            color: #fff; cursor: pointer; background: linear-gradient(135deg, #6d5cff, #8a6bff);
+        }
+        .btn-primary:disabled { opacity: 0.5; cursor: default; }
+        .created {
+            background: rgba(109,92,255,0.12); border: 1px solid rgba(157,139,255,0.4);
+            border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 14px; line-height: 1.7;
+            word-break: break-word;
+        }
+        .created code { background: rgba(255,255,255,0.12); padding: 1px 6px; border-radius: 6px; }
+
+        /* Mobile: 2-up totals, wrapping toolbar, single-column form, and the
+           wide table reflowed into stacked cards. */
+        @media (max-width: 720px) {
+            .totals { grid-template-columns: repeat(2, 1fr); }
+            .toolbar { flex-wrap: wrap; }
+            .toolbar input { flex: 1 1 100%; }
+            .toolbar button { flex: 1 1 auto; }
+            .addform { grid-template-columns: 1fr; }
+
+            table.codes thead { display: none; }
+            table.codes, table.codes tbody, table.codes tr, table.codes td { display: block; width: 100%; }
+            table.codes tr {
+                background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 14px; padding: 4px 6px; margin-bottom: 12px;
+            }
+            table.codes td {
+                display: flex; justify-content: space-between; align-items: center; gap: 14px;
+                text-align: right; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
+            table.codes td:last-child { border-bottom: 0; }
+            table.codes td::before {
+                content: attr(data-label); flex: 0 0 auto; text-align: left;
+                font-size: 11px; letter-spacing: 0.4px; opacity: 0.55; text-transform: uppercase;
+            }
+        }
     </style>
 </head>
 
@@ -78,6 +130,36 @@
             <button id="refresh">Refresh</button>
             <button id="signout">Forget device</button>
         </div>
+
+        <div class="addbar">
+            <button id="addToggle" class="btn-primary">+ Add creator</button>
+        </div>
+
+        <div id="created" class="created hidden"></div>
+
+        <form id="addform" class="addform hidden" autocomplete="off">
+            <div class="field"><label>Code *</label><input id="f_code" placeholder="JOHNPIANO"></div>
+            <div class="field"><label>Name *</label><input id="f_name" placeholder="John Smith"></div>
+            <div class="field"><label>Handle</label><input id="f_handle" placeholder="@johnpiano"></div>
+            <div class="field"><label>Email</label><input id="f_email" type="email" placeholder="john@example.com"></div>
+            <div class="field"><label>$ on conversion</label><input id="f_first" type="number" step="0.01" min="0" inputmode="decimal" value="1.50"></div>
+            <div class="field"><label>$ per recurring week</label><input id="f_recurring" type="number" step="0.01" min="0" inputmode="decimal" value="0.75"></div>
+            <div class="field"><label>Payout method</label>
+                <select id="f_method">
+                    <option value="">—</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="venmo">Venmo</option>
+                    <option value="zelle">Zelle</option>
+                    <option value="cashapp">Cash App</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="field"><label>Payout details</label><input id="f_details" placeholder="email / @handle / account"></div>
+            <div class="actions">
+                <button type="submit" class="btn-primary" id="f_submit">Create creator</button>
+                <span id="addError" class="error"></span>
+            </div>
+        </form>
 
         <table class="codes" id="table">
             <thead>
@@ -181,16 +263,16 @@
 
             $("rows").innerHTML = rows.map(r => `
                 <tr class="${r.active ? "" : "inactive"}">
-                    <td><strong>${r.code}</strong></td>
-                    <td>${r.name ?? ""}</td>
-                    <td>${handleCell(r.handle)}</td>
-                    <td>${paymentCell(r.payout_method, r.payout_details)}</td>
-                    <td class="num">${r.redemptions ?? 0}</td>
-                    <td class="num">${r.conversions ?? 0}</td>
-                    <td class="num">${r.total_paid_periods ?? 0}</td>
-                    <td class="num">${money(r.commission_cents ?? 0)}</td>
-                    <td><span class="pill">$${(r.rate_first_cents/100).toFixed(2)} / $${(r.rate_recurring_cents/100).toFixed(2)}</span></td>
-                    <td class="num">${contractCell(r.contract_ends_at)}</td>
+                    <td data-label="Code"><strong>${r.code}</strong></td>
+                    <td data-label="Name">${r.name ?? ""}</td>
+                    <td data-label="Handle">${handleCell(r.handle)}</td>
+                    <td data-label="Payment">${paymentCell(r.payout_method, r.payout_details)}</td>
+                    <td class="num" data-label="Redeems">${r.redemptions ?? 0}</td>
+                    <td class="num" data-label="Convs">${r.conversions ?? 0}</td>
+                    <td class="num" data-label="Periods">${r.total_paid_periods ?? 0}</td>
+                    <td class="num" data-label="Owed">${money(r.commission_cents ?? 0)}</td>
+                    <td data-label="Rate"><span class="pill">$${(r.rate_first_cents/100).toFixed(2)} / $${(r.rate_recurring_cents/100).toFixed(2)}</span></td>
+                    <td class="num" data-label="Contract">${contractCell(r.contract_ends_at)}</td>
                 </tr>`).join("");
 
             // Totals (over the full set, not just the filtered view).
@@ -274,11 +356,59 @@
                 render();
             });
         });
+        // ---- Add creator ------------------------------------------------
+        const dollarsToCents = (v) => {
+            const n = parseFloat(v);
+            return Number.isFinite(n) ? Math.round(n * 100) : 0;
+        };
+
+        async function createCreator(e) {
+            e.preventDefault();
+            if (!supabase || !token) return;
+            $("addError").textContent = "";
+
+            const code = $("f_code").value.trim();
+            const name = $("f_name").value.trim();
+            if (!code || !name) { $("addError").textContent = "Code and name are required."; return; }
+
+            const payload = {
+                p_token: token,
+                p_code: code,
+                p_name: name,
+                p_handle: $("f_handle").value.trim() || null,
+                p_email: $("f_email").value.trim() || null,
+                p_rate_first_cents: dollarsToCents($("f_first").value),
+                p_rate_recurring_cents: dollarsToCents($("f_recurring").value),
+                p_payout_method: $("f_method").value || null,
+                p_payout_details: $("f_details").value.trim() || null,
+                p_contract_ends_at: null,
+            };
+
+            $("f_submit").disabled = true;
+            const { data, error } = await supabase.rpc("affiliate_admin_create", payload);
+            $("f_submit").disabled = false;
+            if (error) { $("addError").textContent = error.message; return; }
+
+            const row = Array.isArray(data) ? data[0] : data;
+            const dashUrl = `${location.origin}/keys/affiliate.html?code=${encodeURIComponent(row.code)}&token=${row.dashboard_token}`;
+            $("created").innerHTML =
+                `✓ Created <strong>${esc(row.code)}</strong>. Share these with the creator:<br>` +
+                `Code <code>${esc(row.code)}</code> &middot; Access token <code>${esc(row.dashboard_token)}</code><br>` +
+                `<a href="${esc(dashUrl)}" target="_blank" rel="noopener">Open their dashboard link &rarr;</a>`;
+            $("created").classList.remove("hidden");
+
+            $("addform").reset();
+            $("addform").classList.add("hidden");
+            load();
+        }
+
         $("filter").addEventListener("input", render);
         $("refresh").addEventListener("click", load);
         $("gateBtn").addEventListener("click", enterToken);
         $("signout").addEventListener("click", signOut);
         $("tokenInput").addEventListener("keydown", e => { if (e.key === "Enter") enterToken(); });
+        $("addToggle").addEventListener("click", () => $("addform").classList.toggle("hidden"));
+        $("addform").addEventListener("submit", createCreator);
 
         // Boot: load straight away if a token is in the URL, else prompt for it.
         if (token) {
