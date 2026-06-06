@@ -5,6 +5,15 @@
       {
         "appID": "AU7J33HGQ9.com.natetaylor.Riff",
         "paths": ["/riff/song/*"]
+      },
+      {
+        "appIDs": ["AU7J33HGQ9.com.bestdaylabs.Keys"],
+        "components": [
+          {
+            "/": "/keys/song/*",
+            "comment": "Song share deep links"
+          }
+        ]
       }
     ]
   }
