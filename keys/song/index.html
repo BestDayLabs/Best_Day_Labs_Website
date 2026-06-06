@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Keys — Play Any Song on Piano</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0B1220;
+      color: #fff;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .icon {
+      width: 96px;
+      height: 96px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin: 0 auto 24px;
+      box-shadow: 0 8px 32px rgba(108, 99, 255, 0.4);
+    }
+    h1 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+    p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.65);
+      max-width: 300px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #6C63FF;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 50px;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.88; }
+    .hint {
+      margin-top: 20px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.35);
+    }
+  </style>
+</head>
+<body>
+  <div class="icon">🎹</div>
+  <h1>Open in Keys</h1>
+  <p>Learn this song on piano — play it note by note at your own pace.</p>
+  <a id="appStoreBtn" class="btn" href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403">
+    Get Keys on the App Store
+  </a>
+  <p class="hint" id="hint">If you have Keys installed, it will open automatically.</p>
+
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var songID = params.get("id");
+      if (!songID) return;
+
+      // Try to open the app via custom URL scheme.
+      // If the app is installed, iOS intercepts this and opens it directly.
+      // If not installed (or on Android/desktop), the timeout fires first
+      // and the browser stays on this page showing the App Store button.
+      var appURL = "keys://song?id=" + encodeURIComponent(songID);
+      var appStoreURL = "https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403";
+
+      // On iOS, Universal Links take priority over this page entirely
+      // when the app is installed — the OS intercepts the HTTPS link
+      // before Safari loads the page. This JS path only runs when the
+      // app is NOT installed (or on non-iOS platforms).
+      var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+      if (isIOS) {
+        document.getElementById("hint").textContent = "Opening Keys…";
+
+        // Attempt the custom URL scheme. If the app isn't installed, iOS
+        // shows a brief error then returns focus to Safari — we catch that
+        // with the blur/visibilitychange guard below.
+        var left = window.pageXOffset, top = window.pageYOffset;
+        window.location.href = appURL;
+
+        // Give the OS 1.6 s to decide. If we're still here, the app
+        // isn't installed — bounce to the App Store.
+        var timer = setTimeout(function () {
+          window.location.href = appStoreURL;
+        }, 1600);
+
+        // If the user switched apps (app opened), the page loses focus.
+        // Cancel the App Store redirect so we don't steal focus back.
+        var cancel = function () { clearTimeout(timer); };
+        window.addEventListener("blur", cancel, { once: true });
+        document.addEventListener("visibilitychange", function () {
+          if (document.hidden) cancel();
+        }, { once: true });
+      }
+    })();
+  </script>
+</body>
+</html>
