@@ -113,10 +113,10 @@
       </div>
 
       <div class="cards">
-        <div class="card"><div class="label">Views</div><div class="value" id="cViews">—</div><div class="sub">gained in range</div></div>
-        <div class="card"><div class="label">Likes</div><div class="value" id="cLikes">—</div><div class="sub">gained in range</div></div>
-        <div class="card"><div class="label">Comments</div><div class="value" id="cComments">—</div><div class="sub">gained in range</div></div>
-        <div class="card"><div class="label">Saves</div><div class="value" id="cSaves">—</div><div class="sub">TikTok only*</div></div>
+        <div class="card"><div class="label">Views</div><div class="value" id="cViews">—</div><div class="sub" id="cViewsSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Likes</div><div class="value" id="cLikes">—</div><div class="sub" id="cLikesSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Comments</div><div class="value" id="cComments">—</div><div class="sub" id="cCommentsSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Saves</div><div class="value" id="cSaves">—</div><div class="sub" id="cSavesSub">TikTok only*</div></div>
       </div>
 
       <div class="panel">
@@ -238,22 +238,38 @@
     }
 
     function render() {
-      if (!cache) return;
-      const days = Number($("rangeFilter").value);
-      const start = new Date(Date.now() - days * 864e5).toISOString().slice(0, 10);
-      const ids = accountIds();
-      const rows = cache.daily.filter(d => ids.has(d.account_id) && d.captured_on >= start);
+      try {
+        if (!cache) return;
+        const days = Number($("rangeFilter").value);
+        // window includes today: e.g. 7 days = today and the 6 days before it
+        const start = new Date(Date.now() - (days - 1) * 864e5).toISOString().slice(0, 10);
+        const ids = accountIds();
+        const rows = cache.daily.filter(d => ids.has(d.account_id) && d.captured_on >= start);
 
-      // Summary cards
-      const sum = (k) => rows.reduce((t, r) => t + Number(r[k] ?? 0), 0);
-      $("cViews").textContent = fmt(sum("views_gained"));
-      $("cLikes").textContent = fmt(sum("likes_gained"));
-      $("cComments").textContent = fmt(sum("comments_gained"));
-      $("cSaves").textContent = fmt(sum("saves_gained"));
+        // Cards: cumulative totals (latest snapshot per account) + gained in range
+        const latestByAccount = {};
+        rows.forEach(r => {
+          const cur = latestByAccount[r.account_id];
+          if (!cur || r.captured_on > cur.captured_on) latestByAccount[r.account_id] = r;
+        });
+        const latest = Object.values(latestByAccount);
+        const totals = (k) => latest.reduce((t, r) => t + Number(r[k] ?? 0), 0);
+        const gained = (k) => rows.reduce((t, r) => t + Number(r[k] ?? 0), 0);
+        const card = (id, totalKey, gainKey, note) => {
+          $(id).textContent = fmt(totals(totalKey));
+          $(id + "Sub").textContent = `+${fmt(gained(gainKey))} in last ${days}d` + (note ? ` · ${note}` : "");
+        };
+        card("cViews", "total_views", "views_gained");
+        card("cLikes", "total_likes", "likes_gained");
+        card("cComments", "total_comments", "comments_gained");
+        card("cSaves", "total_saves", "saves_gained", "TikTok only*");
 
-      renderChart(rows, start, days);
-      renderAccounts(rows, ids);
-      renderPosts(ids);
+        renderChart(rows, start, days);
+        renderAccounts(rows, ids);
+        renderPosts(ids);
+      } catch (e) {
+        $("lastSync").textContent = "Error rendering dashboard: " + (e && e.message || e);
+      }
     }
 
     function renderChart(rows, start, days) {
@@ -270,7 +286,7 @@
             .forEach(r => { if (r.captured_on in perDay) perDay[r.captured_on] += Number(r.views_gained ?? 0); });
         return {
           label: p, data: labels.map(l => perDay[l]),
-          borderColor: colors[p], backgroundColor: colors[p] + "33", tension: 0.3, fill: true, pointRadius: 0,
+          borderColor: colors[p], backgroundColor: colors[p] + "33", tension: 0.3, fill: true, pointRadius: 3,
         };
       }).filter(d => d.data.some(v => v > 0));
 
