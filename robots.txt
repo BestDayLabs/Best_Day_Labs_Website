@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://www.bestdaylabs.com/days-in-state/sitemap.xml
+Sitemap: https://www.bestdaylabs.com/keys/sitemap.xml
