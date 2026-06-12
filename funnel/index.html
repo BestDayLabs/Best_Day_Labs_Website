@@ -168,7 +168,7 @@
     async function init() {
       const { data: { session } } = await db.auth.getSession();
       if (session) await showDashboard();
-      db.auth.onAuthStateChange((_e, s) => { if (!s) location.reload(); });
+      db.auth.onAuthStateChange((event) => { if (event === "SIGNED_OUT") location.reload(); });
     }
 
     $("loginForm").addEventListener("submit", async (e) => {
