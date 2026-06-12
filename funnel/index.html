@@ -137,6 +137,11 @@
       </div>
 
       <div class="panel">
+        <h2>Daily views, downloads &amp; trials</h2>
+        <canvas id="combinedChart" height="90"></canvas>
+      </div>
+
+      <div class="panel">
         <h2>Daily downloads by app</h2>
         <canvas id="dlChart" height="80"></canvas>
       </div>
@@ -229,7 +234,7 @@
       return ` <span class="${cls}">${pct >= 0 ? "▲" : "▼"}${Math.abs(pct)}%</span>`;
     };
 
-    let chart, dlChart, trialsChart, revenueChart, cache = null, suppressReload = false;
+    let chart, combinedChart, dlChart, trialsChart, revenueChart, cache = null, suppressReload = false;
     const PALETTE = ["#2DD4BF", "#818CF8", "#E1306C", "#F59E0B", "#34D399", "#F87171", "#A78BFA", "#FBBF24", "#60A5FA", "#F472B6"];
 
     // PostgREST caps responses at 1000 rows; page through so growth never truncates silently.
@@ -452,7 +457,10 @@
       const prev = bizRows(prevStart, start);
       const keys = ["downloads", "proceeds_usd", "trials", "paid_units"];
       const cur = winSums(rows, keys), pre = winSums(prev, keys);
-      const latestDay = rows.map(r => r.captured_on).sort().pop();
+      // ignore trial-event-only placeholder rows (no sales data yet) when
+      // deciding the "latest day" shown on the cards
+      const hasSales = (r) => Number(r.downloads) || Number(r.iap_units) || Number(r.updates) || Number(r.proceeds_usd);
+      const latestDay = rows.filter(hasSales).map(r => r.captured_on).sort().pop();
       const latestRows = rows.filter(r => r.captured_on === latestDay);
       const lsum = winSums(latestRows, keys);
 
@@ -461,7 +469,7 @@
       $("bProceeds").textContent = money(cur.proceeds_usd);
       $("bProceedsSub").innerHTML = `${money(lsum.proceeds_usd)} on ${esc(latestDay ?? "—")}` + delta(cur.proceeds_usd, pre.proceeds_usd);
       $("bTrials").textContent = fmt(cur.trials);
-      $("bTrialsSub").innerHTML = `free sub/IAP starts` + delta(cur.trials, pre.trials);
+      $("bTrialsSub").innerHTML = `intro/trial offer starts` + delta(cur.trials, pre.trials);
       $("bPaid").textContent = fmt(cur.paid_units);
       $("bPaidSub").innerHTML = `incl. renewals, net of refunds` + delta(cur.paid_units, pre.paid_units);
 
@@ -483,6 +491,36 @@
         if (!ascEnd || d <= ascEnd) ascLabels.push(d);
       }
       $("bizChartNote").textContent = ascEnd ? `· App Store data through ${ascEnd} (Apple lags 1–2 days)` : "";
+
+      // Combined daily chart: views (left axis) vs downloads + trials (right axis —
+      // counts are orders of magnitude smaller than views).
+      const allLabels = [];
+      for (let i = 0; i < days; i++) allLabels.push(new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10));
+      const perDay = () => Object.fromEntries(allLabels.map(l => [l, 0]));
+      const vD = perDay(), dD = perDay(), tD = perDay();
+      socialRows.forEach(r => { if (r.captured_on in vD) vD[r.captured_on] += Number(r.views_gained ?? 0); });
+      rows.forEach(r => {
+        if (r.captured_on in dD) { dD[r.captured_on] += Number(r.downloads ?? 0); tD[r.captured_on] += Number(r.trials ?? 0); }
+      });
+      if (combinedChart) combinedChart.destroy();
+      combinedChart = new Chart($("combinedChart"), {
+        data: {
+          labels: allLabels.map(l => l.slice(5)),
+          datasets: [
+            { type: "line", label: "views gained", data: allLabels.map(l => vD[l]), borderColor: "#2DD4BF", backgroundColor: "#2DD4BF22", tension: 0.3, pointRadius: 2, fill: true, yAxisID: "y" },
+            { type: "bar", label: "downloads", data: allLabels.map(l => dD[l]), backgroundColor: "#818CF855", borderColor: "#818CF8", borderWidth: 1, yAxisID: "y2" },
+            { type: "line", label: "free trials", data: allLabels.map(l => tD[l]), borderColor: "#E1306C", backgroundColor: "#E1306C33", tension: 0.3, pointRadius: 3, yAxisID: "y2" },
+          ],
+        },
+        options: {
+          plugins: { legend: { labels: { color: "#9CA3AF" } } },
+          scales: {
+            x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
+            y: { ticks: { color: "#2DD4BF" }, grid: { color: "#1F1F1F" }, beginAtZero: true, title: { display: true, text: "views", color: "#2DD4BF" } },
+            y2: { position: "right", ticks: { color: "#818CF8" }, grid: { drawOnChartArea: false }, beginAtZero: true, title: { display: true, text: "downloads / trials", color: "#818CF8" } },
+          },
+        },
+      });
 
       dlChart = stackedByApp("dlChart", dlChart, rows, ascLabels, "downloads", false);
       trialsChart = stackedByApp("trialsChart", trialsChart, rows, ascLabels, "trials", false);
