@@ -124,8 +124,18 @@
       </div>
 
       <div class="panel">
-        <h2>Daily downloads &amp; revenue <span class="muted" id="bizChartNote"></span></h2>
-        <canvas id="bizChart" height="90"></canvas>
+        <h2>Daily views &amp; downloads <span class="muted" id="bizChartNote"></span></h2>
+        <canvas id="viewsDlChart" height="90"></canvas>
+      </div>
+
+      <div class="panel">
+        <h2>Daily free trials</h2>
+        <canvas id="trialsChart" height="70"></canvas>
+      </div>
+
+      <div class="panel">
+        <h2>Daily revenue (USD)</h2>
+        <canvas id="revenueChart" height="70"></canvas>
       </div>
 
       <h2 class="section">Funnel by app</h2>
@@ -206,7 +216,7 @@
       return ` <span class="${cls}">${pct >= 0 ? "▲" : "▼"}${Math.abs(pct)}%</span>`;
     };
 
-    let chart, bizChart, cache = null, suppressReload = false;
+    let chart, viewsDlChart, trialsChart, revenueChart, cache = null, suppressReload = false;
 
     // PostgREST caps responses at 1000 rows; page through so growth never truncates silently.
     async function fetchAll(table, build) {
@@ -339,7 +349,7 @@
         renderChart(inWin, start, days);
         renderAccounts(inWin, ids, latestByAccount);
         renderPosts(ids);
-        renderBiz(start, prevStart, days);
+        renderBiz(start, prevStart, days, inWin);
         renderFunnel(inWin, start, days);
       } catch (e) {
         $("banner").style.display = "block";
@@ -356,7 +366,12 @@
         (!sel || m.apple_app_id === sel.apple_app_id));
     }
 
-    function renderBiz(start, prevStart, days) {
+    const CHART_SCALES = {
+      x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
+      y: { ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
+    };
+
+    function renderBiz(start, prevStart, days, socialRows) {
       const rows = bizRows(start);
       const prev = bizRows(prevStart, start);
       const keys = ["downloads", "proceeds_usd", "trials", "paid_units"];
@@ -374,34 +389,59 @@
       $("bPaid").textContent = fmt(cur.paid_units);
       $("bPaidSub").innerHTML = `incl. renewals, net of refunds` + delta(cur.paid_units, pre.paid_units);
 
-      // chart window ends at the latest ASC day — no fake trailing zeros
-      const endDay = cache.appstore.map(r => r.captured_on).sort().pop();
-      const labels = [];
-      for (let i = 0; i < days; i++) {
-        const d = new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10);
-        if (!endDay || d <= endDay) labels.push(d);
-      }
-      const dl = Object.fromEntries(labels.map(l => [l, 0]));
-      const rev = Object.fromEntries(labels.map(l => [l, 0]));
-      rows.forEach(r => { if (r.captured_on in dl) { dl[r.captured_on] += Number(r.downloads ?? 0); rev[r.captured_on] += Number(r.proceeds_usd ?? 0); } });
-      $("bizChartNote").textContent = endDay ? `· through ${endDay} (Apple lags 1–2 days)` : "";
-      if (bizChart) bizChart.destroy();
-      bizChart = new Chart($("bizChart"), {
+      // Full window for views+downloads (social data runs ahead of Apple's lag);
+      // ASC-only charts end at the latest ASC day so they don't trail fake zeros.
+      const ascEnd = cache.appstore.map(r => r.captured_on).sort().pop();
+      const allLabels = [];
+      for (let i = 0; i < days; i++) allLabels.push(new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10));
+      const ascLabels = allLabels.filter(d => !ascEnd || d <= ascEnd);
+
+      const perDay = (labels) => Object.fromEntries(labels.map(l => [l, 0]));
+      const views = perDay(allLabels), dl = perDay(allLabels), trials = perDay(ascLabels), rev = perDay(ascLabels);
+      socialRows.forEach(r => { if (r.captured_on in views) views[r.captured_on] += Number(r.views_gained ?? 0); });
+      rows.forEach(r => {
+        if (r.captured_on in dl) dl[r.captured_on] += Number(r.downloads ?? 0);
+        if (r.captured_on in trials) trials[r.captured_on] += Number(r.trials ?? 0);
+        if (r.captured_on in rev) rev[r.captured_on] += Number(r.proceeds_usd ?? 0);
+      });
+      $("bizChartNote").textContent = ascEnd ? `· App Store data through ${ascEnd} (Apple lags 1–2 days)` : "";
+
+      if (viewsDlChart) viewsDlChart.destroy();
+      viewsDlChart = new Chart($("viewsDlChart"), {
         data: {
-          labels: labels.map(l => l.slice(5)),
+          labels: allLabels.map(l => l.slice(5)),
           datasets: [
-            { type: "bar", label: "downloads", data: labels.map(l => dl[l]), backgroundColor: "#2DD4BF55", borderColor: "#2DD4BF", yAxisID: "y" },
-            { type: "line", label: "revenue $", data: labels.map(l => Math.round(rev[l] * 100) / 100), borderColor: "#F59E0B", backgroundColor: "#F59E0B33", tension: 0.3, pointRadius: 2, yAxisID: "y2" },
+            { type: "line", label: "views gained", data: allLabels.map(l => views[l]), borderColor: "#2DD4BF", backgroundColor: "#2DD4BF33", tension: 0.3, pointRadius: 2, fill: true, yAxisID: "y" },
+            { type: "bar", label: "downloads", data: allLabels.map(l => dl[l]), backgroundColor: "#818CF855", borderColor: "#818CF8", yAxisID: "y2" },
           ],
         },
         options: {
           plugins: { legend: { labels: { color: "#9CA3AF" } } },
           scales: {
-            x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
-            y: { ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
-            y2: { position: "right", ticks: { color: "#F59E0B" }, grid: { drawOnChartArea: false }, beginAtZero: true },
+            ...CHART_SCALES,
+            y2: { position: "right", ticks: { color: "#818CF8" }, grid: { drawOnChartArea: false }, beginAtZero: true },
           },
         },
+      });
+
+      if (trialsChart) trialsChart.destroy();
+      trialsChart = new Chart($("trialsChart"), {
+        type: "bar",
+        data: {
+          labels: ascLabels.map(l => l.slice(5)),
+          datasets: [{ label: "free trials", data: ascLabels.map(l => trials[l]), backgroundColor: "#E1306C55", borderColor: "#E1306C" }],
+        },
+        options: { plugins: { legend: { labels: { color: "#9CA3AF" } } }, scales: CHART_SCALES },
+      });
+
+      if (revenueChart) revenueChart.destroy();
+      revenueChart = new Chart($("revenueChart"), {
+        type: "bar",
+        data: {
+          labels: ascLabels.map(l => l.slice(5)),
+          datasets: [{ label: "revenue $", data: ascLabels.map(l => Math.round(rev[l] * 100) / 100), backgroundColor: "#F59E0B55", borderColor: "#F59E0B" }],
+        },
+        options: { plugins: { legend: { labels: { color: "#9CA3AF" } } }, scales: CHART_SCALES },
       });
     }
 
