@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>BestDayLabs | Funnel Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-main: #030304; --bg-card: #0A0A0A; --border-dim: #1F1F1F;
+      --text-primary: #F3F4F6; --text-secondary: #9CA3AF; --text-tertiary: #4B5563;
+      --accent: #2DD4BF; --accent-glow: rgba(45, 212, 191, 0.4);
+      --tiktok: #2DD4BF; --instagram: #E1306C; --youtube: #FF4444;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg-main); color: var(--text-primary); min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+    }
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 18px 0 26px; }
+    .brand { font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; }
+    .brand span { color: var(--accent); }
+    .muted { color: var(--text-secondary); font-size: 0.85rem; }
+    button {
+      background: var(--accent); color: #04211d; border: none; border-radius: 8px;
+      padding: 10px 18px; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    }
+    button.ghost { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-dim); }
+    button:hover { filter: brightness(1.1); }
+    input, select {
+      background: #0F0F11; border: 1px solid var(--border-dim); color: var(--text-primary);
+      border-radius: 8px; padding: 10px 12px; font-size: 0.9rem; width: 100%;
+    }
+    select { width: auto; }
+    /* Login */
+    .login-wrap { display: flex; justify-content: center; padding-top: 12vh; }
+    .login-card {
+      background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 14px;
+      padding: 32px; width: 360px; box-shadow: 0 0 60px rgba(45,212,191,0.06);
+    }
+    .login-card h1 { font-size: 1.25rem; margin-bottom: 4px; }
+    .login-card p { margin-bottom: 20px; }
+    .login-card label { display: block; font-size: 0.78rem; color: var(--text-secondary); margin: 12px 0 6px; }
+    .login-card button { width: 100%; margin-top: 20px; }
+    .error { color: #F87171; font-size: 0.82rem; margin-top: 12px; min-height: 1em; }
+    /* Dashboard */
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-bottom: 22px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 22px; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 12px; padding: 16px 18px;
+    }
+    .card .label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+    .card .value { font-size: 1.7rem; font-weight: 700; margin-top: 4px; }
+    .card .sub { font-size: 0.75rem; color: var(--text-tertiary); margin-top: 2px; }
+    .panel { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 12px; padding: 18px; margin-bottom: 22px; }
+    .panel h2 { font-size: 0.95rem; margin-bottom: 14px; color: var(--text-secondary); font-weight: 600; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { text-align: left; color: var(--text-tertiary); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 10px; border-bottom: 1px solid var(--border-dim); }
+    td { padding: 9px 10px; border-bottom: 1px solid #131315; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+    .pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+    .pill.tiktok { background: rgba(45,212,191,0.12); color: var(--tiktok); }
+    .pill.instagram { background: rgba(225,48,108,0.12); color: var(--instagram); }
+    .pill.youtube { background: rgba(255,68,68,0.12); color: var(--youtube); }
+    a.postlink { color: var(--accent); text-decoration: none; }
+    .caption { max-width: 340px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .empty { color: var(--text-tertiary); padding: 28px 0; text-align: center; font-size: 0.9rem; }
+    #dashboard { display: none; }
+    @media (max-width: 640px) { .caption { max-width: 160px; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div id="login" class="login-wrap">
+      <form class="login-card" id="loginForm">
+        <h1>BestDay<span style="color:var(--accent)">Labs</span> Funnel</h1>
+        <p class="muted">Team sign-in required.</p>
+        <label>Email</label>
+        <input type="email" id="email" autocomplete="username" required>
+        <label>Password</label>
+        <input type="password" id="password" autocomplete="current-password" required>
+        <button type="submit">Sign in</button>
+        <div class="error" id="loginError"></div>
+      </form>
+    </div>
+
+    <div id="dashboard">
+      <header>
+        <div>
+          <div class="brand">BestDay<span>Labs</span> · Funnel</div>
+          <div class="muted" id="lastSync">—</div>
+        </div>
+        <button class="ghost" id="signOut">Sign out</button>
+      </header>
+
+      <div class="filters">
+        <select id="appFilter"><option value="">All apps</option></select>
+        <select id="platformFilter">
+          <option value="">All platforms</option>
+          <option value="tiktok">TikTok</option>
+          <option value="instagram">Instagram</option>
+          <option value="youtube">YouTube</option>
+        </select>
+        <select id="rangeFilter">
+          <option value="7">Last 7 days</option>
+          <option value="30" selected>Last 30 days</option>
+          <option value="90">Last 90 days</option>
+        </select>
+      </div>
+
+      <div class="cards">
+        <div class="card"><div class="label">Views</div><div class="value" id="cViews">—</div><div class="sub">gained in range</div></div>
+        <div class="card"><div class="label">Likes</div><div class="value" id="cLikes">—</div><div class="sub">gained in range</div></div>
+        <div class="card"><div class="label">Comments</div><div class="value" id="cComments">—</div><div class="sub">gained in range</div></div>
+        <div class="card"><div class="label">Saves</div><div class="value" id="cSaves">—</div><div class="sub">TikTok only*</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Daily views gained by platform</h2>
+        <canvas id="viewsChart" height="90"></canvas>
+      </div>
+
+      <div class="panel">
+        <h2>Accounts</h2>
+        <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Account</th><th>Platform</th><th>Apps</th>
+            <th class="num">Views</th><th class="num">Likes</th><th class="num">Comments</th><th class="num">Saves</th>
+            <th class="num">Views +range</th>
+          </tr></thead>
+          <tbody id="accountsBody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Top posts (latest snapshot)</h2>
+        <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>Post</th><th>Account</th>
+            <th class="num">Views</th><th class="num">Likes</th><th class="num">Comments</th><th class="num">Saves</th>
+          </tr></thead>
+          <tbody id="postsBody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <p class="muted">* Saves are only public on TikTok. Instagram saves require the IG Graph API; YouTube has no saves metric. Data refreshes daily at 06:10 UTC.</p>
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
+    const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const $ = (id) => document.getElementById(id);
+    const fmt = (n) => n == null ? "—" : Intl.NumberFormat("en", { notation: n >= 10000 ? "compact" : "standard", maximumFractionDigits: 1 }).format(n);
+
+    let chart, cache = null;
+
+    async function init() {
+      const { data: { session } } = await db.auth.getSession();
+      if (session) await showDashboard();
+      db.auth.onAuthStateChange((_e, s) => { if (!s) location.reload(); });
+    }
+
+    $("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      $("loginError").textContent = "";
+      const { error } = await db.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value });
+      if (error) { $("loginError").textContent = error.message; return; }
+      await showDashboard();
+    });
+
+    $("signOut").addEventListener("click", () => db.auth.signOut());
+    ["appFilter", "platformFilter", "rangeFilter"].forEach(id => $(id).addEventListener("change", render));
+
+    async function showDashboard() {
+      // RLS allowlist check: non-team users get zero rows everywhere.
+      const { data: team } = await db.from("funnel_team").select("email").limit(1);
+      if (!team || !team.length) {
+        $("loginError").textContent = "This account is not on the dashboard team allowlist.";
+        await db.auth.signOut();
+        return;
+      }
+      $("login").style.display = "none";
+      $("dashboard").style.display = "block";
+      await loadData();
+      render();
+    }
+
+    async function loadData() {
+      const since = new Date(Date.now() - 91 * 864e5).toISOString().slice(0, 10);
+      const [apps, accounts, daily, lastRun] = await Promise.all([
+        db.from("funnel_apps").select("*").order("name"),
+        db.from("funnel_accounts").select("*, funnel_account_apps(app_id)"),
+        db.from("funnel_daily_account_metrics").select("*").gte("captured_on", since),
+        db.from("funnel_sync_runs").select("*").order("started_at", { ascending: false }).limit(1),
+      ]);
+      cache = { apps: apps.data ?? [], accounts: accounts.data ?? [], daily: daily.data ?? [] };
+
+      const run = (lastRun.data ?? [])[0];
+      $("lastSync").textContent = run
+        ? `Last sync: ${new Date(run.started_at).toLocaleString()} · ${run.ok ? "ok" : "had errors"} · ${run.posts_seen} posts`
+        : "No syncs yet — data appears after the first nightly run.";
+
+      const sel = $("appFilter");
+      sel.length = 1;
+      cache.apps.forEach(a => sel.add(new Option(a.name, a.id)));
+
+      // Latest-snapshot top posts
+      const dates = cache.daily.map(d => d.captured_on).sort();
+      const latest = dates[dates.length - 1];
+      cache.latestDay = latest ?? null;
+      if (latest) {
+        const { data: posts } = await db.from("funnel_post_metrics")
+          .select("views, likes, comments, saves, funnel_posts!inner(id, caption, url, account_id)")
+          .eq("captured_on", latest)
+          .order("views", { ascending: false })
+          .limit(200);
+        cache.posts = posts ?? [];
+      } else cache.posts = [];
+    }
+
+    function accountIds() {
+      const appId = $("appFilter").value, platform = $("platformFilter").value;
+      return new Set(cache.accounts
+        .filter(a => !platform || a.platform === platform)
+        .filter(a => !appId || (a.funnel_account_apps ?? []).some(m => m.app_id === appId))
+        .map(a => a.id));
+    }
+
+    function render() {
+      if (!cache) return;
+      const days = Number($("rangeFilter").value);
+      const start = new Date(Date.now() - days * 864e5).toISOString().slice(0, 10);
+      const ids = accountIds();
+      const rows = cache.daily.filter(d => ids.has(d.account_id) && d.captured_on >= start);
+
+      // Summary cards
+      const sum = (k) => rows.reduce((t, r) => t + Number(r[k] ?? 0), 0);
+      $("cViews").textContent = fmt(sum("views_gained"));
+      $("cLikes").textContent = fmt(sum("likes_gained"));
+      $("cComments").textContent = fmt(sum("comments_gained"));
+      $("cSaves").textContent = fmt(sum("saves_gained"));
+
+      renderChart(rows, start, days);
+      renderAccounts(rows, ids);
+      renderPosts(ids);
+    }
+
+    function renderChart(rows, start, days) {
+      const labels = [];
+      for (let i = 0; i < days; i++) {
+        labels.push(new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10));
+      }
+      const platforms = ["tiktok", "instagram", "youtube"];
+      const colors = { tiktok: "#2DD4BF", instagram: "#E1306C", youtube: "#FF4444" };
+      const byAccount = Object.fromEntries(cache.accounts.map(a => [a.id, a.platform]));
+      const datasets = platforms.map(p => {
+        const perDay = Object.fromEntries(labels.map(l => [l, 0]));
+        rows.filter(r => byAccount[r.account_id] === p)
+            .forEach(r => { if (r.captured_on in perDay) perDay[r.captured_on] += Number(r.views_gained ?? 0); });
+        return {
+          label: p, data: labels.map(l => perDay[l]),
+          borderColor: colors[p], backgroundColor: colors[p] + "33", tension: 0.3, fill: true, pointRadius: 0,
+        };
+      }).filter(d => d.data.some(v => v > 0));
+
+      if (chart) chart.destroy();
+      chart = new Chart($("viewsChart"), {
+        type: "line",
+        data: { labels: labels.map(l => l.slice(5)), datasets },
+        options: {
+          plugins: { legend: { labels: { color: "#9CA3AF" } } },
+          scales: {
+            x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
+            y: { ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
+          },
+        },
+      });
+    }
+
+    function renderAccounts(rows, ids) {
+      const body = $("accountsBody");
+      const appName = Object.fromEntries(cache.apps.map(a => [a.id, a.name]));
+      const latestByAccount = {};
+      rows.forEach(r => {
+        const cur = latestByAccount[r.account_id];
+        if (!cur || r.captured_on > cur.captured_on) latestByAccount[r.account_id] = r;
+      });
+      const gained = {};
+      rows.forEach(r => { gained[r.account_id] = (gained[r.account_id] ?? 0) + Number(r.views_gained ?? 0); });
+
+      const accounts = cache.accounts.filter(a => ids.has(a.id));
+      if (!accounts.length) { body.innerHTML = `<tr><td colspan="8" class="empty">No accounts match this filter.</td></tr>`; return; }
+      body.innerHTML = accounts.map(a => {
+        const m = latestByAccount[a.id] ?? {};
+        const apps = (a.funnel_account_apps ?? []).map(x => appName[x.app_id]).filter(Boolean).join(", ");
+        return `<tr>
+          <td>@${a.handle}</td>
+          <td><span class="pill ${a.platform}">${a.platform}</span></td>
+          <td class="muted">${apps || "—"}</td>
+          <td class="num">${fmt(m.total_views)}</td>
+          <td class="num">${fmt(m.total_likes)}</td>
+          <td class="num">${fmt(m.total_comments)}</td>
+          <td class="num">${fmt(m.total_saves)}</td>
+          <td class="num" style="color:var(--accent)">${fmt(gained[a.id] ?? 0)}</td>
+        </tr>`;
+      }).join("");
+    }
+
+    function renderPosts(ids) {
+      const body = $("postsBody");
+      const handle = Object.fromEntries(cache.accounts.map(a => [a.id, "@" + a.handle]));
+      const posts = cache.posts.filter(p => ids.has(p.funnel_posts.account_id)).slice(0, 25);
+      if (!posts.length) { body.innerHTML = `<tr><td colspan="6" class="empty">No post data yet — appears after the first sync.</td></tr>`; return; }
+      body.innerHTML = posts.map(p => `<tr>
+        <td class="caption">${p.funnel_posts.url ? `<a class="postlink" href="${p.funnel_posts.url}" target="_blank" rel="noopener">` : ""}${(p.funnel_posts.caption ?? "(no caption)").replace(/</g, "&lt;")}${p.funnel_posts.url ? "</a>" : ""}</td>
+        <td class="muted">${handle[p.funnel_posts.account_id] ?? "?"}</td>
+        <td class="num">${fmt(p.views)}</td>
+        <td class="num">${fmt(p.likes)}</td>
+        <td class="num">${fmt(p.comments)}</td>
+        <td class="num">${fmt(p.saves)}</td>
+      </tr>`).join("");
+    }
+
+    init();
+  </script>
+</body>
+</html>
