@@ -57,6 +57,7 @@
     .card .sub { font-size: 0.75rem; color: var(--text-tertiary); margin-top: 2px; }
     .panel { background: var(--bg-card); border: 1px solid var(--border-dim); border-radius: 12px; padding: 18px; margin-bottom: 22px; }
     .panel h2 { font-size: 0.95rem; margin-bottom: 14px; color: var(--text-secondary); font-weight: 600; }
+    h2.section { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin: 6px 0 12px; font-weight: 700; }
     table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
     th { text-align: left; color: var(--text-tertiary); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 10px; border-bottom: 1px solid var(--border-dim); }
     td { padding: 9px 10px; border-bottom: 1px solid #131315; }
@@ -112,6 +113,34 @@
         </select>
       </div>
 
+      <h2 class="section">App Store</h2>
+      <div class="cards">
+        <div class="card"><div class="label">Downloads</div><div class="value" id="bDownloads">—</div><div class="sub" id="bDownloadsSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Revenue (USD)</div><div class="value" id="bProceeds">—</div><div class="sub" id="bProceedsSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Trials started</div><div class="value" id="bTrials">—</div><div class="sub" id="bTrialsSub">&nbsp;</div></div>
+        <div class="card"><div class="label">Paid units</div><div class="value" id="bPaid">—</div><div class="sub" id="bPaidSub">&nbsp;</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Daily downloads &amp; revenue</h2>
+        <canvas id="bizChart" height="90"></canvas>
+      </div>
+
+      <div class="panel">
+        <h2>Apps</h2>
+        <div style="overflow-x:auto">
+        <table>
+          <thead><tr>
+            <th>App</th>
+            <th class="num">Downloads</th><th class="num">Trials</th><th class="num">Paid units</th><th class="num">Revenue</th>
+            <th class="num">Rev/day</th>
+          </tr></thead>
+          <tbody id="bizBody"></tbody>
+        </table>
+        </div>
+      </div>
+
+      <h2 class="section">Social reach</h2>
       <div class="cards">
         <div class="card"><div class="label">Views</div><div class="value" id="cViews">—</div><div class="sub" id="cViewsSub">&nbsp;</div></div>
         <div class="card"><div class="label">Likes</div><div class="value" id="cLikes">—</div><div class="sub" id="cLikesSub">&nbsp;</div></div>
@@ -198,13 +227,14 @@
 
     async function loadData() {
       const since = new Date(Date.now() - 91 * 864e5).toISOString().slice(0, 10);
-      const [apps, accounts, daily, lastRun] = await Promise.all([
+      const [apps, accounts, daily, appstore, lastRun] = await Promise.all([
         db.from("funnel_apps").select("*").order("name"),
         db.from("funnel_accounts").select("*, funnel_account_apps(app_id)"),
         db.from("funnel_daily_account_metrics").select("*").gte("captured_on", since),
+        db.from("funnel_appstore_metrics").select("*").gte("captured_on", since),
         db.from("funnel_sync_runs").select("*").order("started_at", { ascending: false }).limit(1),
       ]);
-      cache = { apps: apps.data ?? [], accounts: accounts.data ?? [], daily: daily.data ?? [] };
+      cache = { apps: apps.data ?? [], accounts: accounts.data ?? [], daily: daily.data ?? [], appstore: appstore.data ?? [] };
 
       const run = (lastRun.data ?? [])[0];
       $("lastSync").textContent = run
@@ -267,9 +297,85 @@
         renderChart(rows, start, days);
         renderAccounts(rows, ids);
         renderPosts(ids);
+        renderBiz(start, days);
       } catch (e) {
         $("lastSync").textContent = "Error rendering dashboard: " + (e && e.message || e);
       }
+    }
+
+    // ── App Store (business) section ──────────────────────────────────────────
+    let bizChart;
+    function renderBiz(start, days) {
+      const appId = $("appFilter").value;
+      const selectedApp = appId ? cache.apps.find(a => a.id === appId) : null;
+      // platform filter doesn't apply here (App Store is its own channel);
+      // an app filter narrows to that app's App Store data.
+      const rows = cache.appstore.filter(m =>
+        m.captured_on >= start &&
+        (!selectedApp || m.apple_app_id === selectedApp.apple_app_id));
+
+      const money = (n) => "$" + Intl.NumberFormat("en", { maximumFractionDigits: 0 }).format(Math.round(n));
+      const sum = (k) => rows.reduce((t, r) => t + Number(r[k] ?? 0), 0);
+      const yday = rows.filter(r => r.captured_on === rows.map(x => x.captured_on).sort().pop());
+      const ysum = (k) => yday.reduce((t, r) => t + Number(r[k] ?? 0), 0);
+      $("bDownloads").textContent = fmt(sum("downloads"));
+      $("bDownloadsSub").textContent = `${fmt(ysum("downloads"))} on latest day`;
+      $("bProceeds").textContent = money(sum("proceeds_usd"));
+      $("bProceedsSub").textContent = `${money(ysum("proceeds_usd"))} on latest day`;
+      $("bTrials").textContent = fmt(sum("trials"));
+      $("bTrialsSub").textContent = `${fmt(ysum("trials"))} on latest day`;
+      const paid = sum("iap_units") - sum("trials");
+      $("bPaid").textContent = fmt(paid);
+      $("bPaidSub").textContent = `subs & IAP, net of trials`;
+
+      // chart: downloads bars + revenue line
+      const labels = [];
+      for (let i = 0; i < days; i++) labels.push(new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10));
+      const dl = Object.fromEntries(labels.map(l => [l, 0]));
+      const rev = Object.fromEntries(labels.map(l => [l, 0]));
+      rows.forEach(r => {
+        if (r.captured_on in dl) { dl[r.captured_on] += Number(r.downloads ?? 0); rev[r.captured_on] += Number(r.proceeds_usd ?? 0); }
+      });
+      if (bizChart) bizChart.destroy();
+      bizChart = new Chart($("bizChart"), {
+        data: {
+          labels: labels.map(l => l.slice(5)),
+          datasets: [
+            { type: "bar", label: "downloads", data: labels.map(l => dl[l]), backgroundColor: "#2DD4BF55", borderColor: "#2DD4BF", yAxisID: "y" },
+            { type: "line", label: "revenue $", data: labels.map(l => Math.round(rev[l] * 100) / 100), borderColor: "#F59E0B", backgroundColor: "#F59E0B33", tension: 0.3, pointRadius: 2, yAxisID: "y2" },
+          ],
+        },
+        options: {
+          plugins: { legend: { labels: { color: "#9CA3AF" } } },
+          scales: {
+            x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
+            y: { ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
+            y2: { position: "right", ticks: { color: "#F59E0B" }, grid: { drawOnChartArea: false }, beginAtZero: true },
+          },
+        },
+      });
+
+      // per-app table
+      const byApple = {};
+      rows.forEach(r => {
+        const a = byApple[r.apple_app_id] ??= { title: r.title, downloads: 0, trials: 0, iap: 0, rev: 0 };
+        a.title = r.title ?? a.title;
+        a.downloads += Number(r.downloads ?? 0); a.trials += Number(r.trials ?? 0);
+        a.iap += Number(r.iap_units ?? 0); a.rev += Number(r.proceeds_usd ?? 0);
+      });
+      const appName = {};
+      cache.apps.forEach(a => { if (a.apple_app_id) appName[a.apple_app_id] = a.name; });
+      const body = $("bizBody");
+      const entries = Object.entries(byApple).sort((a, b) => b[1].rev - a[1].rev);
+      if (!entries.length) { body.innerHTML = `<tr><td colspan="6" class="empty">No App Store data for this filter.</td></tr>`; return; }
+      body.innerHTML = entries.map(([id, a]) => `<tr>
+        <td>${appName[id] ?? a.title ?? id}</td>
+        <td class="num">${fmt(a.downloads)}</td>
+        <td class="num">${fmt(a.trials)}</td>
+        <td class="num">${fmt(Math.max(a.iap - a.trials, 0))}</td>
+        <td class="num" style="color:#F59E0B">${money(a.rev)}</td>
+        <td class="num">${money(a.rev / days)}</td>
+      </tr>`).join("");
     }
 
     function renderChart(rows, start, days) {
