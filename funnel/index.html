@@ -70,6 +70,14 @@
     .empty { color: var(--text-tertiary); padding: 28px 0; text-align: center; font-size: 0.9rem; }
     #dashboard { display: none; }
     #banner { display: none; background: #3b0d0d; border: 1px solid #7f1d1d; color: #FCA5A5; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.85rem; }
+    /* funnel visualization */
+    .fstage { display: grid; grid-template-columns: 120px 1fr 110px; align-items: center; gap: 12px; padding: 6px 0; }
+    .fstage .flabel { font-size: 0.8rem; color: var(--text-secondary); text-align: right; }
+    .fstage .fbarwrap { background: #0F0F11; border-radius: 6px; overflow: hidden; }
+    .fstage .fbar { height: 30px; border-radius: 6px; background: linear-gradient(90deg, var(--accent), #14B8A6); min-width: 6px; }
+    .fstage .fval { font-size: 0.95rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .fconv { display: grid; grid-template-columns: 120px 1fr; gap: 12px; }
+    .fconv span { grid-column: 2; font-size: 0.72rem; color: var(--text-tertiary); padding-left: 4px; }
     @media (max-width: 640px) { .caption { max-width: 160px; } }
   </style>
 </head>
@@ -124,17 +132,22 @@
       </div>
 
       <div class="panel">
-        <h2>Daily views &amp; downloads <span class="muted" id="bizChartNote"></span></h2>
-        <canvas id="viewsDlChart" height="90"></canvas>
+        <h2>The funnel — selected range <span class="muted" id="bizChartNote"></span></h2>
+        <div id="funnelViz"></div>
       </div>
 
       <div class="panel">
-        <h2>Daily free trials</h2>
+        <h2>Daily downloads by app</h2>
+        <canvas id="dlChart" height="80"></canvas>
+      </div>
+
+      <div class="panel">
+        <h2>Daily free trials by app</h2>
         <canvas id="trialsChart" height="70"></canvas>
       </div>
 
       <div class="panel">
-        <h2>Daily revenue (USD)</h2>
+        <h2>Daily revenue by app (USD)</h2>
         <canvas id="revenueChart" height="70"></canvas>
       </div>
 
@@ -216,7 +229,8 @@
       return ` <span class="${cls}">${pct >= 0 ? "▲" : "▼"}${Math.abs(pct)}%</span>`;
     };
 
-    let chart, viewsDlChart, trialsChart, revenueChart, cache = null, suppressReload = false;
+    let chart, dlChart, trialsChart, revenueChart, cache = null, suppressReload = false;
+    const PALETTE = ["#2DD4BF", "#818CF8", "#E1306C", "#F59E0B", "#34D399", "#F87171", "#A78BFA", "#FBBF24", "#60A5FA", "#F472B6"];
 
     // PostgREST caps responses at 1000 rows; page through so growth never truncates silently.
     async function fetchAll(table, build) {
@@ -367,9 +381,71 @@
     }
 
     const CHART_SCALES = {
-      x: { ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
-      y: { ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
+      x: { stacked: true, ticks: { color: "#4B5563" }, grid: { color: "#131315" } },
+      y: { stacked: true, ticks: { color: "#4B5563" }, grid: { color: "#1F1F1F" }, beginAtZero: true },
     };
+
+    // Horizontal funnel: bar widths log-scaled (stages differ by orders of
+    // magnitude), conversion ratio printed between stages.
+    function renderFunnelViz(stages) {
+      const max = Math.max(...stages.map(s => s.value), 1);
+      const w = (v) => Math.max(4, 100 * Math.log10((v ?? 0) + 1) / Math.log10(max + 1));
+      let html = "";
+      stages.forEach((s, i) => {
+        if (i > 0) {
+          const prev = stages[i - 1].value;
+          let convText;
+          if (s.format === "money") {
+            convText = prev > 0 ? `${money(s.value / prev)} per ${esc(s.convLabel ?? "unit")}` : "—";
+          } else {
+            const pct = prev > 0 && s.value >= 0 ? (s.value / prev * 100) : null;
+            // > 100% (e.g. paid units vs trials, renewals included) reads better as a multiple
+            const t = pct == null ? "—" : pct > 100 ? (pct / 100).toFixed(1) + "×" : pct >= 10 ? Math.round(pct) + "%" : pct.toFixed(pct >= 1 ? 1 : 2) + "%";
+            convText = t + " " + esc(s.convLabel ?? "");
+          }
+          html += `<div class="fconv"><span>↓ ${convText}</span></div>`;
+        }
+        html += `<div class="fstage">
+          <div class="flabel">${esc(s.label)}</div>
+          <div class="fbarwrap"><div class="fbar" style="width:${w(s.value)}%"></div></div>
+          <div class="fval">${s.format === "money" ? money(s.value) : fmt(s.value)}</div>
+        </div>`;
+      });
+      $("funnelViz").innerHTML = html;
+    }
+
+    // Daily stacked-by-app chart for one ASC metric.
+    function stackedByApp(canvasId, prevChart, rows, labels, key, isMoney) {
+      const nameByApple = {};
+      cache.apps.forEach(a => { if (a.apple_app_id) nameByApple[a.apple_app_id] = a.name; });
+      const inWindow = new Set(labels);
+      const byApp = {};
+      rows.forEach(r => {
+        if (!inWindow.has(r.captured_on)) return;
+        const name = nameByApple[r.apple_app_id] ?? r.title ?? r.apple_app_id;
+        (byApp[name] ??= Object.fromEntries(labels.map(l => [l, 0])))[r.captured_on] += Number(r[key] ?? 0);
+      });
+      const total = (name) => labels.reduce((t, l) => t + byApp[name][l], 0);
+      const appNames = Object.keys(byApp).sort((a, b) => total(b) - total(a));
+      // stable color per app across all charts (position in the apps list)
+      const colorIdx = Object.fromEntries(cache.apps.map((a, i) => [a.name, i]));
+      const datasets = appNames.map((name) => {
+        const c = PALETTE[(colorIdx[name] ?? 9) % PALETTE.length];
+        return {
+          label: name,
+          data: labels.map(l => isMoney ? Math.round(byApp[name][l] * 100) / 100 : byApp[name][l]),
+          backgroundColor: c + "99",
+          borderColor: c,
+          borderWidth: 1,
+        };
+      });
+      if (prevChart) prevChart.destroy();
+      return new Chart($(canvasId), {
+        type: "bar",
+        data: { labels: labels.map(l => l.slice(5)), datasets },
+        options: { plugins: { legend: { labels: { color: "#9CA3AF", boxWidth: 12 } } }, scales: CHART_SCALES },
+      });
+    }
 
     function renderBiz(start, prevStart, days, socialRows) {
       const rows = bizRows(start);
@@ -389,60 +465,28 @@
       $("bPaid").textContent = fmt(cur.paid_units);
       $("bPaidSub").innerHTML = `incl. renewals, net of refunds` + delta(cur.paid_units, pre.paid_units);
 
-      // Full window for views+downloads (social data runs ahead of Apple's lag);
-      // ASC-only charts end at the latest ASC day so they don't trail fake zeros.
-      const ascEnd = cache.appstore.map(r => r.captured_on).sort().pop();
-      const allLabels = [];
-      for (let i = 0; i < days; i++) allLabels.push(new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10));
-      const ascLabels = allLabels.filter(d => !ascEnd || d <= ascEnd);
+      // Top-down funnel for the selected range and filters.
+      const viewsGained = socialRows.reduce((t, r) => t + Number(r.views_gained ?? 0), 0);
+      renderFunnelViz([
+        { label: "Views gained", value: viewsGained },
+        { label: "Downloads", value: cur.downloads, convLabel: "of views" },
+        { label: "Free trials", value: cur.trials, convLabel: "of downloads" },
+        { label: "Paid units", value: cur.paid_units, convLabel: "of trials (incl. renewals)" },
+        { label: "Revenue", value: cur.proceeds_usd, format: "money", convLabel: "paid unit" },
+      ]);
 
-      const perDay = (labels) => Object.fromEntries(labels.map(l => [l, 0]));
-      const views = perDay(allLabels), dl = perDay(allLabels), trials = perDay(ascLabels), rev = perDay(ascLabels);
-      socialRows.forEach(r => { if (r.captured_on in views) views[r.captured_on] += Number(r.views_gained ?? 0); });
-      rows.forEach(r => {
-        if (r.captured_on in dl) dl[r.captured_on] += Number(r.downloads ?? 0);
-        if (r.captured_on in trials) trials[r.captured_on] += Number(r.trials ?? 0);
-        if (r.captured_on in rev) rev[r.captured_on] += Number(r.proceeds_usd ?? 0);
-      });
+      // ASC daily charts end at the latest ASC day so they don't trail fake zeros.
+      const ascEnd = cache.appstore.map(r => r.captured_on).sort().pop();
+      const ascLabels = [];
+      for (let i = 0; i < days; i++) {
+        const d = new Date(new Date(start).getTime() + i * 864e5).toISOString().slice(0, 10);
+        if (!ascEnd || d <= ascEnd) ascLabels.push(d);
+      }
       $("bizChartNote").textContent = ascEnd ? `· App Store data through ${ascEnd} (Apple lags 1–2 days)` : "";
 
-      if (viewsDlChart) viewsDlChart.destroy();
-      viewsDlChart = new Chart($("viewsDlChart"), {
-        data: {
-          labels: allLabels.map(l => l.slice(5)),
-          datasets: [
-            { type: "line", label: "views gained", data: allLabels.map(l => views[l]), borderColor: "#2DD4BF", backgroundColor: "#2DD4BF33", tension: 0.3, pointRadius: 2, fill: true, yAxisID: "y" },
-            { type: "bar", label: "downloads", data: allLabels.map(l => dl[l]), backgroundColor: "#818CF855", borderColor: "#818CF8", yAxisID: "y2" },
-          ],
-        },
-        options: {
-          plugins: { legend: { labels: { color: "#9CA3AF" } } },
-          scales: {
-            ...CHART_SCALES,
-            y2: { position: "right", ticks: { color: "#818CF8" }, grid: { drawOnChartArea: false }, beginAtZero: true },
-          },
-        },
-      });
-
-      if (trialsChart) trialsChart.destroy();
-      trialsChart = new Chart($("trialsChart"), {
-        type: "bar",
-        data: {
-          labels: ascLabels.map(l => l.slice(5)),
-          datasets: [{ label: "free trials", data: ascLabels.map(l => trials[l]), backgroundColor: "#E1306C55", borderColor: "#E1306C" }],
-        },
-        options: { plugins: { legend: { labels: { color: "#9CA3AF" } } }, scales: CHART_SCALES },
-      });
-
-      if (revenueChart) revenueChart.destroy();
-      revenueChart = new Chart($("revenueChart"), {
-        type: "bar",
-        data: {
-          labels: ascLabels.map(l => l.slice(5)),
-          datasets: [{ label: "revenue $", data: ascLabels.map(l => Math.round(rev[l] * 100) / 100), backgroundColor: "#F59E0B55", borderColor: "#F59E0B" }],
-        },
-        options: { plugins: { legend: { labels: { color: "#9CA3AF" } } }, scales: CHART_SCALES },
-      });
+      dlChart = stackedByApp("dlChart", dlChart, rows, ascLabels, "downloads", false);
+      trialsChart = stackedByApp("trialsChart", trialsChart, rows, ascLabels, "trials", false);
+      revenueChart = stackedByApp("revenueChart", revenueChart, rows, ascLabels, "proceeds_usd", true);
     }
 
     // ── Funnel by app: social views → downloads → trials → paid → revenue ────
