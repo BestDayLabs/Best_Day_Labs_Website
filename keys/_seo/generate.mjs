@@ -25,7 +25,9 @@ const SUPABASE_URL = "https://bwvxwlcpxeshagtfehrd.supabase.co";
 const ANON_KEY = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6"; // client-safe (RLS protected)
 const SITE = "https://www.bestdaylabs.com";
 const APP_STORE = "https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403";
-const ICON = "/keys/KeysIcon.png";
+const ICON = "/keys/KeysIcon.png";          // og:image (full)
+const LOGO = "/keys/KeysIcon-128.png";      // in-page logo (optimized)
+const FAVICON = "/keys/KeysIcon-48.png";
 
 const KEYS_DIR = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const LIMIT = process.env.LIMIT ? parseInt(process.env.LIMIT, 10) : Infinity;
@@ -106,6 +108,78 @@ async function fetchCatalog() {
   return out;
 }
 
+// ── Sustain-cutoff (ported verbatim from the app's SustainTransform) ─────────
+const MIN_VIS = 0.05;
+// Trim each note's tail so it doesn't linger past the next musical event.
+function clampToNextEvent(notes, grace = 0, eventWindow = 0.05) {
+  if (notes.length < 2) return notes;
+  const onsets = notes.map((n) => n.onset).sort((a, b) => a - b);
+  return notes.map((n) => {
+    const x = n.onset + eventWindow;
+    let lo = 0, hi = onsets.length;            // first onset strictly > x
+    while (lo < hi) { const mid = (lo + hi) >> 1; if (onsets[mid] > x) hi = mid; else lo = mid + 1; }
+    if (lo >= onsets.length) return n;
+    const maxOff = Math.max(onsets[lo] + grace, n.onset + MIN_VIS);
+    return n.offset > maxOff ? { ...n, offset: maxOff } : n;
+  });
+}
+// Never let two tiles of the SAME key overlap.
+function deoverlap(notes, gap = 0.03) {
+  const byPitch = new Map();
+  notes.forEach((n, i) => { (byPitch.get(n.note) || byPitch.set(n.note, []).get(n.note)).push(i); });
+  const result = notes.map((n) => ({ ...n }));
+  for (const idxs of byPitch.values()) {
+    if (idxs.length < 2) continue;
+    idxs.sort((a, b) => notes[a].onset - notes[b].onset);
+    for (let k = 0; k < idxs.length - 1; k++) {
+      const cur = idxs[k];
+      const maxOff = Math.max(notes[idxs[k + 1]].onset - gap, result[cur].onset + MIN_VIS);
+      if (result[cur].offset > maxOff) result[cur].offset = maxOff;
+    }
+  }
+  return result;
+}
+const tidyForDisplay = (notes) => deoverlap(clampToNextEvent(notes));
+
+// Build a ~60s audio-synced preview with the app's sustain cutoff applied.
+const PREVIEW_SECS = 60;
+function buildPreview(notesJson, audioUrl) {
+  let arr;
+  try { arr = JSON.parse(notesJson); } catch { return null; }
+  if (!Array.isArray(arr) || !arr.length) return null;
+  let notes = [];
+  for (const n of arr) {
+    if (typeof n.note !== "number") continue;
+    const on = +n.onset, off = Math.max(+n.offset, on + MIN_VIS);
+    if (!isFinite(on) || !isFinite(off) || on > PREVIEW_SECS) continue;
+    notes.push({ note: n.note, onset: on, offset: off });
+  }
+  if (notes.length < 4) return null;
+  notes.sort((a, b) => a.onset - b.onset);
+  notes = tidyForDisplay(notes);                       // same cutoff as the app
+  const out = notes.map((n) => [n.note, +n.onset.toFixed(2), +n.offset.toFixed(2)]);
+  const dur = Math.min(PREVIEW_SECS, out.reduce((a, n) => Math.max(a, n[2]), 0)) + 0.4;
+  const obj = { notes: out, duration: +dur.toFixed(2) };
+  if (audioUrl) obj.audio = audioUrl;                  // synced audio (preview window)
+  return obj;
+}
+
+// Fetch notes_json + audio_url for the kept songs (batched), attach to each.
+async function attachPreviews(songs) {
+  const byId = new Map(songs.map((s) => [s.id, s]));
+  const ids = songs.map((s) => s.id);
+  for (let i = 0; i < ids.length; i += 60) {
+    const inList = ids.slice(i, i + 60).join(",");
+    const url = `${SUPABASE_URL}/rest/v1/catalog_songs?select=id,notes_json,audio_url&id=in.(${inList})`;
+    const res = await fetch(url, { headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` } });
+    if (!res.ok) continue;
+    for (const r of await res.json()) {
+      const s = byId.get(r.id);
+      if (s) s.preview = buildPreview(r.notes_json, r.audio_url);
+    }
+  }
+}
+
 // ── shared chrome ───────────────────────────────────────────────────────────
 const head = ({ title, desc, canonical, jsonld }) => `<!DOCTYPE html>
 <html lang="en">
@@ -123,15 +197,16 @@ const head = ({ title, desc, canonical, jsonld }) => `<!DOCTYPE html>
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(desc)}">
-<link rel="icon" href="${ICON}">
-<link rel="stylesheet" href="/keys/seo.css">
+<link rel="icon" href="${FAVICON}">
+<link rel="stylesheet" href="/keys/seo.css?v=4">
 ${jsonld.map((j) => `<script type="application/ld+json">${JSON.stringify(j)}</script>`).join("\n")}
 </head>
 <body>
 <div class="wrap">
-<a class="top" href="/keys/" style="text-decoration:none;color:inherit">
-<span class="logo" aria-hidden="true">🎹</span><b>Keys</b>
-</a>`;
+<header class="top">
+<a class="brand" href="/keys/"><img src="${LOGO}" alt="Keys app icon" width="30" height="30"><b>Keys</b></a>
+<a class="top-cta" href="${APP_STORE}" rel="noopener">Get Keys — free</a>
+</header>`;
 
 const foot = `
 <div class="foot">
@@ -139,8 +214,27 @@ const foot = `
 <p>&copy; 2026 Best Day Labs</p>
 </div>
 </div>
+<script src="/keys/pianoroll.js?v=3" defer></script>
 </body>
 </html>`;
+
+// Interactive falling-tiles player — real note data, scrub + speed + note names.
+const rollHero = (song) => {
+  if (!song.preview || !song.preview.notes.length) return "";
+  return `
+<div class="player">
+<div class="roll-wrap"><canvas class="pianoroll"></canvas>
+<script type="application/json">${JSON.stringify(song.preview)}</script></div>
+<div class="controls">
+<button class="pp" aria-label="Play or pause">▶</button>
+<input class="seek" type="range" min="0" max="1000" value="0" aria-label="Timeline">
+<span class="time">0:00</span>
+<div class="speeds">
+<button data-s="0.25">0.25×</button><button data-s="0.5">0.5×</button><button data-s="0.75">0.75×</button><button data-s="1" class="on">1×</button>
+</div>
+</div>
+</div>`;
+};
 
 const appCTA = (id, label) => id ? `
 <div class="cta-row">
@@ -156,6 +250,25 @@ const closeCTA = (id, title) => `
 <h2>${id ? `Ready to play ${esc(title)}?` : "Start playing today"}</h2>
 <p>Open ${id ? esc(title) : "any song"} in Keys — watch the notes fall toward the keyboard, slow it down, loop the hard parts, and learn it at your own pace on iPhone or iPad.</p>
 ${appCTA(id, id ? `Play ${title} in Keys` : "Download Keys — free")}
+</section>`;
+
+// Prominent app "sales" CTA — stylized phone mockup of the roll + value props
+// + a big App Store button. The headline button deep-links to this exact song
+// (opens the app if installed, App Store otherwise).
+const APPLE_SVG = '<svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>';
+const ctaSection = (song) => `
+<section class="appcta">
+<div class="phone"><div class="phone-inner"><video class="phone-vid" autoplay muted loop playsinline preload="metadata"><source src="/keys/app-demo.mp4?v=2" type="video/mp4"></video><span class="phone-gloss"></span></div></div>
+<div class="appcta-body">
+<div class="appcta-brand"><img src="${LOGO}" alt="Keys" width="34" height="34"><span>Keys</span></div>
+<h2>Turn any song or video<br>into piano you can play</h2>
+<ul class="appcta-feats">
+<li>Transcribe any song or video into piano</li>
+<li>Generate a full piano cover of the audio</li>
+<li>Slow it down, loop the hard parts, and learn it</li>
+</ul>
+<a class="appcta-btn" href="${APP_STORE}" rel="noopener">${APPLE_SVG}<span><small>Download on the</small><b>App Store</b></span></a>
+</div>
 </section>`;
 
 // ── song page ───────────────────────────────────────────────────────────────
@@ -200,35 +313,19 @@ function songPage(song, related, artistSlug) {
   }[String(song.difficulty || "").toLowerCase()] ||
     "Work through it a phrase at a time and it comes together faster than you'd think.";
 
-  const intro =
-    `<strong>${esc(title)}</strong>${byArtist ? ` by ${esc(byArtist)}` : ""} is one of the pieces you can learn hands-on in ` +
-    `<a href="/keys/">Keys</a>. ${esc(diffBlurb)} ` +
-    `Keys turns it into an interactive piano roll — the notes fall toward a keyboard so you can see exactly ` +
-    `what to play${keyTxt ? ` in the key of ${keyTxt}` : ""}, slow it right down, and loop the bars that trip you up.`;
-
-  const steps = [
-    `Open ${esc(title)} in Keys and watch the falling-note preview to get a feel for the shape of the piece.`,
-    `Drop the speed to 50–75% so you can place each note without rushing${dur ? "" : ""}.`,
-    `Loop the hardest 2–4 bars and repeat them until they're muscle memory.`,
-    `Turn on Learn Mode — Keys waits for the right note before advancing, so you can't drift.`,
-    `Bring the tempo back up gradually until you can play ${esc(title)} start to finish.`,
-  ];
+  const lead = `Watch the real notes fall, slow it down, and learn ${esc(title)}${byArtist ? ` by ${esc(byArtist)}` : ""} at your own pace${keyTxt ? ` — key of ${keyTxt}` : ""}.`;
 
   const faqs = [
     [`How hard is ${title} to play on piano?`,
       diff ? `${esc(title)} is rated ${esc(diff.toLowerCase())} in Keys. ${esc(diffBlurb)}`
-           : `In Keys you can slow ${esc(title)} down and loop any section, so you can learn it at whatever level you're at.`],
-    keyTxt ? [`What key is ${title} in?`, `${esc(title)} is in the key of ${keyTxt}. Keys highlights the notes as they fall so you can follow along.`] : null,
+           : `Use the player above to slow ${esc(title)} down and scrub any part — so you can learn it at your own level.`],
     [`Can I slow ${title} down to learn it?`,
-      `Yes — Keys lets you play ${esc(title)} from quarter-speed up to 2× with no pitch change, and loop the tricky bars.`],
-  ].filter(Boolean);
+      `Yes — the player above runs from 0.25× to full speed. The Keys app adds audio, looping, and Learn Mode for the whole song.`],
+  ];
 
   const jsonld = [
     { "@context": "https://schema.org", "@type": "MusicComposition", name: title,
       ...(byArtist ? { composer: { "@type": "Person", name: byArtist } } : {}), ...(genre ? { genre } : {}), url },
-    { "@context": "https://schema.org", "@type": "HowTo",
-      name: `How to play ${title} on piano`,
-      step: steps.map((t, i) => ({ "@type": "HowToStep", position: i + 1, text: t.replace(/<[^>]+>/g, "") })) },
     { "@context": "https://schema.org", "@type": "FAQPage",
       mainEntity: faqs.map(([q, a]) => ({ "@type": "Question", name: q,
         acceptedAnswer: { "@type": "Answer", text: a.replace(/<[^>]+>/g, "") } })) },
@@ -242,20 +339,13 @@ function songPage(song, related, artistSlug) {
 
   return head({ title: pageTitle, desc: metaDesc, canonical: url, jsonld }) + `
 <nav class="crumb"><a href="/keys/songs/">Songs</a> &rsaquo; ${(byArtist && artistSlug) ? `<a href="/keys/artists/${artistSlug}/">${esc(byArtist)}</a> &rsaquo; ` : ""}${esc(title)}</nav>
-<h1>How to Play <span class="grad">${esc(title)}</span>${byArtist ? `<br>by ${esc(byArtist)} on Piano` : ` on Piano`}</h1>
-<p class="lead">${intro}</p>
+<h1>How to Play ${esc(title)}${byArtist ? `<br>by ${esc(byArtist)} on Piano` : ` on Piano`}</h1>
+<p class="lead">${lead}</p>
+${rollHero(song)}
+${ctaSection(song)}
 ${facts.length ? `<div class="facts">${facts.map(([k, v]) => `<div class="fact"><div class="k">${esc(k)}</div><div class="v">${v}</div></div>`).join("")}</div>` : ""}
-${appCTA(song.id, `Play ${title} in Keys`)}
 
 <section>
-<h2>How to learn ${esc(title)} on piano</h2>
-<div class="steps">
-${steps.map((t, i) => `<div class="step"><div class="n">STEP ${i + 1}</div><p>${t}</p></div>`).join("")}
-</div>
-</section>
-
-<section>
-<h2>FAQ</h2>
 <div class="faq">
 ${faqs.map(([q, a]) => `<div class="qa"><div class="q">${esc(q)}</div><p>${a}</p></div>`).join("")}
 </div>
@@ -286,7 +376,7 @@ function artistPage(artist, slug, songs) {
   ];
   return head({ title, desc, canonical: url, jsonld }) + `
 <nav class="crumb"><a href="/keys/songs/">Songs</a> &rsaquo; ${esc(artist)}</nav>
-<h1><span class="grad">${esc(artist)}</span><br>piano songs &amp; tutorials</h1>
+<h1>${esc(artist)}<br>piano songs &amp; tutorials</h1>
 <p class="lead">Learn ${esc(artist)} on piano with Keys — every song becomes an interactive piano roll you can slow down, loop, and play along with. ${songs.length} song${songs.length === 1 ? "" : "s"} to start with.</p>
 <div class="grid">
 ${songs.map((s) => `<a class="tile" href="/keys/songs/${s.slug}/"><div class="t">${esc(s.title)}</div><div class="a">${[s.key, s.difficulty ? titleCase(s.difficulty) : null].filter(Boolean).map(esc).join(" · ")}</div></a>`).join("")}
@@ -301,9 +391,11 @@ function indexPage(popular, artists) {
   const title = `Piano Songs & Tutorials — Learn Any Song on Piano | Keys`;
   const desc = `Browse piano tutorials in Keys. Pick a song and learn it on an interactive piano roll — slow it down, loop the hard parts, and play along on iPhone or iPad.`;
   const jsonld = [{ "@context": "https://schema.org", "@type": "CollectionPage", name: "Piano songs and tutorials", url }];
+  const featured = popular.find((s) => s.preview);
   return head({ title, desc, canonical: url, jsonld }) + `
 <nav class="crumb">Songs</nav>
-<h1>Learn any song <span class="grad">on piano</span></h1>
+${featured ? rollHero(featured) : ""}
+<h1>Learn any song on piano</h1>
 <p class="lead">Pick a piece and Keys turns it into an interactive piano roll — the notes fall toward a keyboard so you can see exactly what to play, slow it down, and loop the tricky parts.</p>
 ${appCTA("", "Get Keys — free")}
 <section>
@@ -354,6 +446,10 @@ const write = async (rel, content) => {
     used.add(slug);
     s.slug = slug;
   }
+
+  console.log("Fetching note previews…");
+  await attachPreviews(songs);
+  console.log(`${songs.filter((s) => s.preview).length} have a playable preview.`);
 
   // Group by artist.
   const byArtist = new Map();
