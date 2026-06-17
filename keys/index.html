@@ -4,15 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keys — Turn any piano video into something you can play.</title>
+    <title>Keys — Play any song on piano.</title>
     <meta name="description"
-        content="Share a piano video from TikTok, Instagram, or YouTube. Keys transcribes the piano part and turns it into an interactive piano roll you can play along with on iPhone or iPad.">
+        content="Share any piano video to Keys and it turns into falling notes you can play along with on iPhone or iPad. Slow it down, loop the hard parts, learn the song.">
 
-    <meta property="og:title" content="Keys — Turn any piano video into something you can play.">
+    <meta property="og:title" content="Keys — Play any song on piano.">
     <meta property="og:description"
-        content="AI piano transcription, learn mode, and an infinite catalog of classical pieces. Built for iPhone and iPad.">
+        content="Share any piano video and Keys turns it into falling notes you can play. On iPhone & iPad.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://bestdaylabs.com/keys/">
+    <meta property="og:image" content="https://bestdaylabs.com/keys/keys-demo-poster.jpg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,9 +22,134 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Page-local styles (TikTok banner + phone mockup). Scoped to this page
+         only — appended here so no other page on the site is affected. -->
+    <style>
+        /* Subtler treatment than the shared stylesheet: the headline tint is a
+           gentle white-to-soft-blue instead of a white/cyan/blue sweep, and the
+           primary button is a quiet two-blue rather than a blue-to-cyan pop. */
+        .headline .grad {
+            background: linear-gradient(120deg, #ffffff 0%, #a9c8ff 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-blue) 100%);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.26);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.32);
+        }
+
+        /* TikTok in-app browser notice — hidden until JS detects the webview. */
+        .tt-banner {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-blue) 100%);
+            color: #fff;
+            padding: 13px 18px;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4);
+        }
+        .tt-banner-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .tt-banner .tt-icon {
+            flex: 0 0 auto;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: ttNudge 1.4s ease-in-out infinite;
+        }
+        .tt-banner .tt-icon i { width: 26px; height: 26px; }
+        .tt-banner p {
+            font-size: 0.92rem;
+            line-height: 1.45;
+            margin: 0;
+        }
+        .tt-banner p strong { font-weight: 700; }
+        .tt-banner .pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.22);
+            border-radius: 6px;
+            padding: 0 6px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        @keyframes ttNudge {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-4px); }
+        }
+
+        /* Phone mockup holding the demo screen recording. */
+        .phone-wrap {
+            display: flex;
+            justify-content: center;
+            margin: 8px auto 0;
+            position: relative;
+        }
+        .phone-wrap::before {
+            content: "";
+            position: absolute;
+            inset: 8% 12%;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            filter: blur(60px);
+            z-index: -1;
+        }
+        .phone {
+            position: relative;
+            width: min(300px, 74vw);
+            aspect-ratio: 600 / 1298;
+            background: #05070d;
+            border-radius: 46px;
+            padding: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            box-shadow:
+                0 44px 90px rgba(59, 130, 246, 0.32),
+                0 0 0 2px rgba(255, 255, 255, 0.04) inset;
+        }
+        .phone video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 38px;
+            display: block;
+            background: #000;
+        }
+
+        .hero { margin-bottom: 56px; }
+        .phone-section { margin-bottom: 120px; }
+
+        @media (max-width: 580px) {
+            .phone-section { margin-bottom: 80px; }
+            .tt-banner p { font-size: 0.86rem; }
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Shown only inside TikTok's in-app browser (toggled by JS below). -->
+    <div class="tt-banner" id="tiktokBanner" hidden>
+        <div class="tt-banner-inner">
+            <span class="tt-icon"><i data-lucide="arrow-up-right"></i></span>
+            <p>
+                <strong>You're in TikTok's browser.</strong>
+                Tap <span class="pill">•••</span> at the top right, choose
+                <span class="pill">Open in browser</span>, then tap
+                <span class="pill">Download on the App Store</span>.
+            </p>
+        </div>
+    </div>
+
     <div class="bg-glow"></div>
     <div class="bg-grid"></div>
 
@@ -39,26 +165,35 @@
                 <span class="eyebrow fade-in delay-1">Now on iPhone &amp; iPad</span>
 
                 <h1 class="headline fade-in delay-1">
-                    Turn any piano video <br>
-                    <span class="grad">into something you can play.</span>
+                    Play any song <br>
+                    <span class="grad">on piano.</span>
                 </h1>
 
                 <p class="hero-sub fade-in delay-2">
-                    Share a video from TikTok, Instagram, or YouTube. Keys transcribes the piano part into an
-                    interactive piano roll — slow it down, loop the hard parts, and play along.
+                    Share any piano video to Keys and it turns into falling notes you can play along with.
+                    Slow it down, loop the hard parts, learn the song.
                 </p>
 
                 <div class="cta-row fade-in delay-3">
-                    <a href="#" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <a href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                         <i data-lucide="apple"></i>
                         Download on the App Store
                     </a>
-                    <a href="#how" class="btn btn-ghost">
-                        See how it works
-                        <i data-lucide="arrow-down"></i>
-                    </a>
                 </div>
             </section>
+
+            <!-- PHONE DEMO -->
+            <div class="phone-section">
+                <div class="phone-wrap fade-in delay-2">
+                    <div class="phone">
+                        <video autoplay muted loop playsinline preload="auto"
+                               poster="keys-demo-poster.jpg">
+                            <source src="keys-demo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
 
             <!-- HOW IT WORKS -->
             <section class="section" id="how">
@@ -71,58 +206,17 @@
                     <div class="step fade-in">
                         <div class="step-num">1</div>
                         <h3>Share</h3>
-                        <p>Paste a link, or share a piano video to Keys from any app.</p>
+                        <p>Send any piano video to Keys from TikTok, Instagram, or YouTube.</p>
                     </div>
                     <div class="step fade-in delay-1">
                         <div class="step-num">2</div>
                         <h3>Transcribe</h3>
-                        <p>Our piano transcription model extracts the notes as MIDI.</p>
+                        <p>Keys listens and turns the piano part into falling notes.</p>
                     </div>
                     <div class="step fade-in delay-2">
                         <div class="step-num">3</div>
                         <h3>Play</h3>
-                        <p>Follow the falling notes on a virtual keyboard at your own pace.</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FEATURES -->
-            <section class="section">
-                <div class="section-heading">
-                    <h2>Built for practice, not for show</h2>
-                    <p>Every feature exists because it makes learning a piece faster.</p>
-                </div>
-
-                <div class="features">
-                    <div class="feature fade-in">
-                        <div class="feature-icon"><i data-lucide="ear"></i></div>
-                        <h3>Learn Mode</h3>
-                        <p>Keys listens through your mic and waits for the right note before advancing.</p>
-                    </div>
-                    <div class="feature fade-in delay-1">
-                        <div class="feature-icon"><i data-lucide="gauge"></i></div>
-                        <h3>Adjustable Speed</h3>
-                        <p>Practice at quarter speed up to 2× — no pitch shift, same instrument.</p>
-                    </div>
-                    <div class="feature fade-in delay-2">
-                        <div class="feature-icon"><i data-lucide="repeat-2"></i></div>
-                        <h3>Loop Sections</h3>
-                        <p>Set A/B markers and drill the tricky bars until they're muscle memory.</p>
-                    </div>
-                    <div class="feature fade-in delay-3">
-                        <div class="feature-icon"><i data-lucide="globe-2"></i></div>
-                        <h3>Discover Feed</h3>
-                        <p>Browse hundreds of classical pieces and community-uploaded transcriptions.</p>
-                    </div>
-                    <div class="feature fade-in delay-4">
-                        <div class="feature-icon"><i data-lucide="scan-line"></i></div>
-                        <h3>Sheet Music Scan</h3>
-                        <p>Point your camera at sheet music and get a playable transcription.</p>
-                    </div>
-                    <div class="feature fade-in delay-5">
-                        <div class="feature-icon"><i data-lucide="library"></i></div>
-                        <h3>Your Library</h3>
-                        <p>Every song you transcribe is saved and synced across your devices.</p>
+                        <p>Follow the notes on the keyboard, at your own pace.</p>
                     </div>
                 </div>
             </section>
@@ -132,7 +226,8 @@
                 <div class="closing fade-in">
                     <h2>Make it click.</h2>
                     <p>Take the song stuck in your head and turn it into something your hands can do.</p>
-                    <a href="#" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                    <a href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
+                       class="btn btn-primary" target="_blank" rel="noopener noreferrer">
                         <i data-lucide="apple"></i>
                         Download Keys
                     </a>
@@ -154,8 +249,20 @@
     </footer>
 
     <script>
+        // Show the "open in your browser" banner only inside TikTok's in-app
+        // webview, where App Store links are blocked. TikTok's webview UA carries
+        // one of these markers (Bytedance/musical_ly/aweme/trill across regions).
+        (function () {
+            var ua = (navigator.userAgent || '').toLowerCase();
+            var isTikTok = /bytedancewebview|musical_ly|tiktok|bytedance|aweme|trill/.test(ua);
+            if (isTikTok) {
+                var banner = document.getElementById('tiktokBanner');
+                if (banner) banner.hidden = false;
+            }
+        })();
+
         // Render Lucide icons after DOM ready.
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
             if (window.lucide) window.lucide.createIcons();
         });
     </script>
