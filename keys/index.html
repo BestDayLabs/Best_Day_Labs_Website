@@ -108,7 +108,6 @@
         .phone {
             position: relative;
             width: min(300px, 74vw);
-            aspect-ratio: 600 / 1298;
             background: #05070d;
             border-radius: 46px;
             padding: 9px;
@@ -117,12 +116,15 @@
                 0 44px 90px rgba(59, 130, 246, 0.32),
                 0 0 0 2px rgba(255, 255, 255, 0.04) inset;
         }
+        /* The video keeps its true recording ratio (no squeeze/crop); the frame
+           sizes to it plus an even bezel, so the phone reads at real proportions. */
         .phone video {
+            display: block;
             width: 100%;
-            height: 100%;
+            height: auto;
+            aspect-ratio: 1284 / 2778;
             object-fit: cover;
             border-radius: 38px;
-            display: block;
             background: #000;
         }
 
