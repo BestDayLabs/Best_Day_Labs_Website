@@ -139,12 +139,12 @@
 </head>
 
 <body>
-    <!-- Shown only inside TikTok's in-app browser (toggled by JS below). -->
+    <!-- Shown only inside an in-app browser (TikTok etc.) — toggled by JS below. -->
     <div class="tt-banner" id="tiktokBanner" hidden>
         <div class="tt-banner-inner">
             <span class="tt-icon"><i data-lucide="arrow-up-right"></i></span>
             <p>
-                <strong>You're in TikTok's browser.</strong>
+                <strong>You're in <span id="ttAppName">TikTok's</span> in-app browser.</strong>
                 Tap <span class="pill">•••</span> at the top right, choose
                 <span class="pill">Open in browser</span>, then tap
                 <span class="pill">Download on the App Store</span>.
@@ -251,16 +251,42 @@
     </footer>
 
     <script>
-        // Show the "open in your browser" banner only inside TikTok's in-app
-        // webview, where App Store links are blocked. TikTok's webview UA carries
-        // one of these markers (Bytedance/musical_ly/aweme/trill across regions).
+        // Show the "open in your browser" banner inside any in-app browser
+        // (TikTok, Instagram, Facebook, Snapchat...), where App Store links are
+        // blocked. We can't rely on app-specific UA markers alone — TikTok's
+        // webview UA varies by region/version — so we also use a reliable
+        // webview heuristic: every standalone iOS browser (Safari, Chrome,
+        // Firefox, Edge) carries "Safari/" in its UA, while in-app WKWebViews
+        // omit it; Android in-app WebViews carry the "wv" token.
         (function () {
-            var ua = (navigator.userAgent || '').toLowerCase();
-            var isTikTok = /bytedancewebview|musical_ly|tiktok|bytedance|aweme|trill/.test(ua);
-            if (isTikTok) {
-                var banner = document.getElementById('tiktokBanner');
-                if (banner) banner.hidden = false;
-            }
+            var ua = navigator.userAgent || '';
+            var lua = ua.toLowerCase();
+
+            var isTikTok    = /bytedancewebview|musical_ly|tiktok|aweme|trill|bytelo/.test(lua);
+            var isInstagram = /instagram/.test(lua);
+            var isFacebook  = /fbav|fban|fb_iab/.test(lua);
+            var isSnapchat  = /snapchat/.test(lua);
+
+            var isIOS       = /iphone|ipad|ipod/.test(lua);
+            var iosInApp    = isIOS && !/safari\//.test(lua);          // WKWebView, no Safari token
+            var androidInApp = /\bwv\b/.test(lua);                      // Android System WebView
+
+            var inApp = isTikTok || isInstagram || isFacebook || isSnapchat || iosInApp || androidInApp;
+            if (!inApp) return;
+
+            var banner = document.getElementById('tiktokBanner');
+            if (!banner) return;
+
+            // Name the app where we can; otherwise keep it generic.
+            var name = isTikTok ? "TikTok's"
+                : isInstagram ? "Instagram's"
+                : isFacebook ? "Facebook's"
+                : isSnapchat ? "Snapchat's"
+                : "this app's";
+            var nameEl = document.getElementById('ttAppName');
+            if (nameEl) nameEl.textContent = name;
+
+            banner.hidden = false;
         })();
 
         // Render Lucide icons after DOM ready.
