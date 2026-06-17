@@ -278,11 +278,10 @@
             if (!banner) return;
 
             // Name the app where we can; otherwise keep it generic.
-            var name = isTikTok ? "TikTok's"
-                : isInstagram ? "Instagram's"
+            var name = isInstagram ? "Instagram's"
                 : isFacebook ? "Facebook's"
                 : isSnapchat ? "Snapchat's"
-                : "this app's";
+                : "TikTok's";   // default (incl. the generic webview heuristic)
             var nameEl = document.getElementById('ttAppName');
             if (nameEl) nameEl.textContent = name;
 
