@@ -54,5 +54,11 @@ const apps = [
         description: "Turn any piano video into something you can play.",
         iconUrl: "keys/KeysIcon.png",
         folderName: "keys"
+    },
+    {
+        name: "Sandy",
+        description: "Golf stats, dead simple — talk to your phone, tap twice for your drive.",
+        iconUrl: "sandy/icon.svg",
+        folderName: "sandy"
     }
 ];

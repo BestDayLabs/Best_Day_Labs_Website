@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sandy — Golf stats, dead simple</title>
+<meta name="description" content="Sandy tracks the four stats that actually predict your scoring. Talk to it, tap twice for your drive, done. Free, no ads, no subscription.">
+<style>
+  :root { color-scheme: light; }
+  * { box-sizing: border-box; }
+  body { font: 18px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+         color: #17181A; background: #F6F5F1; margin: 0; }
+  .wrap { max-width: 820px; margin: 0 auto; padding: 0 24px; }
+  header { text-align: center; padding: 72px 24px 48px; }
+  .badge { width:84px;height:84px;border-radius:24px;background:#0B6E46;color:#fff;
+           font-size:46px;font-weight:800;line-height:84px;display:inline-block;
+           box-shadow:0 8px 24px rgba(11,110,70,.28); }
+  h1 { font-size: 44px; letter-spacing: -1px; margin: 24px 0 8px; }
+  .tag { font-size: 21px; color:#585C63; margin: 0 auto; max-width: 540px; }
+  .cta { display:inline-block; margin-top:28px; background:#0B6E46; color:#fff; text-decoration:none;
+         font-weight:600; padding:14px 28px; border-radius:999px; }
+  .cta.muted { background:transparent; color:#0B6E46; box-shadow:inset 0 0 0 1.5px #0B6E46; margin-left:10px; }
+  section { padding: 40px 0; }
+  h2 { font-size: 26px; letter-spacing:-0.4px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+  .card { background:#fff; border-radius:18px; padding:22px; box-shadow:0 1px 3px rgba(23,24,26,.06); }
+  .card h3 { margin:0 0 6px; font-size:18px; }
+  .card p { margin:0; color:#585C63; font-size:16px; }
+  .steps { counter-reset: s; }
+  .step { display:flex; gap:16px; align-items:flex-start; margin:18px 0; }
+  .num { flex:none; width:34px;height:34px;border-radius:50%;background:#0B6E46;color:#fff;
+         font-weight:700;text-align:center;line-height:34px; }
+  footer { text-align:center; color:#8A8E96; font-size:15px; padding:48px 24px 64px; border-top:1px solid #E4E2DB; margin-top:40px; }
+  footer a { color:#585C63; }
+  a { color:#0B6E46; }
+</style>
+</head>
+<body>
+<header>
+  <div class="badge">S</div>
+  <h1>Golf stats, dead simple.</h1>
+  <p class="tag">Sandy tracks the four stats that actually predict your scoring. Talk to it, tap twice for your drive, done.</p>
+  <div>
+    <!-- Replace # with the App Store link once live -->
+    <a class="cta" href="#">Download on the App Store</a>
+    <a class="cta muted" href="support.html">How it works</a>
+  </div>
+</header>
+
+<div class="wrap">
+  <section>
+    <h2>The stats that move your score</h2>
+    <p style="color:#585C63;max-width:600px">Not a scorecard. Sandy focuses on the handful of numbers that predict scoring — and shows each one with its denominator, so a partial round is never misleading.</p>
+    <div class="grid">
+      <div class="card"><h3>Greens in regulation</h3><p>How often you give yourself a real birdie look.</p></div>
+      <div class="card"><h3>Putts per GIR</h3><p>Your putting, measured the honest way.</p></div>
+      <div class="card"><h3>Scrambling</h3><p>Up-and-down rate when you miss the green.</p></div>
+      <div class="card"><h3>Green-light drives</h3><p>Drives that leave you a clean look — the tee stat that matters.</p></div>
+      <div class="card"><h3>Driving distance</h3><p>Measured from your GPS taps, shown honestly banded.</p></div>
+      <div class="card"><h3>Score</h3><p>To par, per hole and per round, never blending 9s and 18s.</p></div>
+    </div>
+  </section>
+
+  <section class="steps">
+    <h2>Three steps, every round</h2>
+    <div class="step"><div class="num">1</div><div><strong>Arrive.</strong> Tap Play. Sandy knows the course if anyone's played it — or you add it for everyone. Pick tees and holes, Start.</div></div>
+    <div class="step"><div class="num">2</div><div><strong>Play.</strong> Tap Tee, Tap Drive, Log Hole — by “Hey Siri,” by talking to Sandy in the app, or by tapping it in. Just say it: “Hit the green, two putts, made par.”</div></div>
+    <div class="step"><div class="num">3</div><div><strong>Finish.</strong> End the round and your stats and trends build themselves.</div></div>
+  </section>
+
+  <section>
+    <h2>Free, with no catch</h2>
+    <p style="color:#585C63;max-width:600px">No ads. No account required. No subscription, no paywall — every feature is free. If you love it, there's an optional tip jar. That's the whole business model.</p>
+  </section>
+</div>
+
+<footer>
+  Best Day Labs, LLC ·
+  <a href="privacy.html">Privacy</a> ·
+  <a href="terms.html">Terms</a> ·
+  <a href="support.html">Support</a> ·
+  <a href="mailto:support@bestdaylabs.com">Contact</a>
+</footer>
+</body>
+</html>
