@@ -2,6 +2,12 @@
 // apps.js
 const apps = [
     {
+        name: "Remmy",
+        description: "Find out what you say in your sleep.",
+        iconUrl: "remmy/icon.png",
+        folderName: "remmy"
+    },
+    {
         name: "Days at the Office",
         description: "Track your days at the office automatically.",
         iconUrl: "days-at-the-office/favicon.png", // Placeholder
