@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXXGXN3HND"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KXXGXN3HND');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Remmy</title>
+    <meta name="description" content="Remmy support. Get help with recording, playback, permissions, alarms, and subscriptions.">
+    <meta name="theme-color" content="#120F24">
+    <link rel="canonical" href="https://www.bestdaylabs.com/remmy/support.html">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/remmy/" class="nav-logo">
+                <span class="logo-icon"><img src="icon.png" alt="Remmy"></span>
+                <span class="logo-text">Remmy</span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/remmy/#how-it-works">How It Works</a>
+                <a href="/remmy/#pricing">Pricing</a>
+                <a href="support.html">Support</a>
+                <a href="/remmy/#download" class="nav-cta">Download</a>
+            </div>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="support-hero">
+        <h1>How can we help?</h1>
+        <p>Answers to the most common questions about Remmy. Still stuck? We're an email away.</p>
+    </div>
+
+    <div class="support-faq">
+        <h2>Frequently asked questions</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question">How does Remmy work?</div>
+                <div class="faq-answer">Before bed, tap Start. Remmy listens through your microphone and saves short clips whenever it hears talking, snoring, or unexpected sounds. In the morning, you wake up to the highlights &mdash; playable, and ready to share.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Does my audio leave my phone?</div>
+                <div class="faq-answer">No. Everything Remmy records &mdash; the audio, the transcripts, the sounds it detects &mdash; stays on your device. Sleep-talk is transcribed on-device, and nothing is uploaded to us or the cloud. See our <a href="privacy.html">Privacy Policy</a>.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Remmy didn't catch anything. What happened?</div>
+                <div class="faq-answer">A few things to check: make sure you granted Microphone and Speech Recognition permissions (iOS Settings &rarr; Remmy); place your phone close to your bed, screen-up, not buried under blankets; and keep it plugged in with Remmy open on your nightstand for the night. Some nights are just quiet, too.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Should I keep the app open while I sleep?</div>
+                <div class="faq-answer">Yes &mdash; for the most reliable capture, plug your phone in and leave Remmy open on your nightstand. It's designed to run through the night while it listens.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I change my alarm or bedtime reminder?</div>
+                <div class="faq-answer">Open the Sleep tab to set your alarm time and smart-wake window. The optional bedtime reminder lives in Settings.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Does Remmy detect sleep apnea or health issues?</div>
+                <div class="faq-answer">No. Remmy is for entertainment and curiosity only. It is not a medical device and does not detect, diagnose, or monitor sleep apnea or any medical condition. For health concerns, please see a qualified professional.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I manage or cancel my subscription?</div>
+                <div class="faq-answer">Subscriptions are handled by Apple. Open the Settings app &rarr; tap your name &rarr; Subscriptions &rarr; Remmy to change or cancel. Cancel at least 24 hours before renewal to avoid the next charge.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How do I delete my recordings?</div>
+                <div class="faq-answer">You can delete individual nights inside the app, or remove everything at once by deleting Remmy from your device. Because your data lives only on your phone, that's all it takes.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What do I need to run Remmy?</div>
+                <div class="faq-answer">An iPhone running iOS 17 or later.</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2>Still need help?</h2>
+        <p>Email us and we'll get back to you.</p>
+        <a href="mailto:support@bestdaylabs.com" class="contact-email">support@bestdaylabs.com</a>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2026 Best Day Labs. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+        document.getElementById('navLinks').classList.toggle('open');
+        this.classList.toggle('open');
+    });
+    document.querySelectorAll('#navLinks a').forEach(function(link) {
+        link.addEventListener('click', function() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>
