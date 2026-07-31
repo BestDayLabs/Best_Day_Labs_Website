@@ -28,14 +28,16 @@
     <link rel="stylesheet" href="style.css?v=5">
 
     <style>
-        /* In-app-browser notice. Page-local because only this page shows it. */
+        /* In-app-browser notice — one line, sticky, with a copy-link escape.
+           iOS webviews can't be forced open into Safari (Apple closed
+           x-safari-https://), so the ••• instruction IS the mechanism. */
         .tt-banner {
             position: sticky;
             top: 0;
             z-index: 100;
             background: linear-gradient(135deg, var(--accent) 0%, var(--accent-deep) 100%);
             color: #fff;
-            padding: 13px 18px;
+            padding: 11px 16px;
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
         }
         .tt-banner-inner {
@@ -43,46 +45,50 @@
             margin: 0 auto;
             display: flex;
             align-items: center;
-            gap: 13px;
+            justify-content: center;
+            gap: 12px;
         }
-        .tt-banner .tt-icon {
-            flex: 0 0 auto;
-            width: 30px;
-            height: 30px;
-            display: grid;
-            place-items: center;
-            border-radius: 9px;
-            background: rgba(255, 255, 255, 0.18);
-        }
-        .tt-banner p { font-size: 0.9rem; line-height: 1.45; }
-        .tt-banner strong { display: block; font-weight: 600; }
+        .tt-banner p { font-size: 0.88rem; line-height: 1.35; font-weight: 500; }
         .tt-banner .pill {
             display: inline-block;
             padding: 1px 7px;
             border-radius: 6px;
-            background: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.24);
             font-weight: 600;
             white-space: nowrap;
         }
+        .tt-copy {
+            flex: 0 0 auto;
+            font: inherit;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.45);
+            background: rgba(255, 255, 255, 0.14);
+            cursor: pointer;
+        }
+        .tt-copy:active { transform: scale(0.97); }
+
+        /* Flashed when a store badge is tapped in-app, to send the eye up to
+           the instruction rather than leaving the tap feeling broken. */
+        @keyframes ttFlash {
+            0%, 100% { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45); }
+            30%, 70% { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 8px 28px rgba(0, 0, 0, 0.45); }
+        }
+        .tt-banner.flash { animation: ttFlash 1.1s ease 2; }
+
     </style>
 </head>
 
 <body>
     <!-- Shown only inside an in-app browser (TikTok etc.) — toggled by JS below. -->
+    <!-- Shown only inside an in-app browser (TikTok/IG/FB/Snap) — toggled by JS. -->
     <div class="tt-banner" id="tiktokBanner" hidden>
         <div class="tt-banner-inner">
-            <span class="tt-icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                     stroke-linecap="round" stroke-linejoin="round" width="16" height="16">
-                    <path d="M7 17 17 7M8 7h9v9"/>
-                </svg>
-            </span>
-            <p>
-                <strong>You're in <span id="ttAppName">TikTok's</span> in-app browser.</strong>
-                The buttons below will jump you out to your browser. If nothing happens, tap
-                <span class="pill">•••</span> at the top right and choose
-                <span class="pill">Open in browser</span>.
-            </p>
+            <p>Tap <span class="pill">•••</span> above &rarr; <span class="pill">Open in browser</span> to install Keys.</p>
+            <button type="button" class="tt-copy" id="ttCopy">Copy link</button>
         </div>
     </div>
 
@@ -304,9 +310,9 @@
             var APP_STORE = 'https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403';
             var PLAY_ID   = 'com.bestdaylabs.keys';
             var PLAY_URL  = 'https://play.google.com/store/apps/details?id=' + PLAY_ID;
+            var PAGE_URL  = 'https://bestdaylabs.com/keys/';
 
-            var ua  = navigator.userAgent || '';
-            var lua = ua.toLowerCase();
+            var lua = (navigator.userAgent || '').toLowerCase();
 
             var isTikTok    = /bytedancewebview|musical_ly|tiktok|aweme|trill|bytelo/.test(lua);
             var isInstagram = /instagram/.test(lua);
@@ -318,50 +324,43 @@
             var androidInApp = /\bwv\b/.test(lua);               // Android System WebView
 
             var inApp = isTikTok || isInstagram || isFacebook || isSnapchat || iosInApp || androidInApp;
+            if (!inApp) return;          // normal browser: plain hrefs already work
 
-            // --- Step 2 of the hop -------------------------------------------------
-            // We land back here in the REAL browser with ?go=…, where store links
-            // work normally. Redirect immediately, before anything renders.
-            var go = (location.search.match(/[?&]go=(ios|android)/) || [])[1];
-            if (go) {
-                location.replace(go === 'ios' ? APP_STORE : PLAY_URL);
-                return;
-            }
-
-            if (!inApp) return;   // normal browser: the plain hrefs already work
-
-            // --- Banner ------------------------------------------------------------
             var banner = document.getElementById('tiktokBanner');
-            if (banner) {
-                var name = isInstagram ? "Instagram's"
-                    : isFacebook ? "Facebook's"
-                    : isSnapchat ? "Snapchat's"
-                    : "TikTok's";
-                var nameEl = document.getElementById('ttAppName');
-                if (nameEl) nameEl.textContent = name;
-                banner.hidden = false;
-            }
+            if (banner) banner.hidden = false;
 
-            // --- Step 1 of the hop -------------------------------------------------
-            // Instagram and TikTok now block apps.apple.com from opening the App
-            // Store inside their webview — the tap just dies. So from an in-app
-            // browser we don't link to the store at all; we bounce the user OUT to
-            // their real browser first, back to this page with ?go=…, and step 2
-            // above sends them to the store from there.
-            //
-            //   iOS      x-safari-https:// forces Safari to open the URL. Undocumented
-            //            but long-standing, and it's what actually escapes these
-            //            webviews. Falls back to itms-apps:// (which sometimes opens
-            //            the App Store directly) and finally the plain https link.
-            //   Android  an intent:// URL hands straight to the Play Store app, which
-            //            these webviews do still honour.
-            var here = location.host + location.pathname;
+            // Copy the URL so they can paste it into Safari/Chrome themselves.
+            var copyBtn = document.getElementById('ttCopy');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', function () {
+                    var done = function () {
+                        copyBtn.textContent = 'Copied!';
+                        setTimeout(function () { copyBtn.textContent = 'Copy link'; }, 2000);
+                    };
+                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                        navigator.clipboard.writeText(PAGE_URL).then(done, fallback);
+                    } else { fallback(); }
+
+                    function fallback() {
+                        var ta = document.createElement('textarea');
+                        ta.value = PAGE_URL;
+                        ta.setAttribute('readonly', '');
+                        ta.style.position = 'fixed';
+                        ta.style.opacity = '0';
+                        document.body.appendChild(ta);
+                        ta.select();
+                        ta.setSelectionRange(0, 99999);        // iOS needs the range
+                        try { document.execCommand('copy'); done(); } catch (err) {}
+                        document.body.removeChild(ta);
+                    }
+                });
+            }
 
             document.querySelectorAll('[data-store]').forEach(function (a) {
                 a.addEventListener('click', function (e) {
-                    var target = a.getAttribute('data-store');
-
-                    if (target === 'android') {
+                    // ANDROID: intent:// still hands off to the Play Store app from
+                    // these webviews, so this one genuinely works.
+                    if (a.getAttribute('data-store') === 'android') {
                         e.preventDefault();
                         window.location.href =
                             'intent://details?id=' + PLAY_ID +
@@ -370,18 +369,31 @@
                         return;
                     }
 
-                    if (!isIOS) return;    // Android tapping the Apple badge: leave it alone
+                    if (!isIOS) return;
 
+                    // iOS: there is NO way to force Safari open from a third-party
+                    // webview — Apple closed x-safari-https://, and these apps block
+                    // apps.apple.com. itms-apps:// still opens the App Store in SOME
+                    // webviews, so try it; if we're still here a moment later, the tap
+                    // did nothing, so send the user's eye to the ••• instruction
+                    // instead of leaving a dead button.
                     e.preventDefault();
-                    window.location.href = 'x-safari-https://' + here + '?go=ios';
+                    var left = false;
+                    var onHide = function () { if (document.hidden) left = true; };
+                    document.addEventListener('visibilitychange', onHide);
 
-                    // If Safari never took over, we're still here — try the App
-                    // Store's own scheme, then give up and use the plain link so
-                    // the banner's instructions remain the last resort.
+                    window.location.href = 'itms-apps://apps.apple.com/app/id6769897403';
+
                     setTimeout(function () {
-                        window.location.href = 'itms-apps://apps.apple.com/app/id6769897403';
-                        setTimeout(function () { window.location.href = APP_STORE; }, 800);
-                    }, 700);
+                        document.removeEventListener('visibilitychange', onHide);
+                        if (left) return;                      // App Store opened
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                        if (banner) {
+                            banner.classList.remove('flash');
+                            void banner.offsetWidth;           // restart the animation
+                            banner.classList.add('flash');
+                        }
+                    }, 1200);
                 });
             });
         })();
