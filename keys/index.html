@@ -71,14 +71,6 @@
         }
         .tt-copy:active { transform: scale(0.97); }
 
-        /* Flashed when a store badge is tapped in-app, to send the eye up to
-           the instruction rather than leaving the tap feeling broken. */
-        @keyframes ttFlash {
-            0%, 100% { box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45); }
-            30%, 70% { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.85), 0 8px 28px rgba(0, 0, 0, 0.45); }
-        }
-        .tt-banner.flash { animation: ttFlash 1.1s ease 2; }
-
     </style>
 </head>
 
@@ -118,13 +110,13 @@
                 </p>
 
                 <div class="store-row fade-in delay-3">
-                    <a class="store-badge apple" data-store="ios"
+                    <a class="store-badge apple"
                        href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
                        target="_blank" rel="noopener noreferrer"
                        aria-label="Download Keys on the App Store">
                         <img src="badge-app-store.svg" alt="Download on the App Store" width="162" height="54">
                     </a>
-                    <a class="store-badge google" data-store="android"
+                    <a class="store-badge google"
                        href="https://play.google.com/store/apps/details?id=com.bestdaylabs.keys"
                        target="_blank" rel="noopener noreferrer"
                        aria-label="Get Keys on Google Play">
@@ -275,13 +267,13 @@
                     <p>Take the song stuck in your head and turn it into something your hands can do.</p>
 
                     <div class="store-row">
-                        <a class="store-badge apple" data-store="ios"
+                        <a class="store-badge apple"
                            href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
                            target="_blank" rel="noopener noreferrer"
                            aria-label="Download Keys on the App Store">
                             <img src="badge-app-store.svg" alt="Download on the App Store" width="162" height="54">
                         </a>
-                        <a class="store-badge google" data-store="android"
+                        <a class="store-badge google"
                            href="https://play.google.com/store/apps/details?id=com.bestdaylabs.keys"
                            target="_blank" rel="noopener noreferrer"
                            aria-label="Get Keys on Google Play">
@@ -306,12 +298,19 @@
     </footer>
 
     <script>
+        // Inside an in-app browser (TikTok, Instagram, Facebook, Snapchat) the
+        // App Store link can't open the store — those apps block it, and there
+        // is no way for a page to force the real browser open (Apple closed
+        // x-safari-https://). So we don't intercept the buttons at all: we just
+        // tell the user to open the page in their browser.
+        //
+        // Detection: app-specific UA markers are unreliable on their own —
+        // TikTok's webview UA varies by region and version — so we also use the
+        // general webview heuristic. Every standalone iOS browser (Safari,
+        // Chrome, Firefox, Edge) carries "Safari/" in its UA while in-app
+        // WKWebViews omit it; Android in-app WebViews carry the "wv" token.
         (function () {
-            var APP_STORE = 'https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403';
-            var PLAY_ID   = 'com.bestdaylabs.keys';
-            var PLAY_URL  = 'https://play.google.com/store/apps/details?id=' + PLAY_ID;
-            var PAGE_URL  = 'https://bestdaylabs.com/keys/';
-
+            var PAGE_URL = 'https://bestdaylabs.com/keys/';
             var lua = (navigator.userAgent || '').toLowerCase();
 
             var isTikTok    = /bytedancewebview|musical_ly|tiktok|aweme|trill|bytelo/.test(lua);
@@ -320,81 +319,41 @@
             var isSnapchat  = /snapchat/.test(lua);
 
             var isIOS        = /iphone|ipad|ipod/.test(lua);
-            var iosInApp     = isIOS && !/safari\//.test(lua);   // WKWebView carries no Safari token
-            var androidInApp = /\bwv\b/.test(lua);               // Android System WebView
+            var iosInApp     = isIOS && !/safari\//.test(lua);
+            var androidInApp = /\bwv\b/.test(lua);
 
-            var inApp = isTikTok || isInstagram || isFacebook || isSnapchat || iosInApp || androidInApp;
-            if (!inApp) return;          // normal browser: plain hrefs already work
+            if (!(isTikTok || isInstagram || isFacebook || isSnapchat || iosInApp || androidInApp)) return;
 
             var banner = document.getElementById('tiktokBanner');
             if (banner) banner.hidden = false;
 
-            // Copy the URL so they can paste it into Safari/Chrome themselves.
+            // Copying works fine in a webview, so this is the one shortcut we can
+            // actually offer: copy, switch to Safari/Chrome, paste.
             var copyBtn = document.getElementById('ttCopy');
-            if (copyBtn) {
-                copyBtn.addEventListener('click', function () {
-                    var done = function () {
-                        copyBtn.textContent = 'Copied!';
-                        setTimeout(function () { copyBtn.textContent = 'Copy link'; }, 2000);
-                    };
-                    if (navigator.clipboard && navigator.clipboard.writeText) {
-                        navigator.clipboard.writeText(PAGE_URL).then(done, fallback);
-                    } else { fallback(); }
+            if (!copyBtn) return;
 
-                    function fallback() {
-                        var ta = document.createElement('textarea');
-                        ta.value = PAGE_URL;
-                        ta.setAttribute('readonly', '');
-                        ta.style.position = 'fixed';
-                        ta.style.opacity = '0';
-                        document.body.appendChild(ta);
-                        ta.select();
-                        ta.setSelectionRange(0, 99999);        // iOS needs the range
-                        try { document.execCommand('copy'); done(); } catch (err) {}
-                        document.body.removeChild(ta);
-                    }
-                });
-            }
-
-            document.querySelectorAll('[data-store]').forEach(function (a) {
-                a.addEventListener('click', function (e) {
-                    // ANDROID: intent:// still hands off to the Play Store app from
-                    // these webviews, so this one genuinely works.
-                    if (a.getAttribute('data-store') === 'android') {
-                        e.preventDefault();
-                        window.location.href =
-                            'intent://details?id=' + PLAY_ID +
-                            '#Intent;scheme=market;package=com.android.vending;end';
-                        setTimeout(function () { window.location.href = PLAY_URL; }, 900);
-                        return;
-                    }
-
-                    if (!isIOS) return;
-
-                    // iOS: there is NO way to force Safari open from a third-party
-                    // webview — Apple closed x-safari-https://, and these apps block
-                    // apps.apple.com. itms-apps:// still opens the App Store in SOME
-                    // webviews, so try it; if we're still here a moment later, the tap
-                    // did nothing, so send the user's eye to the ••• instruction
-                    // instead of leaving a dead button.
-                    e.preventDefault();
-                    var left = false;
-                    var onHide = function () { if (document.hidden) left = true; };
-                    document.addEventListener('visibilitychange', onHide);
-
-                    window.location.href = 'itms-apps://apps.apple.com/app/id6769897403';
-
-                    setTimeout(function () {
-                        document.removeEventListener('visibilitychange', onHide);
-                        if (left) return;                      // App Store opened
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        if (banner) {
-                            banner.classList.remove('flash');
-                            void banner.offsetWidth;           // restart the animation
-                            banner.classList.add('flash');
-                        }
-                    }, 1200);
-                });
+            copyBtn.addEventListener('click', function () {
+                var done = function () {
+                    copyBtn.textContent = 'Copied!';
+                    setTimeout(function () { copyBtn.textContent = 'Copy link'; }, 2000);
+                };
+                var fallback = function () {
+                    var ta = document.createElement('textarea');
+                    ta.value = PAGE_URL;
+                    ta.setAttribute('readonly', '');
+                    ta.style.position = 'fixed';
+                    ta.style.opacity = '0';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    ta.setSelectionRange(0, 99999);      // iOS needs the range
+                    try { document.execCommand('copy'); done(); } catch (err) {}
+                    document.body.removeChild(ta);
+                };
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(PAGE_URL).then(done, fallback);
+                } else {
+                    fallback();
+                }
             });
         })();
     </script>
