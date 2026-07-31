@@ -79,8 +79,9 @@
             </span>
             <p>
                 <strong>You're in <span id="ttAppName">TikTok's</span> in-app browser.</strong>
-                Tap <span class="pill">•••</span> at the top right, choose
-                <span class="pill">Open in browser</span>, then download Keys.
+                The buttons below will jump you out to your browser. If nothing happens, tap
+                <span class="pill">•••</span> at the top right and choose
+                <span class="pill">Open in browser</span>.
             </p>
         </div>
     </div>
@@ -111,13 +112,13 @@
                 </p>
 
                 <div class="store-row fade-in delay-3">
-                    <a class="store-badge apple"
+                    <a class="store-badge apple" data-store="ios"
                        href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
                        target="_blank" rel="noopener noreferrer"
                        aria-label="Download Keys on the App Store">
                         <img src="badge-app-store.svg" alt="Download on the App Store" width="162" height="54">
                     </a>
-                    <a class="store-badge google"
+                    <a class="store-badge google" data-store="android"
                        href="https://play.google.com/store/apps/details?id=com.bestdaylabs.keys"
                        target="_blank" rel="noopener noreferrer"
                        aria-label="Get Keys on Google Play">
@@ -268,13 +269,13 @@
                     <p>Take the song stuck in your head and turn it into something your hands can do.</p>
 
                     <div class="store-row">
-                        <a class="store-badge apple"
+                        <a class="store-badge apple" data-store="ios"
                            href="https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403"
                            target="_blank" rel="noopener noreferrer"
                            aria-label="Download Keys on the App Store">
                             <img src="badge-app-store.svg" alt="Download on the App Store" width="162" height="54">
                         </a>
-                        <a class="store-badge google"
+                        <a class="store-badge google" data-store="android"
                            href="https://play.google.com/store/apps/details?id=com.bestdaylabs.keys"
                            target="_blank" rel="noopener noreferrer"
                            aria-label="Get Keys on Google Play">
@@ -299,15 +300,12 @@
     </footer>
 
     <script>
-        // Show the "open in your browser" banner inside any in-app browser
-        // (TikTok, Instagram, Facebook, Snapchat...), where store links are
-        // blocked. We can't rely on app-specific UA markers alone — TikTok's
-        // webview UA varies by region/version — so we also use a reliable
-        // webview heuristic: every standalone iOS browser (Safari, Chrome,
-        // Firefox, Edge) carries "Safari/" in its UA, while in-app WKWebViews
-        // omit it; Android in-app WebViews carry the "wv" token.
         (function () {
-            var ua = navigator.userAgent || '';
+            var APP_STORE = 'https://apps.apple.com/us/app/keys-play-any-song-on-piano/id6769897403';
+            var PLAY_ID   = 'com.bestdaylabs.keys';
+            var PLAY_URL  = 'https://play.google.com/store/apps/details?id=' + PLAY_ID;
+
+            var ua  = navigator.userAgent || '';
             var lua = ua.toLowerCase();
 
             var isTikTok    = /bytedancewebview|musical_ly|tiktok|aweme|trill|bytelo/.test(lua);
@@ -316,23 +314,76 @@
             var isSnapchat  = /snapchat/.test(lua);
 
             var isIOS        = /iphone|ipad|ipod/.test(lua);
-            var iosInApp     = isIOS && !/safari\//.test(lua);   // WKWebView, no Safari token
+            var iosInApp     = isIOS && !/safari\//.test(lua);   // WKWebView carries no Safari token
             var androidInApp = /\bwv\b/.test(lua);               // Android System WebView
 
             var inApp = isTikTok || isInstagram || isFacebook || isSnapchat || iosInApp || androidInApp;
-            if (!inApp) return;
 
+            // --- Step 2 of the hop -------------------------------------------------
+            // We land back here in the REAL browser with ?go=…, where store links
+            // work normally. Redirect immediately, before anything renders.
+            var go = (location.search.match(/[?&]go=(ios|android)/) || [])[1];
+            if (go) {
+                location.replace(go === 'ios' ? APP_STORE : PLAY_URL);
+                return;
+            }
+
+            if (!inApp) return;   // normal browser: the plain hrefs already work
+
+            // --- Banner ------------------------------------------------------------
             var banner = document.getElementById('tiktokBanner');
-            if (!banner) return;
+            if (banner) {
+                var name = isInstagram ? "Instagram's"
+                    : isFacebook ? "Facebook's"
+                    : isSnapchat ? "Snapchat's"
+                    : "TikTok's";
+                var nameEl = document.getElementById('ttAppName');
+                if (nameEl) nameEl.textContent = name;
+                banner.hidden = false;
+            }
 
-            var name = isInstagram ? "Instagram's"
-                : isFacebook ? "Facebook's"
-                : isSnapchat ? "Snapchat's"
-                : "TikTok's";
-            var nameEl = document.getElementById('ttAppName');
-            if (nameEl) nameEl.textContent = name;
+            // --- Step 1 of the hop -------------------------------------------------
+            // Instagram and TikTok now block apps.apple.com from opening the App
+            // Store inside their webview — the tap just dies. So from an in-app
+            // browser we don't link to the store at all; we bounce the user OUT to
+            // their real browser first, back to this page with ?go=…, and step 2
+            // above sends them to the store from there.
+            //
+            //   iOS      x-safari-https:// forces Safari to open the URL. Undocumented
+            //            but long-standing, and it's what actually escapes these
+            //            webviews. Falls back to itms-apps:// (which sometimes opens
+            //            the App Store directly) and finally the plain https link.
+            //   Android  an intent:// URL hands straight to the Play Store app, which
+            //            these webviews do still honour.
+            var here = location.host + location.pathname;
 
-            banner.hidden = false;
+            document.querySelectorAll('[data-store]').forEach(function (a) {
+                a.addEventListener('click', function (e) {
+                    var target = a.getAttribute('data-store');
+
+                    if (target === 'android') {
+                        e.preventDefault();
+                        window.location.href =
+                            'intent://details?id=' + PLAY_ID +
+                            '#Intent;scheme=market;package=com.android.vending;end';
+                        setTimeout(function () { window.location.href = PLAY_URL; }, 900);
+                        return;
+                    }
+
+                    if (!isIOS) return;    // Android tapping the Apple badge: leave it alone
+
+                    e.preventDefault();
+                    window.location.href = 'x-safari-https://' + here + '?go=ios';
+
+                    // If Safari never took over, we're still here — try the App
+                    // Store's own scheme, then give up and use the plain link so
+                    // the banner's instructions remain the last resort.
+                    setTimeout(function () {
+                        window.location.href = 'itms-apps://apps.apple.com/app/id6769897403';
+                        setTimeout(function () { window.location.href = APP_STORE; }, 800);
+                    }, 700);
+                });
+            });
         })();
     </script>
 </body>
