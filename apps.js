@@ -2,12 +2,6 @@
 // apps.js
 const apps = [
     {
-        name: "Remmy",
-        description: "Find out what you say in your sleep.",
-        iconUrl: "remmy/icon.png",
-        folderName: "remmy"
-    },
-    {
         name: "Days at the Office",
         description: "Track your days at the office automatically.",
         iconUrl: "days-at-the-office/favicon.png", // Placeholder
@@ -66,5 +60,17 @@ const apps = [
         description: "Golf stats, dead simple — talk to your phone, tap twice for your drive.",
         iconUrl: "sandy/icon.svg",
         folderName: "sandy"
+    },
+    {
+        name: "Remmy",
+        description: "Find out what you say in your sleep.",
+        iconUrl: "remmy/icon.png",
+        folderName: "remmy"
+    },
+    {
+        name: "Blindspot",
+        description: "See who's watching. Map the surveillance cameras around you and route around them.",
+        iconUrl: "blindspot/icon.png",
+        folderName: "blindspot"
     }
 ];

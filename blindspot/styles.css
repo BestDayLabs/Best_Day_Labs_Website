@@ -1,0 +1,212 @@
+/* Blindspot — the app's own palette. Near-black, white as signal, one red. */
+
+:root {
+    --void: #000000;
+    --substrate: #0B0B0C;
+    --hairline: #1F2023;
+    --graphite: #8A8D94;
+    --bone: #E6E4DF;
+    --signal: #FFFFFF;
+    --alert: #E5202B;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+    --ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    background: var(--void);
+    color: var(--bone);
+    font-family: var(--ui);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--bone); }
+
+img { max-width: 100%; display: block; }
+
+.wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Nav */
+
+.nav {
+    border-bottom: 1px solid var(--hairline);
+    position: sticky;
+    top: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: saturate(160%) blur(12px);
+    -webkit-backdrop-filter: saturate(160%) blur(12px);
+    z-index: 10;
+}
+
+.nav .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+}
+
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.nav-logo img {
+    width: 30px;
+    height: 30px;
+    border-radius: 7px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 22px;
+    font-size: 15px;
+}
+
+.nav-links a {
+    color: var(--graphite);
+    text-decoration: none;
+}
+
+.nav-links a:hover { color: var(--bone); }
+
+/* Hero */
+
+.hero {
+    padding: 88px 0 72px;
+    text-align: center;
+    border-bottom: 1px solid var(--hairline);
+}
+
+.hero img.icon {
+    width: 108px;
+    height: 108px;
+    border-radius: 24px;
+    margin: 0 auto 30px;
+}
+
+h1 {
+    font-size: 44px;
+    line-height: 1.12;
+    letter-spacing: -0.03em;
+    margin: 0 0 18px;
+    color: var(--signal);
+}
+
+.tagline {
+    font-size: 20px;
+    color: var(--graphite);
+    margin: 0 auto;
+    max-width: 30rem;
+}
+
+/* Sections */
+
+section { padding: 60px 0; border-bottom: 1px solid var(--hairline); }
+
+h2 {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--graphite);
+    margin: 0 0 22px;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 18px;
+    margin: 0 0 6px;
+    color: var(--signal);
+    letter-spacing: -0.01em;
+}
+
+p { margin: 0 0 18px; }
+
+.feature { margin-bottom: 30px; }
+.feature p { margin: 0; color: var(--graphite); }
+.feature:last-child { margin-bottom: 0; }
+
+/* Price */
+
+.price {
+    font-family: var(--mono);
+    font-size: 15px;
+    color: var(--bone);
+}
+
+.price strong { color: var(--signal); font-weight: 600; }
+
+.note { font-size: 14px; color: var(--graphite); }
+
+/* Footer */
+
+footer {
+    padding: 44px 0 64px;
+    font-size: 14px;
+    color: var(--graphite);
+}
+
+footer a { color: var(--graphite); text-decoration: none; margin-right: 18px; }
+footer a:hover { color: var(--bone); }
+
+.footer-links { margin-bottom: 18px; }
+
+/* Legal pages */
+
+.legal { padding: 56px 0 72px; }
+
+.legal h1 { font-size: 32px; margin-bottom: 8px; }
+
+.legal .updated {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--graphite);
+    margin-bottom: 32px;
+}
+
+.legal h2 {
+    font-family: var(--ui);
+    font-size: 20px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--signal);
+    margin: 38px 0 12px;
+    font-weight: 600;
+}
+
+.legal p, .legal li { color: var(--bone); }
+
+.legal ul { padding-left: 20px; margin: 0 0 18px; }
+.legal li { margin-bottom: 8px; }
+
+.callout {
+    border: 1px solid var(--hairline);
+    border-left: 3px solid var(--alert);
+    background: var(--substrate);
+    padding: 20px 22px;
+    margin: 0 0 32px;
+    border-radius: 8px;
+}
+
+.callout p { margin: 0; }
+
+@media (max-width: 560px) {
+    h1 { font-size: 34px; }
+    .tagline { font-size: 18px; }
+    .nav-links { gap: 16px; font-size: 14px; }
+    .hero { padding: 60px 0 52px; }
+}
