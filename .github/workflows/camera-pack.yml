@@ -1,0 +1,130 @@
+name: Blindspot camera pack
+
+# Rebuilds the ALPR pack Blindspot ships and publishes it for the app to pull.
+#
+# Cadence is weekly, not daily, and that is deliberate. The query is a
+# nationwide Overpass extract of ~129k devices — a heavy request against
+# donated community infrastructure. ALPR installations are mapped over days
+# and weeks, not hours, so a daily run would multiply the load on the commons
+# sevenfold to surface changes nobody would notice. The app still *checks*
+# daily; it just usually finds nothing new, which costs a few hundred bytes.
+#
+# Nothing is published unless the data actually changed. Users are on cellular
+# plans and the pack is ~20MB; shipping an identical file with a new version
+# number would spend their data to tell them nothing.
+
+on:
+  schedule:
+    # Sundays, 08:00 UTC — off-peak for the European Overpass instances.
+    - cron: "0 8 * * 0"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Publish even if the data is unchanged"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: camera-pack
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install certifi
+        run: pip install --quiet certifi
+
+      - name: Fetch devices from OpenStreetMap
+        run: |
+          python3 tools/fetch_alpr.py \
+            --bbox 24.5 -125.0 49.5 -66.9 \
+            --out /tmp/us.json \
+            --timeout 600
+
+      - name: Fingerprint the data
+        id: fingerprint
+        run: |
+          # Hash the normalised JSON, not the SQLite file. SQLite embeds page
+          # layout and creation details that differ run to run, so hashing the
+          # database would report a change every single week.
+          HASH=$(python3 -c "
+          import json, hashlib, sys
+          data = json.load(open('/tmp/us.json'))
+          canonical = json.dumps(data, sort_keys=True, separators=(',', ':'))
+          print(hashlib.sha256(canonical.encode()).hexdigest())
+          ")
+          echo "hash=$HASH" >> "$GITHUB_OUTPUT"
+          PREVIOUS=$(cat blindspot/pack/fingerprint.txt 2>/dev/null || echo "none")
+          echo "previous=$PREVIOUS" >> "$GITHUB_OUTPUT"
+          if [ "$HASH" = "$PREVIOUS" ] && [ "${{ inputs.force }}" != "true" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Data unchanged — nothing to publish."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the pack
+        if: steps.fingerprint.outputs.changed == 'true'
+        run: python3 tools/build_db.py --in /tmp/us.json --out /tmp/devices.sqlite
+
+      - name: Version and manifest
+        if: steps.fingerprint.outputs.changed == 'true'
+        id: pack
+        run: |
+          # Date as the version integer: monotonic by construction, needs no
+          # stored counter, and is readable in a bug report. The client only
+          # ever asks "is this larger than what I have".
+          VERSION=$(date -u +%Y%m%d)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          python3 tools/publish_pack.py \
+            --db /tmp/devices.sqlite \
+            --version "$VERSION" \
+            --base-url "https://github.com/${{ github.repository }}/releases/download/pack-$VERSION" \
+            --out-dir /tmp/dist
+
+      - name: Publish the pack as a release asset
+        if: steps.fingerprint.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # A release asset, not a file in the repo. The pack is ~20MB and a
+          # weekly commit of it would add roughly a gigabyte of history a year
+          # to a repo that also serves the website. Release assets live outside
+          # git, are CDN-served, and cost nothing for a public repo.
+          gh release create "pack-${{ steps.pack.outputs.version }}" \
+            "/tmp/dist/devices-v${{ steps.pack.outputs.version }}.sqlite" \
+            --title "Camera pack ${{ steps.pack.outputs.version }}" \
+            --notes "Automated ALPR pack. Source: OpenStreetMap, ODbL."
+
+      - name: Commit the manifest
+        if: steps.fingerprint.outputs.changed == 'true'
+        run: |
+          # Only the manifest and the fingerprint go into git — a few hundred
+          # bytes each. GitHub Pages then serves the manifest at a stable URL
+          # on the apex domain, which is what the app polls.
+          mkdir -p blindspot/pack
+          cp /tmp/dist/manifest.json blindspot/pack/manifest.json
+          echo "${{ steps.fingerprint.outputs.hash }}" > blindspot/pack/fingerprint.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add blindspot/pack/manifest.json blindspot/pack/fingerprint.txt
+          git commit -m "Camera pack ${{ steps.pack.outputs.version }}"
+          git push
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.fingerprint.outputs.changed }}" = "true" ]; then
+            echo "Published pack ${{ steps.pack.outputs.version }}." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No change since the last run; nothing published." >> "$GITHUB_STEP_SUMMARY"
+          fi
