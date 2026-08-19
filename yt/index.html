@@ -141,8 +141,9 @@
                         referrer: document.referrer || null,
                         user_agent: navigator.userAgent,
                         path: location.pathname + location.search
-                    }),
-                    keepalive: true
+                    })
+                    // No keepalive: it isn't needed (the page doesn't navigate
+                    // away on load) and the request failed with 503 under it.
                 }).catch(function () { /* analytics must never break the page */ });
             } catch (e) { /* ditto */ }
         })();
