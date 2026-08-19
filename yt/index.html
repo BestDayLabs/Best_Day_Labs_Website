@@ -118,6 +118,35 @@
 
         <a class="yt-back" href="/keys/">See everything Keys does &rarr;</a>
     </main>
+    <script>
+        // Page-hit logging. Every visitor here typed bestdaylabs.com/yt off the
+        // screen of a Short — Shorts descriptions aren't tappable — so this count
+        // is a direct measure of whether the on-screen CTA works.
+        //
+        // Insert-only against Supabase with the app's publishable key; RLS lets
+        // anon write and never read, so nothing is exposed by shipping the key.
+        (function () {
+            try {
+                var url = "https://bwvxwlcpxeshagtfehrd.supabase.co/rest/v1/yt_page_hits";
+                var key = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "apikey": key,
+                        "Authorization": "Bearer " + key,
+                        "Content-Type": "application/json",
+                        "Prefer": "return=minimal"
+                    },
+                    body: JSON.stringify({
+                        referrer: document.referrer || null,
+                        user_agent: navigator.userAgent,
+                        path: location.pathname + location.search
+                    }),
+                    keepalive: true
+                }).catch(function () { /* analytics must never break the page */ });
+            } catch (e) { /* ditto */ }
+        })();
+    </script>
 </body>
 
 </html>
