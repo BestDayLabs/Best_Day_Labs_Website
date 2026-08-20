@@ -127,6 +127,16 @@
         // anon write and never read, so nothing is exposed by shipping the key.
         (function () {
             try {
+                // Skip crawlers and link-safety scanners. Putting the URL in a
+                // YouTube description triggers a fan-out of Google checkers
+                // (Google-Safety, plus generic desktop agents) within seconds of
+                // publishing — five such hits arrived before any human did, and
+                // an uncounted bot is better than a counter nobody can trust.
+                var ua = navigator.userAgent || "";
+                if (/bot|crawl|spider|slurp|headless|preview|scanner|Google-Safety|bot\.html/i.test(ua)) return;
+                if (navigator.webdriver) return;
+                // Prerender/prefetch: only count a page a human actually saw.
+                if (document.visibilityState !== "visible") return;
                 var url = "https://bwvxwlcpxeshagtfehrd.supabase.co/rest/v1/yt_page_hits";
                 var key = "sb_publishable_1mtSE1OjnTK8iVOq1WAqmg_KcxQxwc6";
                 fetch(url, {
