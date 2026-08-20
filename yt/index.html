@@ -114,6 +114,7 @@
             </a>
         </div>
 
+        <p class="yt-note" id="routing-note" style="display:none">Opening the App Store…</p>
         <p class="yt-note">Free to try. Cancel anytime.</p>
 
         <a class="yt-back" href="/keys/">See everything Keys does &rarr;</a>
@@ -156,6 +157,41 @@
                     // away on load) and the request failed with 503 under it.
                 }).catch(function () { /* analytics must never break the page */ });
             } catch (e) { /* ditto */ }
+        })();
+    </script>
+    <script>
+        // Device-routed store redirect.
+        //
+        // Every extra tap between "typed the URL" and "App Store" costs a large
+        // share of the intent — a chooser screen makes the visitor decide
+        // something they already knew. So: send phones straight to their store,
+        // and leave the two buttons visible for desktop, tablets we can't
+        // classify, and anyone whose redirect is blocked.
+        //
+        // Client-side because GitHub Pages is static; there is no server to do a
+        // UA-based 302.
+        (function () {
+            var IOS = "https://apps.apple.com/app/apple-store/id6769897403?pt=128300490&ct=youtubeshorts&mt=8";
+            var PLAY = "https://play.google.com/store/apps/details?id=com.bestdaylabs.keys"
+                     + "&referrer=utm_source%3Dyoutube%26utm_medium%3Dshorts%26utm_campaign%3Dkeys_hooks";
+
+            var ua = navigator.userAgent || "";
+            // Bots must never be redirected — they'd never install, and a crawler
+            // bouncing off an app-store URL is a bad signal.
+            if (/bot|crawl|spider|slurp|headless|preview|scanner|Google-Safety|bot\.html/i.test(ua)) return;
+            if (navigator.webdriver) return;
+
+            var isIOS = /iPhone|iPad|iPod/i.test(ua)
+                || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); // iPadOS
+            var isAndroid = /Android/i.test(ua);
+            if (!isIOS && !isAndroid) return;   // desktop: show the page, don't redirect
+
+            var target = isIOS ? IOS : PLAY;
+            var note = document.getElementById("routing-note");
+            if (note) note.style.display = "block";
+            // Short delay so the analytics beacon above gets its request away
+            // before navigation tears the page down.
+            setTimeout(function () { location.replace(target); }, 350);
         })();
     </script>
 </body>
