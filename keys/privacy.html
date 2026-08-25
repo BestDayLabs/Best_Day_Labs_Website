@@ -36,9 +36,14 @@
         <p>When you share or paste a video link, our servers download the audio from the source (TikTok, Instagram,
             YouTube, etc.) and pass it to third-party machine-learning services — primarily Modal, with Replicate used
             as a fallback — to extract the piano part as MIDI. The same processing applies when you use related
-            features such as vocal removal or piano-cover generation. Audio is processed transiently for the duration
-            of the request and is not permanently stored on our servers. The resulting MIDI and note data are returned
-            to your device and saved to your library.</p>
+            features such as vocal removal or piano-cover generation. That audio is stored privately while it is being
+            processed — it is never publicly accessible, never listed in the Keys catalogue, and never shared with
+            other users. It is kept only as long as needed to transcribe the song and deliver it to your device, and is
+            deleted automatically within 48 hours. The resulting MIDI and note data are returned to your device and
+            saved to your library. If you play the song, a copy of the audio is cached on your own device for offline
+            playback; you can remove it by deleting the song from your library.</p>
+        <p>Transcriptions published to the community catalogue contain note data only — they never include the original
+            sound recording.</p>
 
         <h2>2. Microphone (Learn Mode)</h2>
         <p>Learn Mode listens through your device microphone to detect which notes you play. Audio captured by the
@@ -105,8 +110,8 @@
         <h2>10. Data retention</h2>
         <p>We keep information only as long as needed for the purposes described in this policy:</p>
         <ul>
-            <li><strong>Imported audio</strong> — held transiently in memory only for the duration of the
-                transcription request, then discarded.</li>
+            <li><strong>Imported audio</strong> — stored privately during processing and deleted automatically within
+                48 hours.</li>
             <li><strong>Sheet music images</strong> — processed within the request and not retained.</li>
             <li><strong>Account &amp; catalog data</strong> — retained until you delete your account or request
                 removal of your contributions, after which it is deleted from active systems within a reasonable
@@ -153,6 +158,7 @@
         <div class="footer-links">
             <a href="index.html">Keys</a>
             <a href="terms.html">Terms of Service</a>
+            <a href="dmca.html">DMCA</a>
             <a href="mailto:support@bestdaylabs.com">Support</a>
         </div>
         <p>&copy; 2026 Best Day Labs.</p>
