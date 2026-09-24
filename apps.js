@@ -72,5 +72,11 @@ const apps = [
         description: "See who's watching. Map the surveillance cameras around you and route around them.",
         iconUrl: "blindspot/icon.png",
         folderName: "blindspot"
+    },
+    {
+        name: "RevLine",
+        description: "Turn any car into a supercar. A real instrument cluster on your phone, with engine notes recorded from real cars.",
+        iconUrl: "revline/icon.png",
+        folderName: "revline"
     }
 ];
