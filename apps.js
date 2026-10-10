@@ -78,5 +78,11 @@ const apps = [
         description: "Turn any car into a supercar. A real instrument cluster on your phone, with engine notes recorded from real cars.",
         iconUrl: "revline/icon.png",
         folderName: "revline"
+    },
+    {
+        name: "Degen",
+        description: "Trade memecoins, perps and prediction markets with $100K of fake money.",
+        iconUrl: "degen/icon.png",
+        folderName: "degen"
     }
 ];
