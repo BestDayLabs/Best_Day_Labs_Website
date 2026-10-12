@@ -4,14 +4,29 @@
     "details": [
       {
         "appID": "AU7J33HGQ9.com.natetaylor.Riff",
-        "paths": ["/riff/song/*"]
+        "paths": [
+          "/riff/song/*"
+        ]
       },
       {
-        "appIDs": ["AU7J33HGQ9.com.bestdaylabs.Keys"],
+        "appIDs": [
+          "AU7J33HGQ9.com.bestdaylabs.Keys"
+        ],
         "components": [
           {
             "/": "/keys/song/*",
             "comment": "Song share deep links"
+          }
+        ]
+      },
+      {
+        "appIDs": [
+          "AU7J33HGQ9.com.bestdaylabs.degen"
+        ],
+        "components": [
+          {
+            "/": "/degen/invite*",
+            "comment": "Friend invites"
           }
         ]
       }

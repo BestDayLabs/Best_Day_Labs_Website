@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KXXGXN3HND"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-KXXGXN3HND');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>You're invited to Degen</title>
+    <meta name="description" content="A friend invited you to Degen: trade real memecoins and crypto at live prices with $100K of fake money.">
+    <meta name="theme-color" content="#06070B">
+    <meta name="robots" content="noindex">
+    <meta property="og:title" content="You're invited to Degen">
+    <meta property="og:description" content="Trade real memecoins at live prices with $100K of fake money. Join and you both get $10K extra.">
+    <meta property="og:image" content="https://www.bestdaylabs.com/degen/icon.png">
+    <meta property="og:site_name" content="Degen">
+    <meta name="twitter:card" content="summary">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
+    <style>
+        .invite { min-height: 100vh; display: grid; place-items: center; padding: 48px 20px; text-align: center; }
+        .invite-card { width: 100%; max-width: 420px; }
+        .invite .icon { width: 88px; height: 88px; border-radius: 22px; margin: 0 auto 26px; box-shadow: 0 20px 60px rgba(33, 82, 232, 0.35); }
+        .invite .eyebrow { font-family: var(--display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-text); }
+        .invite h1 { font-family: var(--display); font-size: clamp(2rem, 8vw, 2.6rem); line-height: 1.08; margin: 10px 0 12px; }
+        .invite p { color: var(--ink-muted); }
+        .invite .code { display: inline-flex; align-items: center; gap: 12px; margin: 26px 0 8px; padding: 12px 14px 12px 20px;
+            background: var(--raised); border: 1px solid var(--hairline); border-radius: 100px; font-family: var(--display); font-weight: 700;
+            font-size: 1.25rem; letter-spacing: 0.08em; }
+        .invite .code button { font: 600 0.85rem var(--sans); color: var(--ink); background: var(--surface); border: 1px solid var(--hairline);
+            border-radius: 100px; padding: 6px 14px; cursor: pointer; }
+        .invite .buttons { display: grid; gap: 12px; margin-top: 26px; }
+        .invite .buttons .btn { width: 100%; justify-content: center; }
+        .invite .steps { margin-top: 28px; text-align: left; display: grid; gap: 10px; color: var(--ink-muted); font-size: 0.95rem; }
+        .invite .steps b { color: var(--ink); }
+        .invite .bad { color: var(--down); }
+    </style>
+</head>
+<body>
+    <main class="invite">
+        <div class="invite-card">
+            <img src="icon.png" alt="Degen" class="icon">
+            <div class="eyebrow">You're invited</div>
+            <h1 id="headline">Join your friend on Degen</h1>
+            <p id="sub">Real memecoins. Real prices. Fake money. Join and you both get $10K extra to trade with.</p>
+
+            <div class="code" id="codeChip" hidden>
+                <span id="code"></span>
+                <button id="copy" type="button">Copy</button>
+            </div>
+
+            <div class="buttons">
+                <a id="open" class="btn btn-primary" href="#">Open in Degen</a>
+                <a id="store" class="btn btn-secondary btn-disabled" href="/degen/">Coming soon to the App Store</a>
+            </div>
+
+            <div class="steps">
+                <div><b>Have Degen?</b> Tap Open in Degen and you're friends.</div>
+                <div><b>New?</b> Install it, then go to Arena → Friends → Have an invite code? and enter the code above.</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    (function () {
+        var SUPABASE = "https://pfpwlrlkvjxbvaamvxdu.supabase.co";
+        // Public key: row-level security limits it to public lookups like this one.
+        var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcHdscmxrdmp4YnZhYW12eGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NTg0NzEsImV4cCI6MjEwNzMzNDQ3MX0.gJ5VMlwwiW7liSkdpkkAW7UwQxzdlQTmtb9ctUFyZKw";
+        var code = (new URLSearchParams(location.search).get("c") || "").trim().toLowerCase();
+
+        var headline = document.getElementById("headline");
+        var sub = document.getElementById("sub");
+        if (!/^[a-z0-9]{4,16}$/.test(code)) {
+            headline.textContent = "This invite link is broken";
+            sub.innerHTML = '<span class="bad">Ask your friend to send it again.</span>';
+            document.getElementById("open").hidden = true;
+            return;
+        }
+
+        document.getElementById("code").textContent = code.toUpperCase();
+        document.getElementById("codeChip").hidden = false;
+        document.getElementById("open").href = "degen://invite?c=" + encodeURIComponent(code);
+        document.getElementById("copy").addEventListener("click", function () {
+            navigator.clipboard && navigator.clipboard.writeText(code.toUpperCase());
+            this.textContent = "Copied";
+        });
+
+        // Who sent it.
+        fetch(SUPABASE + "/rest/v1/rpc/invite_info", {
+            method: "POST",
+            headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
+            body: JSON.stringify({ p_code: code })
+        }).then(function (r) { return r.json(); }).then(function (info) {
+            if (info && info.handle) {
+                headline.textContent = "@" + info.handle + " invited you to Degen";
+                document.title = "@" + info.handle + " invited you to Degen";
+            }
+        }).catch(function () {});
+
+        // Point at the App Store as soon as the app is live there.
+        window.degenLookup = function (res) {
+            var app = res && res.results && res.results[0];
+            if (!app || !app.trackViewUrl) return;
+            var store = document.getElementById("store");
+            store.href = app.trackViewUrl;
+            store.textContent = "Get Degen on the App Store";
+            store.classList.remove("btn-disabled");
+        };
+        var s = document.createElement("script");
+        s.src = "https://itunes.apple.com/lookup?bundleId=com.bestdaylabs.degen&country=us&callback=degenLookup";
+        document.body.appendChild(s);
+    })();
+    </script>
+</body>
+</html>
