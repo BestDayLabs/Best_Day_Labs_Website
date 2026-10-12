@@ -75,31 +75,58 @@
         var SUPABASE = "https://pfpwlrlkvjxbvaamvxdu.supabase.co";
         // Public key: row-level security limits it to public lookups like this one.
         var ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBmcHdscmxrdmp4YnZhYW12eGR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE3NTg0NzEsImV4cCI6MjEwNzMzNDQ3MX0.gJ5VMlwwiW7liSkdpkkAW7UwQxzdlQTmtb9ctUFyZKw";
-        var code = (new URLSearchParams(location.search).get("c") || "").trim().toLowerCase();
+        var params = new URLSearchParams(location.search);
+        var code = (params.get("c") || "").trim().toLowerCase();
+        var league = (params.get("l") || "").trim().toLowerCase();
+        var valid = function (v) { return /^[a-z0-9]{4,16}$/.test(v); };
+        if (!valid(league)) league = "";
 
         var headline = document.getElementById("headline");
         var sub = document.getElementById("sub");
-        if (!/^[a-z0-9]{4,16}$/.test(code)) {
+        if (!valid(code) && !league) {
             headline.textContent = "This invite link is broken";
             sub.innerHTML = '<span class="bad">Ask your friend to send it again.</span>';
             document.getElementById("open").hidden = true;
             return;
         }
 
-        document.getElementById("code").textContent = code.toUpperCase();
+        // The code to type in by hand: the league's if there is one, else the friend invite.
+        var shown = league || code;
+        document.getElementById("code").textContent = shown.toUpperCase();
         document.getElementById("codeChip").hidden = false;
-        document.getElementById("open").href = "degen://invite?c=" + encodeURIComponent(code);
+        var q = [];
+        if (valid(code)) q.push("c=" + encodeURIComponent(code));
+        if (league) q.push("l=" + encodeURIComponent(league));
+        document.getElementById("open").href = "degen://invite?" + q.join("&");
         document.getElementById("copy").addEventListener("click", function () {
-            navigator.clipboard && navigator.clipboard.writeText(code.toUpperCase());
+            navigator.clipboard && navigator.clipboard.writeText(shown.toUpperCase());
             this.textContent = "Copied";
         });
+        if (league) {
+            document.querySelector(".steps").innerHTML =
+                "<div><b>Have Degen?</b> Tap Open in Degen and you're in the league.</div>" +
+                "<div><b>New?</b> Install it, then go to Arena → Join a league with a code and enter the code above.</div>";
+        }
 
-        // Who sent it.
-        fetch(SUPABASE + "/rest/v1/rpc/invite_info", {
-            method: "POST",
-            headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
-            body: JSON.stringify({ p_code: code })
-        }).then(function (r) { return r.json(); }).then(function (info) {
+        function rpc(name, body) {
+            return fetch(SUPABASE + "/rest/v1/rpc/" + name, {
+                method: "POST",
+                headers: { "apikey": ANON, "Authorization": "Bearer " + ANON, "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            }).then(function (r) { return r.json(); });
+        }
+        if (league) {
+            rpc("league_info", { p_code: league }).then(function (info) {
+                if (info && info.name) {
+                    headline.textContent = "@" + info.owner + " invited you to " + info.name;
+                    sub.textContent = "A private Degen league. Real memecoins, real prices, fake money. " + info.players + " in so far.";
+                    document.title = headline.textContent;
+                }
+            }).catch(function () {});
+        }
+
+        // Who sent it (a league's own name wins when there is one).
+        if (valid(code) && !league) rpc("invite_info", { p_code: code }).then(function (info) {
             if (info && info.handle) {
                 headline.textContent = "@" + info.handle + " invited you to Degen";
                 document.title = "@" + info.handle + " invited you to Degen";
